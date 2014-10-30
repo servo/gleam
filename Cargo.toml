@@ -1,5 +1,5 @@
 [package]
-name = "servo_gl"
+name = "gleam"
 version = "0.0.1"
 authors = []
 
