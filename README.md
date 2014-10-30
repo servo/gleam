@@ -1,4 +1,4 @@
 servo-gl
 ========
 
-Generated OpenGL bindings and wrapper for Servo.
+OpenGL bindings for Servo
