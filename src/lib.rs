@@ -7,7 +7,7 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-#![crate_name = "servo_gl"]
+#![crate_name = "gleam"]
 #![comment = "Servo OpenGL bindings"]
 #![license = "ASL2"]
 #![crate_type = "lib"]
