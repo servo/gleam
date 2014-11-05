@@ -57,11 +57,11 @@ pub fn read_pixels(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: 
     let colors = match format {
         ffi::RGB => 3,
         ffi::RGBA => 3,
-        _ => fail!("unsupported format for read_pixels"),
+        _ => panic!("unsupported format for read_pixels"),
     };
     let depth = match pixel_type {
         ffi::UNSIGNED_BYTE => 1,
-        _ => fail!("unsupported pixel_type for read_pixels"),
+        _ => panic!("unsupported pixel_type for read_pixels"),
     };
 
     let len = (width * height * colors * depth) as uint;
