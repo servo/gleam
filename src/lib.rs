@@ -22,8 +22,6 @@ extern crate libc;
 
 pub mod gl;
 
-// TODO: Switch from static bindings to struct bindings.
-
 mod ffi {
     /// OpenGL 3.0 bindings for Linux/Mac
     #[cfg(not(target_os = "android"))]
@@ -31,7 +29,7 @@ mod ffi {
 		api: "gl",
 		profile: "core",
 		version: "3.0",
-		generator: "static",
+		generator: "global",
 		extensions: [ "GL_ARB_texture_rectangle" ]
 	}
 
