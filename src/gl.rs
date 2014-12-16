@@ -400,6 +400,34 @@ pub fn link_program(program: GLuint) {
     }
 }
 
+#[inline]
+pub fn clear_color(r: f32, g: f32, b: f32, a: f32) {
+    unsafe {
+        ffi::ClearColor(r, g, b, a);
+    }
+}
+
+#[inline]
+pub fn clear(buffer_mask: GLbitfield) {
+    unsafe {
+        ffi::Clear(buffer_mask);
+    }
+}
+
+#[inline]
+pub fn flush() {
+    unsafe {
+        ffi::Flush();
+    }
+}
+
+#[inline]
+pub fn finish() {
+    unsafe {
+        ffi::Finish();
+    }
+}
+
 #[cfg(target_os="android")]
 extern {
     pub fn glEGLImageTargetTexture2DOES(target: GLenum, image: GLeglImageOES);
