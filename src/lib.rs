@@ -12,34 +12,10 @@
 #![license = "ASL2"]
 #![crate_type = "lib"]
 
-#![feature(phase)]
-#![feature(globs)]
-
-#[phase(plugin)]
-extern crate gl_generator;
-
 extern crate libc;
 
 pub mod gl;
 
 mod ffi {
-    /// OpenGL 3.0 bindings for Linux/Mac
-    #[cfg(not(target_os = "android"))]
-	generate_gl_bindings!{
-		api: "gl",
-		profile: "core",
-		version: "3.0",
-		generator: "global",
-		extensions: [ "GL_ARB_texture_rectangle" ]
-	}
-
-    // EGL 2.0 bindings for Android
-    #[cfg(target_os = "android")]
-	generate_gl_bindings!{
-		api: "gles2",
-		profile: "core",
-		version: "2.0",
-		generator: "static",
-		extensions: [ "GL_EXT_texture_format_BGRA8888" ]
-	}
+    include!(concat!(env!("OUT_DIR"), "/gl_bindings.rs"));
 }
