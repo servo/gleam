@@ -2,6 +2,10 @@
 name = "gleam"
 version = "0.0.1"
 authors = []
+build = "build.rs"
 
-[dependencies.gl_generator]
-git = "https://github.com/bjz/gl-rs.git"
+[build-dependencies.gl_generator]
+git = "https://github.com/bjz/gl-rs"
+
+[dependencies.gl_common]
+git = "https://github.com/bjz/gl-rs"
