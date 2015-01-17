@@ -7,7 +7,7 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use libc::{c_int, c_void};
+use libc::{c_char, c_int, c_void};
 use std::mem;
 use std::mem::size_of;
 use std::ptr;
@@ -358,7 +358,7 @@ pub fn get_string(which: GLenum) -> String {
     unsafe {
         let llstr = ffi::GetString(which);
         if !llstr.is_null() {
-            return str::from_utf8_unchecked(c_str_to_bytes_with_nul(&(llstr as *const i8))
+            return str::from_utf8_unchecked(c_str_to_bytes_with_nul(&(llstr as *const c_char))
                                              ).to_string();
         } else {
             return "".to_string();
