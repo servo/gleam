@@ -4,7 +4,7 @@ extern crate gl_generator;
 extern crate khronos_api;
 
 use std::os;
-use std::io::File;
+use std::old_io::File;
 
 #[cfg(not(target_os = "android"))]
 /// OpenGL 3.0 bindings for Linux/Mac
