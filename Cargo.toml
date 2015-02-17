@@ -10,3 +10,4 @@ khronos_api = "*"
 
 [dependencies]
 gl_common = "*"
+libc="*"
