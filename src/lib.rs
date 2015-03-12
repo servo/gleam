@@ -8,8 +8,6 @@
 // except according to those terms.
 
 #![crate_name = "gleam"]
-#![comment = "Servo OpenGL bindings"]
-#![license = "ASL2"]
 #![crate_type = "lib"]
 
 extern crate libc;

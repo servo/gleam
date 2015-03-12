@@ -16,6 +16,7 @@ fn main() {
         // EGL 2.0 bindings for Android
         gl_generator::generate_bindings(gl_generator::StaticGenerator,
                                         gl_generator::registry::Ns::Gles2,
+                                        gl_generator::Fallbacks::All,
                                         khronos_api::GL_XML,
                                         vec!["GL_EXT_texture_format_BGRA8888".to_string()],
                                         "2.0", "core", &mut file).unwrap();
@@ -23,6 +24,7 @@ fn main() {
         // OpenGL 3.0 bindings for Linux/Mac
         gl_generator::generate_bindings(gl_generator::GlobalGenerator,
                                         gl_generator::registry::Ns::Gl,
+                                        gl_generator::Fallbacks::All,
                                         khronos_api::GL_XML,
                                         vec!["GL_ARB_texture_rectangle".to_string()],
                                         "3.0", "core", &mut file).unwrap();
