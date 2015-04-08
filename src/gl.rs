@@ -14,6 +14,7 @@ use std::ptr;
 use std::str::{self};
 use std::iter::repeat;
 use std::ffi::{CString, CStr};
+use std::cmp;
 use ffi;
 
 pub use ffi::types::*;
@@ -241,6 +242,19 @@ pub fn use_program(program: GLuint) {
 pub fn draw_arrays(mode: GLenum, first: GLint, count: GLsizei) {
     unsafe {
         return ffi::DrawArrays(mode, first, count);
+    }
+}
+
+pub fn draw_elements(mode: GLenum, count: GLsizei, element_type: GLenum, opt_indices: Option<&[u8]>) {
+    match opt_indices {
+        Some(indices) => unsafe {
+            let pdata = mem::transmute(indices.as_ptr());
+            let c = cmp::min(count, indices.len() as GLsizei);
+            return ffi::DrawElements(mode, c, element_type, pdata)
+        },
+        None => unsafe {
+            return ffi::DrawElements(mode, count, element_type, ptr::null())
+        },
     }
 }
 
