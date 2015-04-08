@@ -280,6 +280,13 @@ pub fn disable_vertex_attrib_array(index: GLuint) {
 }
 
 #[inline]
+pub fn uniform_1f(location: GLint, v0: GLfloat) {
+    unsafe {
+        ffi::Uniform1f(location, v0);
+    }
+}
+
+#[inline]
 pub fn uniform_4f(location: GLint, x: GLfloat, y: GLfloat, z: GLfloat, w: GLfloat) {
     unsafe {
         ffi::Uniform4f(location, x, y, z, w);
