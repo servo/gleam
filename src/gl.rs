@@ -450,6 +450,13 @@ pub fn finish() {
     }
 }
 
+#[inline]
+pub fn get_error() -> GLenum {
+    unsafe {
+        ffi::GetError()
+    }
+}
+
 #[cfg(target_os="android")]
 extern {
     pub fn glEGLImageTargetTexture2DOES(target: GLenum, image: GLeglImageOES);
