@@ -1,17 +1,17 @@
-#![allow(unstable)]
-
 extern crate gl_generator;
 extern crate khronos_api;
 
-use std::os;
-use std::old_io::File;
+use std::env;
+use std::fs::File;
+use std::io::BufWriter;
+use std::path::Path;
 
 fn main() {
-    let dest = Path::new(os::getenv("OUT_DIR").unwrap());
+    let dest = env::var("OUT_DIR").unwrap();
 
-    let mut file = File::create(&dest.join("gl_bindings.rs")).unwrap();
+    let mut file = BufWriter::new(File::create(&Path::new(&dest).join("gl_bindings.rs")).unwrap());
 
-    let target = os::getenv("TARGET").unwrap();
+    let target = env::var("TARGET").unwrap();
     if target.contains("android") {
         // EGL 2.0 bindings for Android
         gl_generator::generate_bindings(gl_generator::StaticGenerator,

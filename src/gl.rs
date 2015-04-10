@@ -11,10 +11,9 @@ use libc::{c_char, c_int, c_void};
 use std::mem;
 use std::mem::size_of;
 use std::ptr;
-use std::str::{self, from_utf8};
-use std::{string, slice};
+use std::str::{self};
 use std::iter::repeat;
-use std::ffi::{CString, c_str_to_bytes_with_nul};
+use std::ffi::{CString, CStr};
 use ffi;
 
 pub use ffi::types::*;
@@ -66,15 +65,15 @@ pub fn read_pixels(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: 
         _ => panic!("unsupported pixel_type for read_pixels"),
     };
 
-    let len = (width * height * colors * depth) as uint;
+    let len = width * height * colors * depth;
     let mut pixels: Vec<u8> = Vec::new();
-    pixels.reserve(len);
+    pixels.reserve(len as usize);
 
     unsafe {
         // We don't want any alignment padding on pixel rows.
         ffi::PixelStorei(ffi::PACK_ALIGNMENT, 1);
         ffi::ReadPixels(x, y, width, height, format, pixel_type, pixels.as_mut_ptr() as *mut c_void);
-        pixels.set_len(len);
+        pixels.set_len(len as usize);
     }
 
     pixels
@@ -83,7 +82,7 @@ pub fn read_pixels(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: 
 #[inline]
 pub fn gen_buffers(n: GLsizei) -> Vec<GLuint> {
     unsafe {
-        let mut result: Vec<_> = repeat(0 as GLuint).take(n as uint).collect();
+        let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
         ffi::GenBuffers(n, result.as_mut_ptr());
         return result;
     }
@@ -92,7 +91,7 @@ pub fn gen_buffers(n: GLsizei) -> Vec<GLuint> {
 #[inline]
 pub fn gen_framebuffers(n: GLsizei) -> Vec<GLuint> {
     unsafe {
-        let mut result: Vec<_> = repeat(0 as GLuint).take(n as uint).collect();
+        let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
         ffi::GenFramebuffers(n, result.as_mut_ptr());
         return result;
     }
@@ -101,7 +100,7 @@ pub fn gen_framebuffers(n: GLsizei) -> Vec<GLuint> {
 #[inline]
 pub fn gen_textures(n: GLsizei) -> Vec<GLuint> {
     unsafe {
-        let mut result: Vec<_> = repeat(0 as GLuint).take(n as uint).collect();
+        let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
         ffi::GenTextures(n, result.as_mut_ptr());
         return result;
     }
@@ -124,7 +123,7 @@ pub fn attach_shader(program: GLuint, shader: GLuint) {
 #[inline]
 pub fn bind_attrib_location(program: GLuint, index: GLuint, name: &str) {
     unsafe {
-        ffi::BindAttribLocation(program, index, CString::from_slice(name.as_bytes()).as_ptr());
+        ffi::BindAttribLocation(program, index, CString::new(name).unwrap().as_ptr());
     }
 }
 
@@ -206,7 +205,7 @@ pub fn vertex_attrib_pointer_f32(index: GLuint,
                                 ffi::FLOAT,
                                 normalized as GLboolean,
                                 stride,
-                                mem::transmute(offset as uint));
+                                offset as *const GLvoid)
     }
 }
 
@@ -307,27 +306,27 @@ pub fn uniform_1i(location: GLint, x: GLint) {
 #[inline]
 pub fn get_attrib_location(program: GLuint, name: &str) -> c_int {
     unsafe {
-        ffi::GetAttribLocation(program, CString::from_slice(name.as_bytes()).as_ptr() as *const GLchar)
+        ffi::GetAttribLocation(program, CString::new(name).unwrap().as_ptr())
     }
 }
 
 #[inline]
 pub fn get_uniform_location(program: GLuint, name: &str) -> c_int {
     unsafe {
-        ffi::GetUniformLocation(program, CString::from_slice(name.as_bytes()).as_ptr() as *const GLchar)
+        ffi::GetUniformLocation(program, CString::new(name).unwrap().as_ptr())
     }
 }
 
 pub fn get_program_info_log(program: GLuint) -> String {
     unsafe {
-        let mut result: Vec<_> = repeat(0u8).take(1024u).collect();
+        let mut result: Vec<_> = repeat(0u8).take(1024).collect();
         let mut result_len: GLsizei = 0 as GLsizei;
         ffi::GetProgramInfoLog(program,
                             1024 as GLsizei,
                             &mut result_len,
                             result.as_ptr() as *mut GLchar);
-        result.truncate(if result_len > 0 {result_len as uint - 1u} else {0u});
-        from_utf8(result.as_slice()).unwrap().to_string()
+        result.truncate(if result_len > 0 {result_len as usize - 1} else {0});
+        String::from_utf8(result).unwrap()
     }
 }
 
@@ -342,14 +341,14 @@ pub fn get_program_iv(program: GLuint, pname: GLenum) -> GLint {
 
 pub fn get_shader_info_log(shader: GLuint) -> String {
     unsafe {
-        let mut result: Vec<_> = repeat(0u8).take(1024u).collect();
+        let mut result: Vec<_> = repeat(0u8).take(1024).collect();
         let mut result_len: GLsizei = 0 as GLsizei;
         ffi::GetShaderInfoLog(shader,
                            1024 as GLsizei,
                            &mut result_len,
                            result.as_ptr() as *mut GLchar);
-        result.truncate(if result_len > 0 {result_len as uint - 1u} else {0u});
-        from_utf8(result.as_slice()).unwrap().to_string()
+        result.truncate(if result_len > 0 {result_len as usize - 1} else {0});
+        String::from_utf8(result).unwrap()
     }
 }
 
@@ -358,8 +357,7 @@ pub fn get_string(which: GLenum) -> String {
     unsafe {
         let llstr = ffi::GetString(which);
         if !llstr.is_null() {
-            return str::from_utf8_unchecked(c_str_to_bytes_with_nul(&(llstr as *const c_char))
-                                             ).to_string();
+            return str::from_utf8_unchecked(CStr::from_ptr(llstr as *const c_char).to_bytes()).to_string();
         } else {
             return "".to_string();
         }
