@@ -14,6 +14,7 @@ use std::ptr;
 use std::str::{self};
 use std::iter::repeat;
 use std::ffi::{CString, CStr};
+use std::cmp;
 use ffi;
 
 pub use ffi::types::*;
@@ -244,6 +245,19 @@ pub fn draw_arrays(mode: GLenum, first: GLint, count: GLsizei) {
     }
 }
 
+pub fn draw_elements(mode: GLenum, count: GLsizei, element_type: GLenum, opt_indices: Option<&[u8]>) {
+    match opt_indices {
+        Some(indices) => unsafe {
+            let pdata = mem::transmute(indices.as_ptr());
+            let c = cmp::min(count, indices.len() as GLsizei);
+            return ffi::DrawElements(mode, c, element_type, pdata)
+        },
+        None => unsafe {
+            return ffi::DrawElements(mode, count, element_type, ptr::null())
+        },
+    }
+}
+
 #[inline]
 pub fn blend_func(sfactor: GLenum, dfactor: GLenum) {
     unsafe {
@@ -276,6 +290,13 @@ pub fn enable_vertex_attrib_array(index: GLuint) {
 pub fn disable_vertex_attrib_array(index: GLuint) {
     unsafe {
         ffi::DisableVertexAttribArray(index);
+    }
+}
+
+#[inline]
+pub fn uniform_1f(location: GLint, v0: GLfloat) {
+    unsafe {
+        ffi::Uniform1f(location, v0);
     }
 }
 
@@ -426,6 +447,13 @@ pub fn flush() {
 pub fn finish() {
     unsafe {
         ffi::Finish();
+    }
+}
+
+#[inline]
+pub fn get_error() -> GLenum {
+    unsafe {
+        ffi::GetError()
     }
 }
 
