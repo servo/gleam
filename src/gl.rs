@@ -58,9 +58,11 @@ pub fn delete_frame_buffers(frame_buffers: &[GLuint]) {
 pub fn read_pixels(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: GLenum, pixel_type: GLenum) -> Vec<u8> {
     let colors = match format {
         ffi::RGB => 3,
+#[cfg(not(target_os="android"))]
         ffi::BGR => 3,
 
         ffi::RGBA => 4,
+#[cfg(not(target_os="android"))]
         ffi::BGRA => 4,
 
         ffi::ALPHA => 1,
