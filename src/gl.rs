@@ -175,6 +175,13 @@ pub fn bind_buffer(target: GLenum, buffer: GLuint) {
 }
 
 #[inline]
+pub fn bind_renderbuffer(target: GLenum, renderbuffer: GLuint) {
+    unsafe {
+        ffi::BindRenderbuffer(target, renderbuffer);
+    }
+}
+
+#[inline]
 pub fn bind_framebuffer(target: GLenum, framebuffer: GLuint) {
     unsafe {
         ffi::BindFramebuffer(target, framebuffer);
