@@ -441,9 +441,23 @@ pub fn create_program() -> GLuint {
 }
 
 #[inline]
+pub fn delete_program(program: GLuint) {
+    unsafe {
+        ffi::DeleteProgram(program);
+    }
+}
+
+#[inline]
 pub fn create_shader(shader_type: GLenum) -> GLuint {
     unsafe {
         return ffi::CreateShader(shader_type);
+    }
+}
+
+#[inline]
+pub fn delete_shader(shader: GLuint) {
+    unsafe {
+        ffi::DeleteShader(shader);
     }
 }
 
