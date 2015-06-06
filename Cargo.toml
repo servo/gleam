@@ -4,6 +4,7 @@ version = "0.0.1"
 license = "Apache-2.0"
 authors = []
 build = "build.rs"
+documentation = "http://doc.servo.org/gleam/"
 
 [build-dependencies]
 gl_generator = "*"
