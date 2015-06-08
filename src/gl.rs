@@ -41,20 +41,6 @@ pub fn shader_source(shader: GLuint, strings: &[&[u8]]) {
     drop(pointers);
 }
 
-#[inline]
-pub fn delete_buffers(buffers: &[GLuint]) {
-    unsafe {
-        ffi::DeleteBuffers(buffers.len() as GLsizei, buffers.as_ptr());
-    }
-}
-
-#[inline]
-pub fn delete_frame_buffers(frame_buffers: &[GLuint]) {
-    unsafe {
-        ffi::DeleteFramebuffers(frame_buffers.len() as GLsizei, frame_buffers.as_ptr());
-    }
-}
-
 pub fn read_pixels(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: GLenum, pixel_type: GLenum) -> Vec<u8> {
     let colors = match format {
         ffi::RGB => 3,
@@ -98,6 +84,15 @@ pub fn gen_buffers(n: GLsizei) -> Vec<GLuint> {
 }
 
 #[inline]
+pub fn gen_renderbuffers(n: GLsizei) -> Vec<GLuint> {
+    unsafe {
+        let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
+        ffi::GenRenderbuffers(n, result.as_mut_ptr());
+        return result;
+    }
+}
+
+#[inline]
 pub fn gen_framebuffers(n: GLsizei) -> Vec<GLuint> {
     unsafe {
         let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
@@ -114,6 +109,42 @@ pub fn gen_textures(n: GLsizei) -> Vec<GLuint> {
         return result;
     }
 }
+
+#[inline]
+pub fn delete_buffers(buffers: &[GLuint]) {
+    unsafe {
+        ffi::DeleteBuffers(buffers.len() as GLsizei, buffers.as_ptr());
+    }
+}
+
+#[inline]
+pub fn delete_renderbuffers(renderbuffers: &[GLuint]) {
+    unsafe {
+        ffi::DeleteRenderbuffers(renderbuffers.len() as GLsizei, renderbuffers.as_ptr());
+    }
+}
+
+#[inline]
+pub fn delete_framebuffers(framebuffers: &[GLuint]) {
+    unsafe {
+        ffi::DeleteFramebuffers(framebuffers.len() as GLsizei, framebuffers.as_ptr());
+    }
+}
+
+// NB: The name of this function is wrong, it's here for compatibility reasons,
+// but should be removed.
+#[inline]
+pub fn delete_frame_buffers(framebuffers: &[GLuint]) {
+    delete_framebuffers(framebuffers);
+}
+
+#[inline]
+pub fn delete_textures(textures: &[GLuint]) {
+    unsafe {
+        ffi::DeleteTextures(textures.len() as GLsizei, textures.as_ptr());
+    }
+}
+
 
 #[inline]
 pub fn active_texture(texture: GLenum) {
@@ -140,6 +171,13 @@ pub fn bind_attrib_location(program: GLuint, index: GLuint, name: &str) {
 pub fn bind_buffer(target: GLenum, buffer: GLuint) {
     unsafe {
         ffi::BindBuffer(target, buffer);
+    }
+}
+
+#[inline]
+pub fn bind_renderbuffer(target: GLenum, renderbuffer: GLuint) {
+    unsafe {
+        ffi::BindRenderbuffer(target, renderbuffer);
     }
 }
 
@@ -215,13 +253,6 @@ pub fn vertex_attrib_pointer_f32(index: GLuint,
                                 normalized as GLboolean,
                                 stride,
                                 offset as *const GLvoid)
-    }
-}
-
-#[inline]
-pub fn delete_textures(textures: &[GLuint]) {
-    unsafe {
-        ffi::DeleteTextures(textures.len() as GLsizei, textures.as_ptr());
     }
 }
 
@@ -417,9 +448,23 @@ pub fn create_program() -> GLuint {
 }
 
 #[inline]
+pub fn delete_program(program: GLuint) {
+    unsafe {
+        ffi::DeleteProgram(program);
+    }
+}
+
+#[inline]
 pub fn create_shader(shader_type: GLenum) -> GLuint {
     unsafe {
         return ffi::CreateShader(shader_type);
+    }
+}
+
+#[inline]
+pub fn delete_shader(shader: GLuint) {
+    unsafe {
+        ffi::DeleteShader(shader);
     }
 }
 
