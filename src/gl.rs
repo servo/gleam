@@ -298,9 +298,37 @@ pub fn draw_elements(mode: GLenum, count: GLsizei, element_type: GLenum, opt_ind
 }
 
 #[inline]
+pub fn blend_color(r: f32, g: f32, b: f32, a: f32) {
+    unsafe {
+        ffi::BlendColor(r, g, b, a);
+    }
+}
+
+#[inline]
 pub fn blend_func(sfactor: GLenum, dfactor: GLenum) {
     unsafe {
         ffi::BlendFunc(sfactor, dfactor);
+    }
+}
+
+#[inline]
+pub fn blend_func_separate(src_rgb: GLenum, dest_rgb: GLenum, src_alpha: GLenum, dest_alpha: GLenum) {
+    unsafe {
+        ffi::BlendFuncSeparate(src_rgb, dest_rgb, src_alpha, dest_alpha);
+    }
+}
+
+#[inline]
+pub fn blend_equation(mode: GLenum) {
+    unsafe {
+        ffi::BlendEquation(mode);
+    }
+}
+
+#[inline]
+pub fn blend_equation_separate(mode_rgb: GLenum, mode_alpha: GLenum) {
+    unsafe {
+        ffi::BlendEquationSeparate(mode_rgb, mode_alpha);
     }
 }
 
