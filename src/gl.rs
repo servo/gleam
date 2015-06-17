@@ -145,6 +145,12 @@ pub fn delete_textures(textures: &[GLuint]) {
     }
 }
 
+#[inline]
+pub fn depth_func(func: GLenum) {
+    unsafe {
+        ffi::DepthFunc(func);
+    }
+}
 
 #[inline]
 pub fn active_texture(texture: GLenum) {
