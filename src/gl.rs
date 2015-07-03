@@ -75,6 +75,13 @@ pub fn read_pixels(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: 
 }
 
 #[inline]
+pub fn pixel_store_i(name: GLenum, param: GLint) {
+    unsafe {
+        ffi::PixelStorei(name, param);
+    }
+}
+
+#[inline]
 pub fn gen_buffers(n: GLsizei) -> Vec<GLuint> {
     unsafe {
         let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
@@ -106,6 +113,15 @@ pub fn gen_textures(n: GLsizei) -> Vec<GLuint> {
     unsafe {
         let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
         ffi::GenTextures(n, result.as_mut_ptr());
+        return result;
+    }
+}
+
+#[inline]
+pub fn gen_vertex_arrays(n: GLsizei) -> Vec<GLuint> {
+    unsafe {
+        let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
+        ffi::GenVertexArrays(n, result.as_mut_ptr());
         return result;
     }
 }
@@ -181,6 +197,13 @@ pub fn bind_buffer(target: GLenum, buffer: GLuint) {
 }
 
 #[inline]
+pub fn bind_vertex_array(vao: GLuint) {
+    unsafe {
+        ffi::BindVertexArray(vao);
+    }
+}
+
+#[inline]
 pub fn bind_renderbuffer(target: GLenum, renderbuffer: GLuint) {
     unsafe {
         ffi::BindRenderbuffer(target, renderbuffer);
@@ -225,6 +248,27 @@ pub fn tex_image_2d(target: GLenum,
                                ptr::null());
             }
         }
+    }
+}
+
+pub fn tex_sub_image_2d(target: GLenum,
+                        level: GLint,
+                        xoffset: GLint,
+                        yoffset: GLint,
+                        width: GLsizei,
+                        height: GLsizei,
+                        format: GLenum,
+                        ty: GLenum,
+                        data: &[u8]) {
+    unsafe {
+        ffi::TexSubImage2D(target, level, xoffset, yoffset, width, height, format, ty, data.as_ptr() as *const c_void);
+    }
+}
+
+#[inline]
+pub fn get_integer_v(name: GLenum, data: &mut GLint) {
+    unsafe {
+        ffi::GetIntegerv(name, data);
     }
 }
 
@@ -290,16 +334,9 @@ pub fn draw_arrays(mode: GLenum, first: GLint, count: GLsizei) {
     }
 }
 
-pub fn draw_elements(mode: GLenum, count: GLsizei, element_type: GLenum, opt_indices: Option<&[u8]>) {
-    match opt_indices {
-        Some(indices) => unsafe {
-            let pdata = mem::transmute(indices.as_ptr());
-            let c = cmp::min(count, indices.len() as GLsizei);
-            return ffi::DrawElements(mode, c, element_type, pdata)
-        },
-        None => unsafe {
-            return ffi::DrawElements(mode, count, element_type, ptr::null())
-        },
+pub fn draw_elements(mode: GLenum, count: GLsizei, element_type: GLenum, indices_offset: GLuint) {
+    unsafe {
+        return ffi::DrawElements(mode, count, element_type, indices_offset as *const c_void)
     }
 }
 
@@ -401,6 +438,13 @@ pub fn uniform_1i(location: GLint, x: GLint) {
 pub fn get_attrib_location(program: GLuint, name: &str) -> c_int {
     unsafe {
         ffi::GetAttribLocation(program, CString::new(name).unwrap().as_ptr())
+    }
+}
+
+#[inline]
+pub fn get_frag_data_location(program: GLuint, name: &str) -> c_int {
+    unsafe {
+        ffi::GetFragDataLocation(program, CString::new(name).unwrap().as_ptr())
     }
 }
 
