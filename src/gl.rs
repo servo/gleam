@@ -127,6 +127,13 @@ pub fn gen_vertex_arrays(n: GLsizei) -> Vec<GLuint> {
 }
 
 #[inline]
+pub fn delete_vertex_arrays(vertex_arrays: &[GLuint]) {
+    unsafe {
+        ffi::DeleteVertexArrays(vertex_arrays.len() as GLsizei, vertex_arrays.as_ptr());
+    }
+}
+
+#[inline]
 pub fn delete_buffers(buffers: &[GLuint]) {
     unsafe {
         ffi::DeleteBuffers(buffers.len() as GLsizei, buffers.as_ptr());
@@ -303,6 +310,23 @@ pub fn vertex_attrib_pointer_f32(index: GLuint,
                                 normalized as GLboolean,
                                 stride,
                                 offset as *const GLvoid)
+    }
+}
+
+#[inline]
+pub fn vertex_attrib_pointer(index: GLuint,
+                             size: GLint,
+                             type_: GLenum,
+                             normalized: bool,
+                             stride: GLsizei,
+                             offset: GLuint) {
+    unsafe {
+        ffi::VertexAttribPointer(index,
+                                 size,
+                                 type_,
+                                 normalized as GLboolean,
+                                 stride,
+                                 offset as *const GLvoid)
     }
 }
 
