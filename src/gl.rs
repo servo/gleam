@@ -455,6 +455,13 @@ pub fn uniform_matrix_4fv(location: GLint, transpose: bool, value: &[f32]) {
 }
 
 #[inline]
+pub fn depth_mask(flag: GLboolean) {
+    unsafe {
+        ffi::DepthMask(flag);
+    }
+}
+
+#[inline]
 pub fn uniform_1i(location: GLint, x: GLint) {
     unsafe {
         ffi::Uniform1i(location, x);
