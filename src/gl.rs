@@ -403,6 +403,27 @@ pub fn blend_equation_separate(mode_rgb: GLenum, mode_alpha: GLenum) {
 }
 
 #[inline]
+pub fn color_mask(r: bool, g: bool, b: bool, a: bool) {
+    unsafe {
+        ffi::ColorMask(r as GLboolean, g as GLboolean, b as GLboolean, a as GLboolean);
+    }
+}
+
+#[inline]
+pub fn cull_face(mode: GLenum) {
+    unsafe {
+        ffi::CullFace(mode);
+    }
+}
+
+#[inline]
+pub fn front_face(mode: GLenum) {
+    unsafe {
+        ffi::FrontFace(mode);
+    }
+}
+
+#[inline]
 pub fn enable(cap: GLenum) {
     unsafe {
         ffi::Enable(cap);
@@ -455,9 +476,16 @@ pub fn uniform_matrix_4fv(location: GLint, transpose: bool, value: &[f32]) {
 }
 
 #[inline]
-pub fn depth_mask(flag: GLboolean) {
+pub fn depth_mask(flag: bool) {
     unsafe {
-        ffi::DepthMask(flag);
+        ffi::DepthMask(flag as GLboolean);
+    }
+}
+
+#[inline]
+pub fn depth_range(near: GLclampd, far: GLclampd) {
+    unsafe {
+        ffi::DepthRange(near, far);
     }
 }
 
@@ -599,6 +627,20 @@ pub fn clear_color(r: f32, g: f32, b: f32, a: f32) {
 pub fn clear(buffer_mask: GLbitfield) {
     unsafe {
         ffi::Clear(buffer_mask);
+    }
+}
+
+#[inline]
+pub fn clear_depth(depth: GLclampd) {
+    unsafe {
+        ffi::ClearDepth(depth);
+    }
+}
+
+#[inline]
+pub fn clear_stencil(s: GLint) {
+    unsafe {
+        ffi::ClearStencil(s);
     }
 }
 
