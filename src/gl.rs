@@ -14,7 +14,6 @@ use std::ptr;
 use std::str::{self};
 use std::iter::repeat;
 use std::ffi::{CString, CStr};
-use std::cmp;
 use ffi;
 
 pub use ffi::types::*;
@@ -482,6 +481,7 @@ pub fn depth_mask(flag: bool) {
     }
 }
 
+#[cfg(not(target_os="android"))]
 #[inline]
 pub fn depth_range(near: GLclampd, far: GLclampd) {
     unsafe {
@@ -630,6 +630,7 @@ pub fn clear(buffer_mask: GLbitfield) {
     }
 }
 
+#[cfg(not(target_os="android"))]
 #[inline]
 pub fn clear_depth(depth: GLclampd) {
     unsafe {
