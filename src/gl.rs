@@ -483,9 +483,17 @@ pub fn depth_mask(flag: bool) {
 
 #[cfg(not(target_os="android"))]
 #[inline]
-pub fn depth_range(near: GLclampd, far: GLclampd) {
+pub fn depth_range(near: f64, far: f64) {
     unsafe {
-        ffi::DepthRange(near, far);
+        ffi::DepthRange(near as GLclampd, far as GLclampd);
+    }
+}
+
+#[cfg(target_os="android")]
+#[inline]
+pub fn depth_range(near: f64, far: f64) {
+    unsafe {
+        ffi::DepthRangef(near as GLclampf, far as GLclampf);
     }
 }
 
@@ -632,9 +640,17 @@ pub fn clear(buffer_mask: GLbitfield) {
 
 #[cfg(not(target_os="android"))]
 #[inline]
-pub fn clear_depth(depth: GLclampd) {
+pub fn clear_depth(depth: f64) {
     unsafe {
-        ffi::ClearDepth(depth);
+        ffi::ClearDepth(depth as GLclampd);
+    }
+}
+
+#[cfg(target_os="android")]
+#[inline]
+pub fn clear_depth(depth: f64) {
+    unsafe {
+        ffi::ClearDepthf(depth as GLclampf);
     }
 }
 
