@@ -74,6 +74,13 @@ pub fn read_pixels(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: 
 }
 
 #[inline]
+pub fn polygon_offset(factor: GLfloat, units: GLfloat) {
+    unsafe {
+        ffi::PolygonOffset(factor, units);
+    }
+}
+
+#[inline]
 pub fn pixel_store_i(name: GLenum, param: GLint) {
     unsafe {
         ffi::PixelStorei(name, param);
@@ -289,6 +296,13 @@ pub fn tex_parameter_i(target: GLenum, pname: GLenum, param: GLint) {
 }
 
 #[inline]
+pub fn tex_parameter_f(target: GLenum, pname: GLenum, param: GLfloat) {
+    unsafe {
+        ffi::TexParameterf(target, pname, param);
+    }
+}
+
+#[inline]
 pub fn framebuffer_texture_2d(target: GLenum,
                               attachment: GLenum,
                               textarget: GLenum,
@@ -433,6 +447,13 @@ pub fn enable(cap: GLenum) {
 pub fn disable(cap: GLenum) {
     unsafe {
         ffi::Disable(cap);
+    }
+}
+
+#[inline]
+pub fn hint(param_name: GLenum, param_val: GLenum) {
+    unsafe {
+        ffi::Hint(param_name, param_val);
     }
 }
 
