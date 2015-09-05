@@ -354,6 +354,13 @@ pub fn viewport(x: GLint, y: GLint, width: GLsizei, height: GLsizei) {
 }
 
 #[inline]
+pub fn scissor(x: GLint, y: GLint, width: GLsizei, height: GLsizei) {
+    unsafe {
+        ffi::Scissor(x, y, width, height);
+    }
+}
+
+#[inline]
 pub fn line_width(width: GLfloat) {
     unsafe {
         ffi::LineWidth(width);
