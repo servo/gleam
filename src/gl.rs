@@ -267,6 +267,26 @@ pub fn tex_image_2d(target: GLenum,
     }
 }
 
+pub fn copy_tex_sub_image_2d(target: GLenum,
+                             level: GLint,
+                             xoffset: GLint,
+                             yoffset: GLint,
+                             x: GLint,
+                             y: GLint,
+                             width: GLsizei,
+                             height: GLsizei) {
+    unsafe {
+        ffi::CopyTexSubImage2D(target,
+                               level,
+                               xoffset,
+                               yoffset,
+                               x,
+                               y,
+                               width,
+                               height);
+    }
+}
+
 pub fn tex_sub_image_2d(target: GLenum,
                         level: GLint,
                         xoffset: GLint,
