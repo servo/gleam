@@ -40,6 +40,12 @@ pub fn shader_source(shader: GLuint, strings: &[&[u8]]) {
     drop(pointers);
 }
 
+pub fn read_buffer(mode: GLenum) {
+    unsafe {
+        ffi::ReadBuffer(mode);
+    }
+}
+
 pub fn read_pixels(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: GLenum, pixel_type: GLenum) -> Vec<u8> {
     let colors = match format {
         ffi::RGB => 3,
@@ -502,6 +508,13 @@ pub fn disable_vertex_attrib_array(index: GLuint) {
 pub fn uniform_1f(location: GLint, v0: GLfloat) {
     unsafe {
         ffi::Uniform1f(location, v0);
+    }
+}
+
+#[inline]
+pub fn uniform_2f(location: GLint, v0: GLfloat, v1: GLfloat) {
+    unsafe {
+        ffi::Uniform2f(location, v0, v1);
     }
 }
 
