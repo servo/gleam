@@ -40,6 +40,7 @@ pub fn shader_source(shader: GLuint, strings: &[&[u8]]) {
     drop(pointers);
 }
 
+#[cfg(not(target_os="android"))]
 pub fn read_buffer(mode: GLenum) {
     unsafe {
         ffi::ReadBuffer(mode);
