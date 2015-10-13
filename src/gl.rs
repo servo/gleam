@@ -529,9 +529,9 @@ pub fn uniform_4f(location: GLint, x: GLfloat, y: GLfloat, z: GLfloat, w: GLfloa
 pub fn uniform_matrix_4fv(location: GLint, transpose: bool, value: &[f32]) {
     unsafe {
         ffi::UniformMatrix4fv(location,
-                               1 as GLsizei,
-                               transpose as GLboolean,
-                               mem::transmute(&value[0]));
+                              (value.len() / 16) as GLsizei,
+                              transpose as GLboolean,
+                              mem::transmute(&value[0]));
     }
 }
 
