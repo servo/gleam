@@ -274,6 +274,36 @@ pub fn tex_image_2d(target: GLenum,
     }
 }
 
+// FIXME: Does not verify buffer size -- unsafe!
+#[cfg(not(target_os="android"))]
+pub fn tex_image_3d(target: GLenum,
+                    level: GLint,
+                    internal_format: GLint,
+                    width: GLsizei,
+                    height: GLsizei,
+                    depth: GLsizei,
+                    border: GLint,
+                    format: GLenum,
+                    ty: GLenum,
+                    opt_data: Option<&[u8]>) {
+    unsafe {
+        let pdata = match opt_data {
+            Some(data) => mem::transmute(data.as_ptr()),
+            None => ptr::null(),
+        };
+        ffi::TexImage3D(target,
+                        level,
+                        internal_format,
+                        width,
+                        height,
+                        depth,
+                        border,
+                        format,
+                        ty,
+                        pdata);
+    }
+}
+
 pub fn copy_tex_sub_image_2d(target: GLenum,
                              level: GLint,
                              xoffset: GLint,
@@ -294,6 +324,30 @@ pub fn copy_tex_sub_image_2d(target: GLenum,
     }
 }
 
+#[inline]
+#[cfg(not(target_os="android"))]
+pub fn copy_tex_sub_image_3d(target: GLenum,
+                             level: GLint,
+                             xoffset: GLint,
+                             yoffset: GLint,
+                             zoffset: GLint,
+                             x: GLint,
+                             y: GLint,
+                             width: GLsizei,
+                             height: GLsizei) {
+    unsafe {
+        ffi::CopyTexSubImage3D(target,
+                               level,
+                               xoffset,
+                               yoffset,
+                               zoffset,
+                               x,
+                               y,
+                               width,
+                               height);
+    }
+}
+
 pub fn tex_sub_image_2d(target: GLenum,
                         level: GLint,
                         xoffset: GLint,
@@ -305,6 +359,33 @@ pub fn tex_sub_image_2d(target: GLenum,
                         data: &[u8]) {
     unsafe {
         ffi::TexSubImage2D(target, level, xoffset, yoffset, width, height, format, ty, data.as_ptr() as *const c_void);
+    }
+}
+
+#[cfg(not(target_os="android"))]
+pub fn tex_sub_image_3d(target: GLenum,
+                        level: GLint,
+                        xoffset: GLint,
+                        yoffset: GLint,
+                        zoffset: GLint,
+                        width: GLsizei,
+                        height: GLsizei,
+                        depth: GLsizei,
+                        format: GLenum,
+                        ty: GLenum,
+                        data: &[u8]) {
+    unsafe {
+        ffi::TexSubImage3D(target,
+                           level,
+                           xoffset,
+                           yoffset,
+                           zoffset,
+                           width,
+                           height,
+                           depth,
+                           format,
+                           ty,
+                           data.as_ptr() as *const c_void);
     }
 }
 
@@ -337,6 +418,18 @@ pub fn framebuffer_texture_2d(target: GLenum,
                               level: GLint) {
     unsafe {
         ffi::FramebufferTexture2D(target, attachment, textarget, texture, level);
+    }
+}
+
+#[inline]
+#[cfg(not(target_os="android"))]
+pub fn framebuffer_texture_layer(target: GLenum,
+                                 attachment: GLenum,
+                                 texture: GLuint,
+                                 level: GLint,
+                                 layer: GLint) {
+    unsafe {
+        ffi::FramebufferTextureLayer(target, attachment, texture, level, layer);
     }
 }
 
