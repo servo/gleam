@@ -29,6 +29,16 @@ pub fn buffer_data<T>(target: GLenum, data: &[T], usage: GLenum) {
     }
 }
 
+#[inline]
+pub fn buffer_sub_data<T>(target: GLenum, offset: i64, data: &[T]) {
+    unsafe {
+        ffi::BufferSubData(target,
+                           offset,
+                           (data.len() * size_of::<T>()) as GLsizeiptr,
+                           data.as_ptr() as *const GLvoid);
+    }
+}
+
 pub fn shader_source(shader: GLuint, strings: &[&[u8]]) {
     let pointers: Vec<*const u8> = strings.iter().map(|string| (*string).as_ptr()).collect();
     let lengths: Vec<GLint> = strings.iter().map(|string| string.len() as GLint).collect();
@@ -271,6 +281,37 @@ pub fn tex_image_2d(target: GLenum,
                                ptr::null());
             }
         }
+    }
+}
+
+pub fn compressed_tex_image_2d(target: GLenum,
+                               level: GLint,
+                               internal_format: GLenum,
+                               width: GLsizei,
+                               height: GLsizei,
+                               border: GLint,
+                               image_size: GLsizei,
+                               data: &[u8]) {
+    unsafe {
+        let pdata = mem::transmute(data.as_ptr());
+        ffi::CompressedTexImage2D(target, level, internal_format, width, height, border,
+                                  image_size, pdata);
+    }
+}
+
+pub fn compressed_tex_sub_image_2d(target: GLenum,
+                                   level: GLint,
+                                   xoffset: GLint,
+                                   yoffset: GLint,
+                                   width: GLsizei,
+                                   height: GLsizei,
+                                   format: GLenum,
+                                   image_size: GLsizei,
+                                   data: &[u8]) {
+    unsafe {
+        let pdata = mem::transmute(data.as_ptr());
+        ffi::CompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format,
+                                     image_size, pdata);
     }
 }
 
