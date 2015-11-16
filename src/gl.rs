@@ -620,6 +620,15 @@ pub fn uniform_4f(location: GLint, x: GLfloat, y: GLfloat, z: GLfloat, w: GLfloa
 }
 
 #[inline]
+pub fn uniform_4fv(location: GLint, values: &[f32]) {
+    unsafe {
+        ffi::Uniform4fv(location,
+                        (values.len() / 4) as GLsizei,
+                        values.as_ptr());
+    }
+}
+
+#[inline]
 pub fn uniform_matrix_4fv(location: GLint, transpose: bool, value: &[f32]) {
     unsafe {
         ffi::UniformMatrix4fv(location,
