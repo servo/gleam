@@ -1,6 +1,6 @@
 [package]
 name = "gleam"
-version = "0.1.18"
+version = "0.1.19"
 license = "Apache-2.0"
 authors = ["The Servo Project Developers"]
 build = "build.rs"
@@ -14,4 +14,4 @@ khronos_api = "0.0.8"
 
 [dependencies]
 gl_common = "0.1"
-libc="0.1"
+libc="0.2"
