@@ -30,7 +30,7 @@ pub fn buffer_data<T>(target: GLenum, data: &[T], usage: GLenum) {
 }
 
 #[inline]
-pub fn buffer_sub_data<T>(target: GLenum, offset: i64, data: &[T]) {
+pub fn buffer_sub_data<T>(target: GLenum, offset: isize, data: &[T]) {
     unsafe {
         ffi::BufferSubData(target,
                            offset,
