@@ -9,9 +9,8 @@ repository = "https://github.com/servo/gleam"
 description = "Generated OpenGL bindings and wrapper for Servo."
 
 [build-dependencies]
-gl_generator = "0.1.0"
+gl_generator = "0.2.0"
 khronos_api = "0.0.8"
 
 [dependencies]
-gl_common = "0.1"
 libc="0.2"
