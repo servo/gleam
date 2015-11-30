@@ -426,10 +426,31 @@ pub fn tex_sub_image_3d(target: GLenum,
 }
 
 #[inline]
-pub fn get_integer_v(name: GLenum, data: &mut GLint) {
+pub fn get_integer_v(name: GLenum) -> GLint {
+    let mut result: GLint = 0 as GLint;
     unsafe {
-        ffi::GetIntegerv(name, data);
+        ffi::GetIntegerv(name, &mut result);
     }
+    result
+}
+
+#[inline]
+pub fn get_boolean_v(name: GLenum) -> GLboolean {
+    let mut result: GLboolean = 0 as GLboolean;
+    unsafe {
+        ffi::GetBooleanv(name, &mut result);
+    }
+    result
+}
+
+
+#[inline]
+pub fn get_float_v(name: GLenum) -> GLfloat {
+    let mut result: GLfloat = 0 as GLfloat;
+    unsafe {
+        ffi::GetFloatv(name, &mut result);
+    }
+    result
 }
 
 #[inline]
@@ -466,6 +487,17 @@ pub fn framebuffer_texture_layer(target: GLenum,
                                  layer: GLint) {
     unsafe {
         ffi::FramebufferTextureLayer(target, attachment, texture, level, layer);
+    }
+}
+
+#[inline]
+pub fn vertex_attrib_4f(index: GLuint,
+                        x: GLfloat,
+                        y: GLfloat,
+                        z: GLfloat,
+                        w: GLfloat) {
+    unsafe {
+        ffi::VertexAttrib4f(index, x, y, z, w)
     }
 }
 
@@ -744,6 +776,15 @@ pub fn get_program_iv(program: GLuint, pname: GLenum) -> GLint {
     unsafe {
         let mut result: GLint = 0 as GLint;
         ffi::GetProgramiv(program, pname, &mut result);
+        return result;
+    }
+}
+
+#[inline]
+pub fn get_buffer_parameter_iv(target: GLuint, pname: GLenum) -> GLint {
+    unsafe {
+        let mut result: GLint = 0 as GLint;
+        ffi::GetBufferParameteriv(target, pname, &mut result);
         return result;
     }
 }
