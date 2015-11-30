@@ -433,6 +433,20 @@ pub fn get_integer_v(name: GLenum, data: &mut GLint) {
 }
 
 #[inline]
+pub fn get_boolean_v(name: GLenum, data: &mut GLboolean) {
+    unsafe {
+        ffi::GetBooleanv(name, data);
+    }
+}
+
+#[inline]
+pub fn get_float_v(name: GLenum, data: &mut GLfloat) {
+    unsafe {
+        ffi::GetFloatv(name, data);
+    }
+}
+
+#[inline]
 pub fn tex_parameter_i(target: GLenum, pname: GLenum, param: GLint) {
     unsafe {
         ffi::TexParameteri(target, pname, param);
@@ -744,6 +758,15 @@ pub fn get_program_iv(program: GLuint, pname: GLenum) -> GLint {
     unsafe {
         let mut result: GLint = 0 as GLint;
         ffi::GetProgramiv(program, pname, &mut result);
+        return result;
+    }
+}
+
+#[inline]
+pub fn get_buffer_parameter_iv(target: GLuint, pname: GLenum) -> GLint {
+    unsafe {
+        let mut result: GLint = 0 as GLint;
+        ffi::GetBufferParameteriv(target, pname, &mut result);
         return result;
     }
 }
