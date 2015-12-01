@@ -10,8 +10,6 @@
 #![crate_name = "gleam"]
 #![crate_type = "lib"]
 
-extern crate libc;
-
 pub mod gl;
 
 mod ffi {

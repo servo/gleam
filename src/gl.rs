@@ -7,9 +7,9 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use libc::{c_char, c_int, c_void};
 use std::mem;
 use std::mem::size_of;
+use std::os::raw::{c_char, c_int, c_void};
 use std::ptr;
 use std::str::{self};
 use std::iter::repeat;
