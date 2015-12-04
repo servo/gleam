@@ -491,6 +491,17 @@ pub fn framebuffer_texture_layer(target: GLenum,
 }
 
 #[inline]
+pub fn vertex_attrib_4f(index: GLuint,
+                        x: GLfloat,
+                        y: GLfloat,
+                        z: GLfloat,
+                        w: GLfloat) {
+    unsafe {
+        ffi::VertexAttrib4f(index, x, y, z, w)
+    }
+}
+
+#[inline]
 pub fn vertex_attrib_pointer_f32(index: GLuint,
                                  size: GLint,
                                  normalized: bool,
