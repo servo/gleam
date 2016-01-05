@@ -674,6 +674,21 @@ pub fn uniform_1f(location: GLint, v0: GLfloat) {
 }
 
 #[inline]
+pub fn uniform_1i(location: GLint, v0: GLint) {
+    unsafe {
+        ffi::Uniform1i(location, v0);
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn uniform_1ui(location: GLint, v0: GLuint) {
+    unsafe {
+        ffi::Uniform1ui(location, v0);
+    }
+}
+
+#[inline]
 pub fn uniform_2f(location: GLint, v0: GLfloat, v1: GLfloat) {
     unsafe {
         ffi::Uniform2f(location, v0, v1);
@@ -681,9 +696,61 @@ pub fn uniform_2f(location: GLint, v0: GLfloat, v1: GLfloat) {
 }
 
 #[inline]
+pub fn uniform_2i(location: GLint, v0: GLint, v1: GLint) {
+    unsafe {
+        ffi::Uniform2i(location, v0, v1);
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn uniform_2ui(location: GLint, v0: GLuint, v1: GLuint) {
+    unsafe {
+        ffi::Uniform2ui(location, v0, v1);
+    }
+}
+
+#[inline]
+pub fn uniform_3f(location: GLint, v0: GLfloat, v1: GLfloat, v2: GLfloat) {
+    unsafe {
+        ffi::Uniform3f(location, v0, v1, v2);
+    }
+}
+
+#[inline]
+pub fn uniform_3i(location: GLint, v0: GLint, v1: GLint, v2: GLint) {
+    unsafe {
+        ffi::Uniform3i(location, v0, v1, v2);
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn uniform_3ui(location: GLint, v0: GLuint, v1: GLuint, v2: GLuint) {
+    unsafe {
+        ffi::Uniform3ui(location, v0, v1, v2);
+    }
+}
+
+#[inline]
 pub fn uniform_4f(location: GLint, x: GLfloat, y: GLfloat, z: GLfloat, w: GLfloat) {
     unsafe {
         ffi::Uniform4f(location, x, y, z, w);
+    }
+}
+
+#[inline]
+pub fn uniform_4i(location: GLint, x: GLint, y: GLint, z: GLint, w: GLint) {
+    unsafe {
+        ffi::Uniform4i(location, x, y, z, w);
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn uniform_4ui(location: GLint, x: GLuint, y: GLuint, z: GLuint, w: GLuint) {
+    unsafe {
+        ffi::Uniform4ui(location, x, y, z, w);
     }
 }
 
@@ -726,13 +793,6 @@ pub fn depth_range(near: f64, far: f64) {
 pub fn depth_range(near: f64, far: f64) {
     unsafe {
         ffi::DepthRangef(near as GLclampf, far as GLclampf);
-    }
-}
-
-#[inline]
-pub fn uniform_1i(location: GLint, x: GLint) {
-    unsafe {
-        ffi::Uniform1i(location, x);
     }
 }
 
