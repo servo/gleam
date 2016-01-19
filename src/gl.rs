@@ -919,6 +919,13 @@ pub fn delete_shader(shader: GLuint) {
 }
 
 #[inline]
+pub fn detach_shader(program: GLuint, shader: GLuint) {
+    unsafe {
+        ffi::DetachShader(program, shader);
+    }
+}
+
+#[inline]
 pub fn link_program(program: GLuint) {
     unsafe {
         return ffi::LinkProgram(program);
