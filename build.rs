@@ -22,13 +22,13 @@ fn main() {
                                         "2.0", "core", &mut file).unwrap();
         println!("cargo:rustc-link-lib=GLESv2");
     } else {
-        // OpenGL 3.0 bindings for Linux/Mac/Windows
+        // OpenGL 3.3 bindings for Linux/Mac/Windows
         gl_generator::generate_bindings(gl_generator::GlobalGenerator,
                                         gl_generator::registry::Ns::Gl,
                                         gl_generator::Fallbacks::All,
                                         khronos_api::GL_XML,
                                         vec!["GL_ARB_texture_rectangle".to_string()],
-                                        "3.0", "core", &mut file).unwrap();
+                                        "3.3", "core", &mut file).unwrap();
         if target.contains("linux") {
             println!("cargo:rustc-link-lib=GL");
         } else if target.contains("windows") {
