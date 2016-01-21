@@ -68,6 +68,7 @@ pub fn read_pixels(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: 
         ffi::BGRA => 4,
 
         ffi::ALPHA => 1,
+#[cfg(target_os="android")]
         ffi::LUMINANCE => 1,
         _ => panic!("unsupported format for read_pixels"),
     };
@@ -535,6 +536,14 @@ pub fn vertex_attrib_pointer(index: GLuint,
 }
 
 #[inline]
+#[cfg(not(target_os="android"))]
+pub fn vertex_attrib_divisor(index: GLuint, divisor: GLuint) {
+    unsafe {
+        ffi::VertexAttribDivisor(index, divisor)
+    }
+}
+
+#[inline]
 pub fn viewport(x: GLint, y: GLint, width: GLsizei, height: GLsizei) {
     unsafe {
         ffi::Viewport(x, y, width, height);
@@ -569,9 +578,34 @@ pub fn draw_arrays(mode: GLenum, first: GLint, count: GLsizei) {
     }
 }
 
+#[inline]
+#[cfg(not(target_os="android"))]
+pub fn draw_arrays_instanced(mode: GLenum, first: GLint, count: GLsizei, primcount: GLsizei) {
+    unsafe {
+        return ffi::DrawArraysInstanced(mode, first, count, primcount);
+    }
+}
+
+#[inline]
 pub fn draw_elements(mode: GLenum, count: GLsizei, element_type: GLenum, indices_offset: GLuint) {
     unsafe {
         return ffi::DrawElements(mode, count, element_type, indices_offset as *const c_void)
+    }
+}
+
+#[inline]
+#[cfg(not(target_os="android"))]
+pub fn draw_elements_instanced(mode: GLenum,
+                               count: GLsizei,
+                               element_type: GLenum,
+                               indices_offset: GLuint,
+                               primcount: GLsizei) {
+    unsafe {
+        return ffi::DrawElementsInstanced(mode,
+                                          count,
+                                          element_type,
+                                          indices_offset as *const c_void,
+                                          primcount)
     }
 }
 
