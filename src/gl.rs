@@ -195,6 +195,32 @@ pub fn delete_textures(textures: &[GLuint]) {
 }
 
 #[inline]
+pub fn framebuffer_renderbuffer(target: GLenum,
+                                attachment: GLenum,
+                                renderbuffertarget: GLenum,
+                                renderbuffer: GLuint) {
+    unsafe {
+        ffi::FramebufferRenderbuffer(target,
+                                     attachment,
+                                     renderbuffertarget,
+                                     renderbuffer);
+    }
+}
+
+#[inline]
+pub fn renderbuffer_storage(target: GLenum,
+                            internalformat: GLenum,
+                            width: GLsizei,
+                            height: GLsizei) {
+    unsafe {
+        ffi::RenderbufferStorage(target,
+                                 internalformat,
+                                 width,
+                                 height);
+    }
+}
+
+#[inline]
 pub fn depth_func(func: GLenum) {
     unsafe {
         ffi::DepthFunc(func);
