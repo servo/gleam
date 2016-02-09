@@ -1024,6 +1024,31 @@ pub fn get_error() -> GLenum {
     }
 }
 
+#[inline]
+pub fn stencil_mask(mask: GLuint) {
+    unsafe {
+        ffi::StencilMask(mask)
+    }
+}
+
+#[inline]
+pub fn stencil_func(func: GLenum,
+                    ref_: GLint,
+                    mask: GLuint) {
+    unsafe {
+        ffi::StencilFunc(func, ref_, mask)
+    }
+}
+
+#[inline]
+pub fn stencil_op(sfail: GLenum,
+                  dpfail: GLenum,
+                  dppass: GLenum) {
+    unsafe {
+        ffi::StencilOp(sfail, dpfail, dppass)
+    }
+}
+
 #[cfg(target_os="android")]
 extern {
     pub fn glEGLImageTargetTexture2DOES(target: GLenum, image: GLeglImageOES);
