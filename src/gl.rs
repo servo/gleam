@@ -248,6 +248,30 @@ pub fn bind_attrib_location(program: GLuint, index: GLuint, name: &str) {
     }
 }
 
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn get_uniform_block_index(program: GLuint, name: &str) -> GLuint {
+    unsafe {
+        ffi::GetUniformBlockIndex(program, CString::new(name).unwrap().as_ptr())
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn bind_buffer_base(target: GLenum, index: GLuint, buffer: GLuint) {
+    unsafe {
+        ffi::BindBufferBase(target, index, buffer);
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn uniform_block_binding(program: GLuint, uniform_block_index: GLuint, uniform_block_binding: GLuint) {
+    unsafe {
+        ffi::UniformBlockBinding(program, uniform_block_index, uniform_block_binding);
+    }
+}
+
 #[inline]
 pub fn bind_buffer(target: GLenum, buffer: GLuint) {
     unsafe {
