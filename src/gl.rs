@@ -243,16 +243,18 @@ pub fn attach_shader(program: GLuint, shader: GLuint) {
 
 #[inline]
 pub fn bind_attrib_location(program: GLuint, index: GLuint, name: &str) {
+    let c_string = CString::new(name).unwrap();
     unsafe {
-        ffi::BindAttribLocation(program, index, CString::new(name).unwrap().as_ptr());
+        ffi::BindAttribLocation(program, index, c_string.as_ptr())
     }
 }
 
 #[cfg(not(target_os="android"))]
 #[inline]
 pub fn get_uniform_block_index(program: GLuint, name: &str) -> GLuint {
+    let c_string = CString::new(name).unwrap();
     unsafe {
-        ffi::GetUniformBlockIndex(program, CString::new(name).unwrap().as_ptr())
+        ffi::GetUniformBlockIndex(program, c_string.as_ptr())
     }
 }
 
@@ -882,23 +884,26 @@ pub fn depth_range(near: f64, far: f64) {
 
 #[inline]
 pub fn get_attrib_location(program: GLuint, name: &str) -> c_int {
+    let name = CString::new(name).unwrap();
     unsafe {
-        ffi::GetAttribLocation(program, CString::new(name).unwrap().as_ptr())
+        ffi::GetAttribLocation(program, name.as_ptr())
     }
 }
 
 #[cfg(not(target_os="android"))]
 #[inline]
 pub fn get_frag_data_location(program: GLuint, name: &str) -> c_int {
+    let name = CString::new(name).unwrap();
     unsafe {
-        ffi::GetFragDataLocation(program, CString::new(name).unwrap().as_ptr())
+        ffi::GetFragDataLocation(program, name.as_ptr())
     }
 }
 
 #[inline]
 pub fn get_uniform_location(program: GLuint, name: &str) -> c_int {
+    let name = CString::new(name).unwrap();
     unsafe {
-        ffi::GetUniformLocation(program, CString::new(name).unwrap().as_ptr())
+        ffi::GetUniformLocation(program, name.as_ptr())
     }
 }
 
