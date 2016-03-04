@@ -163,6 +163,88 @@ pub fn gen_vertex_arrays(n: GLsizei) -> Vec<GLuint> {
 
 #[cfg(not(target_os="android"))]
 #[inline]
+pub fn gen_queries(n: GLsizei) -> Vec<GLuint> {
+    unsafe {
+        let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
+        ffi::GenQueries(n, result.as_mut_ptr());
+        return result;
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn begin_query(target: GLenum, id: GLuint) {
+    unsafe {
+        ffi::BeginQuery(target, id);
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn end_query(target: GLenum) {
+    unsafe {
+        ffi::EndQuery(target);
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn query_counter(id: GLuint, target: GLenum) {
+    unsafe {
+        ffi::QueryCounter(id, target);
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn get_query_object_iv(id: GLuint, pname: GLenum) -> i32 {
+    unsafe {
+        let mut result = 0;
+        ffi::GetQueryObjectiv(id, pname, &mut result);
+        result
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn get_query_object_uiv(id: GLuint, pname: GLenum) -> u32 {
+    unsafe {
+        let mut result = 0;
+        ffi::GetQueryObjectuiv(id, pname, &mut result);
+        result
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn get_query_object_i64v(id: GLuint, pname: GLenum) -> i64 {
+    unsafe {
+        let mut result = 0;
+        ffi::GetQueryObjecti64v(id, pname, &mut result);
+        result
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn get_query_object_ui64v(id: GLuint, pname: GLenum) -> u64 {
+    unsafe {
+        let mut result = 0;
+        ffi::GetQueryObjectui64v(id, pname, &mut result);
+        result
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn delete_queries(queries: &[GLuint]) {
+    unsafe {
+        ffi::DeleteQueries(queries.len() as GLsizei, queries.as_ptr());
+    }
+}
+
+#[cfg(not(target_os="android"))]
+#[inline]
 pub fn delete_vertex_arrays(vertex_arrays: &[GLuint]) {
     unsafe {
         ffi::DeleteVertexArrays(vertex_arrays.len() as GLsizei, vertex_arrays.as_ptr());
