@@ -30,6 +30,16 @@ pub fn buffer_data<T>(target: GLenum, data: &[T], usage: GLenum) {
 }
 
 #[inline]
+pub fn buffer_data_raw<T>(target: GLenum, data: &T, usage: GLenum) {
+    unsafe {
+        ffi::BufferData(target,
+                        size_of::<T>() as GLsizeiptr,
+                        data as *const T as *const GLvoid,
+                        usage);
+    }
+}
+
+#[inline]
 pub fn buffer_sub_data<T>(target: GLenum, offset: isize, data: &[T]) {
     unsafe {
         ffi::BufferSubData(target,
