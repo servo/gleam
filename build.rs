@@ -19,7 +19,7 @@ fn main() {
                                         gl_generator::Fallbacks::All,
                                         khronos_api::GL_XML,
                                         vec!["GL_EXT_texture_format_BGRA8888".to_string()],
-                                        "2.0", "core", &mut file).unwrap();
+                                        "3.0", "core", &mut file).unwrap();
         println!("cargo:rustc-link-lib=GLESv2");
     } else {
         // OpenGL 3.3 bindings for Linux/Mac/Windows

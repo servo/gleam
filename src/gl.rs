@@ -151,7 +151,6 @@ pub fn gen_textures(n: GLsizei) -> Vec<GLuint> {
     }
 }
 
-#[cfg(not(target_os="android"))]
 #[inline]
 pub fn gen_vertex_arrays(n: GLsizei) -> Vec<GLuint> {
     unsafe {
@@ -243,7 +242,6 @@ pub fn delete_queries(queries: &[GLuint]) {
     }
 }
 
-#[cfg(not(target_os="android"))]
 #[inline]
 pub fn delete_vertex_arrays(vertex_arrays: &[GLuint]) {
     unsafe {
@@ -373,7 +371,6 @@ pub fn bind_buffer(target: GLenum, buffer: GLuint) {
     }
 }
 
-#[cfg(not(target_os="android"))]
 #[inline]
 pub fn bind_vertex_array(vao: GLuint) {
     unsafe {
@@ -680,7 +677,6 @@ pub fn vertex_attrib_pointer(index: GLuint,
 }
 
 #[inline]
-#[cfg(not(target_os="android"))]
 pub fn vertex_attrib_divisor(index: GLuint, divisor: GLuint) {
     unsafe {
         ffi::VertexAttribDivisor(index, divisor)
@@ -723,7 +719,6 @@ pub fn draw_arrays(mode: GLenum, first: GLint, count: GLsizei) {
 }
 
 #[inline]
-#[cfg(not(target_os="android"))]
 pub fn draw_arrays_instanced(mode: GLenum, first: GLint, count: GLsizei, primcount: GLsizei) {
     unsafe {
         return ffi::DrawArraysInstanced(mode, first, count, primcount);
