@@ -1202,3 +1202,10 @@ pub fn egl_image_target_texture2d_oes(target: GLenum, image: GLeglImageOES) {
         glEGLImageTargetTexture2DOES(target, image);
     }
 }
+
+#[inline]
+pub fn generate_mipmap(target: GLenum) {
+    unsafe {
+        ffi::GenerateMipmap(target)
+    }
+}
