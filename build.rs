@@ -17,7 +17,7 @@ fn main() {
             .write_bindings(gl_generator::StaticGenerator, &mut file)
             .unwrap();
 
-        println!("cargo:rustc-link-lib=GLESv2");
+        println!("cargo:rustc-link-lib=GLESv3");
     } else {
         // OpenGL 3.3 bindings for Linux/Mac/Windows
         Registry::new(Api::Gl, (3, 3), Profile::Core, Fallbacks::All, ["GL_ARB_texture_rectangle"])
