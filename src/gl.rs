@@ -970,6 +970,20 @@ pub fn depth_range(near: f64, far: f64) {
 }
 
 #[inline]
+pub fn get_active_attrib(program: GLuint, index: GLuint) -> (i32, u32, String) {
+    let buf_size = get_program_iv(program, ffi::ACTIVE_ATTRIBUTE_MAX_LENGTH);
+    let mut name: Vec<_> = repeat(0u8).take(buf_size as usize).collect();
+    let mut length = 0 as GLsizei;
+    let mut size = 0 as i32;
+    let mut type_ = 0 as u32;
+    unsafe {
+        ffi::GetActiveAttrib(program, index, buf_size, &mut length, &mut size, &mut type_, name.as_ptr() as *mut GLchar);
+    }
+    name.truncate(if length > 0 {length as usize - 1} else {0});
+    (size, type_, String::from_utf8(name).unwrap())
+}
+
+#[inline]
 pub fn get_attrib_location(program: GLuint, name: &str) -> c_int {
     let name = CString::new(name).unwrap();
     unsafe {
