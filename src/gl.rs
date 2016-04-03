@@ -970,6 +970,20 @@ pub fn depth_range(near: f64, far: f64) {
 }
 
 #[inline]
+pub fn get_active_attrib(program: GLuint, index: GLuint) -> (i32, u32, String) {
+    let buf_size = get_program_iv(program, ffi::ACTIVE_ATTRIBUTE_MAX_LENGTH);
+    let mut name = vec![0u8; buf_size as usize];
+    let mut length = 0 as GLsizei;
+    let mut size = 0 as i32;
+    let mut type_ = 0 as u32;
+    unsafe {
+        ffi::GetActiveAttrib(program, index, buf_size, &mut length, &mut size, &mut type_, name.as_mut_ptr() as *mut GLchar);
+    }
+    name.truncate(if length > 0 {length as usize} else {0});
+    (size, type_, String::from_utf8(name).unwrap())
+}
+
+#[inline]
 pub fn get_attrib_location(program: GLuint, name: &str) -> c_int {
     let name = CString::new(name).unwrap();
     unsafe {
@@ -996,13 +1010,13 @@ pub fn get_uniform_location(program: GLuint, name: &str) -> c_int {
 
 pub fn get_program_info_log(program: GLuint) -> String {
     unsafe {
-        let mut result: Vec<_> = repeat(0u8).take(1024).collect();
+        let mut result = vec![0u8; 1024];
         let mut result_len: GLsizei = 0 as GLsizei;
         ffi::GetProgramInfoLog(program,
                             1024 as GLsizei,
                             &mut result_len,
-                            result.as_ptr() as *mut GLchar);
-        result.truncate(if result_len > 0 {result_len as usize - 1} else {0});
+                            result.as_mut_ptr() as *mut GLchar);
+        result.truncate(if result_len > 0 {result_len as usize} else {0});
         String::from_utf8(result).unwrap()
     }
 }
@@ -1027,13 +1041,13 @@ pub fn get_buffer_parameter_iv(target: GLuint, pname: GLenum) -> GLint {
 
 pub fn get_shader_info_log(shader: GLuint) -> String {
     unsafe {
-        let mut result: Vec<_> = repeat(0u8).take(1024).collect();
+        let mut result = vec![0u8; 1024];
         let mut result_len: GLsizei = 0 as GLsizei;
         ffi::GetShaderInfoLog(shader,
                            1024 as GLsizei,
                            &mut result_len,
-                           result.as_ptr() as *mut GLchar);
-        result.truncate(if result_len > 0 {result_len as usize - 1} else {0});
+                           result.as_mut_ptr() as *mut GLchar);
+        result.truncate(if result_len > 0 {result_len as usize} else {0});
         String::from_utf8(result).unwrap()
     }
 }
