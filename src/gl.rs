@@ -984,6 +984,24 @@ pub fn get_active_attrib(program: GLuint, index: GLuint) -> (i32, u32, String) {
 }
 
 #[inline]
+pub fn get_active_uniform(program: GLuint, index: GLuint) -> (i32, u32, String) {
+    let buf_size = get_program_iv(program, ffi::ACTIVE_UNIFORM_MAX_LENGTH);
+    let mut name = vec![0 as u8; buf_size as usize];
+    let mut length: GLsizei = 0;
+    let mut size: i32 = 0;
+    let mut type_: u32 = 0;
+
+    unsafe {
+        ffi::GetActiveUniform(program, index, buf_size, &mut length, &mut size,
+                              &mut type_, name.as_mut_ptr() as *mut GLchar);
+    }
+
+    name.truncate(if length > 0 { length as usize } else { 0 });
+
+    (size, type_, String::from_utf8(name).unwrap())
+}
+
+#[inline]
 pub fn get_attrib_location(program: GLuint, name: &str) -> c_int {
     let name = CString::new(name).unwrap();
     unsafe {
