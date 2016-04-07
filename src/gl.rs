@@ -847,9 +847,27 @@ pub fn uniform_1f(location: GLint, v0: GLfloat) {
 }
 
 #[inline]
+pub fn uniform_1fv(location: GLint, values: &[f32]) {
+    unsafe {
+        ffi::Uniform1fv(location,
+                        values.len() as GLsizei,
+                        values.as_ptr());
+    }
+}
+
+#[inline]
 pub fn uniform_1i(location: GLint, v0: GLint) {
     unsafe {
         ffi::Uniform1i(location, v0);
+    }
+}
+
+#[inline]
+pub fn uniform_1iv(location: GLint, values: &[i32]) {
+    unsafe {
+        ffi::Uniform1iv(location,
+                       values.len() as GLsizei,
+                       values.as_ptr());
     }
 }
 
@@ -869,9 +887,27 @@ pub fn uniform_2f(location: GLint, v0: GLfloat, v1: GLfloat) {
 }
 
 #[inline]
+pub fn uniform_2fv(location: GLint, values: &[f32]) {
+    unsafe {
+        ffi::Uniform2fv(location,
+                        (values.len() / 2) as GLsizei,
+                        values.as_ptr());
+    }
+}
+
+#[inline]
 pub fn uniform_2i(location: GLint, v0: GLint, v1: GLint) {
     unsafe {
         ffi::Uniform2i(location, v0, v1);
+    }
+}
+
+#[inline]
+pub fn uniform_2iv(location: GLint, values: &[i32]) {
+    unsafe {
+        ffi::Uniform2iv(location,
+                       (values.len() / 2) as GLsizei,
+                       values.as_ptr());
     }
 }
 
@@ -891,9 +927,27 @@ pub fn uniform_3f(location: GLint, v0: GLfloat, v1: GLfloat, v2: GLfloat) {
 }
 
 #[inline]
+pub fn uniform_3fv(location: GLint, values: &[f32]) {
+    unsafe {
+        ffi::Uniform3fv(location,
+                        (values.len() / 3) as GLsizei,
+                        values.as_ptr());
+    }
+}
+
+#[inline]
 pub fn uniform_3i(location: GLint, v0: GLint, v1: GLint, v2: GLint) {
     unsafe {
         ffi::Uniform3i(location, v0, v1, v2);
+    }
+}
+
+#[inline]
+pub fn uniform_3iv(location: GLint, values: &[i32]) {
+    unsafe {
+        ffi::Uniform3iv(location,
+                       (values.len() / 3) as GLsizei,
+                       values.as_ptr());
     }
 }
 
@@ -916,6 +970,15 @@ pub fn uniform_4f(location: GLint, x: GLfloat, y: GLfloat, z: GLfloat, w: GLfloa
 pub fn uniform_4i(location: GLint, x: GLint, y: GLint, z: GLint, w: GLint) {
     unsafe {
         ffi::Uniform4i(location, x, y, z, w);
+    }
+}
+
+#[inline]
+pub fn uniform_4iv(location: GLint, values: &[i32]) {
+    unsafe {
+        ffi::Uniform4iv(location,
+                       (values.len() / 4) as GLsizei,
+                       values.as_ptr());
     }
 }
 
