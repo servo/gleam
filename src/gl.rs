@@ -1269,6 +1269,13 @@ pub fn stencil_mask(mask: GLuint) {
 }
 
 #[inline]
+pub fn stencil_mask_separate(face: GLenum, mask: GLuint) {
+    unsafe {
+        ffi::StencilMaskSeparate(face, mask)
+    }
+}
+
+#[inline]
 pub fn stencil_func(func: GLenum,
                     ref_: GLint,
                     mask: GLuint) {
@@ -1278,11 +1285,31 @@ pub fn stencil_func(func: GLenum,
 }
 
 #[inline]
+pub fn stencil_func_separate(face: GLenum,
+                             func: GLenum,
+                             ref_: GLint,
+                             mask: GLuint) {
+    unsafe {
+        ffi::StencilFuncSeparate(face, func, ref_, mask)
+    }
+}
+
+#[inline]
 pub fn stencil_op(sfail: GLenum,
                   dpfail: GLenum,
                   dppass: GLenum) {
     unsafe {
         ffi::StencilOp(sfail, dpfail, dppass)
+    }
+}
+
+#[inline]
+pub fn stencil_op_separate(face: GLenum,
+                           sfail: GLenum,
+                           dpfail: GLenum,
+                           dppass: GLenum) {
+    unsafe {
+        ffi::StencilOpSeparate(face, sfail, dpfail, dppass)
     }
 }
 
