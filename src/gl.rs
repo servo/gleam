@@ -1112,6 +1112,24 @@ pub fn get_program_iv(program: GLuint, pname: GLenum) -> GLint {
 }
 
 #[inline]
+pub fn get_vertex_attrib_iv(index: GLuint, pname: GLenum) -> GLint {
+    unsafe {
+        let mut result: GLint = 0 as GLint;
+        ffi::GetVertexAttribiv(index, pname, &mut result);
+        return result;
+    }
+}
+
+#[inline]
+pub fn get_vertex_attrib_fv(index: GLuint, pname: GLenum) -> Vec<GLfloat> {
+    unsafe {
+        let mut result = vec![0 as GLfloat; 4];
+        ffi::GetVertexAttribfv(index, pname, result.as_mut_ptr());
+        return result;
+    }
+}
+
+#[inline]
 pub fn get_buffer_parameter_iv(target: GLuint, pname: GLenum) -> GLint {
     unsafe {
         let mut result: GLint = 0 as GLint;
