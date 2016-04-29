@@ -1020,6 +1020,26 @@ pub fn uniform_4fv(location: GLint, values: &[f32]) {
 }
 
 #[inline]
+pub fn uniform_matrix_2fv(location: GLint, transpose: bool, value: &[f32]) {
+    unsafe {
+        ffi::UniformMatrix2fv(location,
+                              (value.len() / 4) as GLsizei,
+                              transpose as GLboolean,
+                              value.as_ptr());
+    }
+}
+
+#[inline]
+pub fn uniform_matrix_3fv(location: GLint, transpose: bool, value: &[f32]) {
+    unsafe {
+        ffi::UniformMatrix3fv(location,
+                              (value.len() / 9) as GLsizei,
+                              transpose as GLboolean,
+                              value.as_ptr());
+    }
+}
+
+#[inline]
 pub fn uniform_matrix_4fv(location: GLint, transpose: bool, value: &[f32]) {
     unsafe {
         ffi::UniformMatrix4fv(location,
