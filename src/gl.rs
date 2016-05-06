@@ -846,6 +846,20 @@ pub fn hint(param_name: GLenum, param_val: GLenum) {
 }
 
 #[inline]
+pub fn is_shader(shader: GLuint) -> GLboolean {
+    unsafe {
+        ffi::IsShader(shader)
+    }
+}
+
+#[inline]
+pub fn is_texture(texture: GLenum) -> GLboolean {
+    unsafe {
+        ffi::IsTexture(texture)
+    }
+}
+
+#[inline]
 pub fn enable_vertex_attrib_array(index: GLuint) {
     unsafe {
         ffi::EnableVertexAttribArray(index);
