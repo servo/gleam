@@ -102,6 +102,13 @@ pub fn read_pixels(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: 
 }
 
 #[inline]
+pub fn sample_coverage(value: GLclampf, invert: bool) {
+    unsafe {
+        ffi::SampleCoverage(value, invert as GLboolean);
+    }
+}
+
+#[inline]
 pub fn polygon_offset(factor: GLfloat, units: GLfloat) {
     unsafe {
         ffi::PolygonOffset(factor, units);
