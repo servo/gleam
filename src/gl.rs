@@ -346,7 +346,6 @@ pub fn bind_attrib_location(program: GLuint, index: GLuint, name: &str) {
     }
 }
 
-#[cfg(not(target_os="android"))]
 #[inline]
 pub fn get_uniform_block_index(program: GLuint, name: &str) -> GLuint {
     let c_string = CString::new(name).unwrap();
@@ -355,7 +354,6 @@ pub fn get_uniform_block_index(program: GLuint, name: &str) -> GLuint {
     }
 }
 
-#[cfg(not(target_os="android"))]
 #[inline]
 pub fn bind_buffer_base(target: GLenum, index: GLuint, buffer: GLuint) {
     unsafe {
@@ -363,7 +361,6 @@ pub fn bind_buffer_base(target: GLenum, index: GLuint, buffer: GLuint) {
     }
 }
 
-#[cfg(not(target_os="android"))]
 #[inline]
 pub fn uniform_block_binding(program: GLuint, uniform_block_index: GLuint, uniform_block_binding: GLuint) {
     unsafe {
@@ -760,7 +757,6 @@ pub fn draw_elements(mode: GLenum, count: GLsizei, element_type: GLenum, indices
 }
 
 #[inline]
-#[cfg(not(target_os="android"))]
 pub fn draw_elements_instanced(mode: GLenum,
                                count: GLsizei,
                                element_type: GLenum,
