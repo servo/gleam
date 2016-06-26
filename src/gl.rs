@@ -1,4 +1,4 @@
-// Copyright 2014 The Servo Project Developers. See the COPYRIGHT
+// Copyright 2016 The Servo Project Developers. See the COPYRIGHT
 // file at the top-level directory of this distribution.
 //
 // Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
@@ -317,6 +317,18 @@ pub fn renderbuffer_storage(target: GLenum,
     }
 }
 
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn renderbuffer_storage_multisample(target: GLenum,
+                                        samples: GLsizei,
+                                        internalformat: GLenum,
+                                        width: GLsizei,
+                                        height: GLsizei) {
+    unsafe {
+        ffi::RenderbufferStorageMultisample(target, samples, internalformat, width, height)
+    }
+}
+
 #[inline]
 pub fn depth_func(func: GLenum) {
     unsafe {
@@ -453,6 +465,25 @@ pub fn compressed_tex_sub_image_2d(target: GLenum,
     unsafe {
         ffi::CompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format,
                                      data.len() as GLsizei, data.as_ptr() as *const GLvoid);
+    }
+}
+
+// FIXME: Does not verify buffer size -- unsafe!
+#[cfg(not(target_os="android"))]
+#[inline]
+pub fn tex_image_2d_multisample(target: GLenum,
+                                samples: GLsizei,
+                                internalformat: GLuint,
+                                width: GLsizei,
+                                height: GLsizei,
+                                fixedsamplelocations: bool) {
+    unsafe {
+        ffi::TexImage2DMultisample(target,
+                                   samples,
+                                   internalformat,
+                                   width,
+                                   height,
+                                   fixedsamplelocations as GLboolean)
     }
 }
 
@@ -1406,3 +1437,12 @@ pub fn generate_mipmap(target: GLenum) {
         ffi::GenerateMipmap(target)
     }
 }
+
+#[inline]
+#[cfg(not(target_os="android"))]
+pub fn sample_mask_i(mask_number: GLuint, mask: GLbitfield) {
+    unsafe {
+        ffi::SampleMaski(mask_number, mask)
+    }
+}
+
