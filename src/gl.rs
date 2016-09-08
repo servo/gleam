@@ -736,6 +736,13 @@ pub fn use_program(program: GLuint) {
 }
 
 #[inline]
+pub fn validate_program(program: GLuint) {
+    unsafe {
+        ffi::ValidateProgram(program);
+    }
+}
+
+#[inline]
 pub fn draw_arrays(mode: GLenum, first: GLint, count: GLsizei) {
     unsafe {
         return ffi::DrawArrays(mode, first, count);
