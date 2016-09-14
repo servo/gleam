@@ -856,6 +856,13 @@ pub fn hint(param_name: GLenum, param_val: GLenum) {
 }
 
 #[inline]
+pub fn is_enabled(cap: GLenum) -> GLboolean {
+    unsafe {
+        ffi::IsEnabled(cap)
+    }
+}
+
+#[inline]
 pub fn is_shader(shader: GLuint) -> GLboolean {
     unsafe {
         ffi::IsShader(shader)
