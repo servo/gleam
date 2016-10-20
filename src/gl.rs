@@ -645,7 +645,6 @@ pub fn framebuffer_texture_2d(target: GLenum,
 }
 
 #[inline]
-#[cfg(not(target_os="android"))]
 pub fn framebuffer_texture_layer(target: GLenum,
                                  attachment: GLenum,
                                  texture: GLuint,
