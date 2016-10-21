@@ -24,12 +24,12 @@ fn main() {
             .write_bindings(gl_generator::GlobalGenerator, &mut file)
             .unwrap();
 
-        if target.contains("linux") {
-            println!("cargo:rustc-link-lib=GL");
+        if target.contains("darwin") {
+            println!("cargo:rustc-link-lib=framework=OpenGL");
         } else if target.contains("windows") {
             println!("cargo:rustc-link-lib=opengl32");
         } else {
-            println!("cargo:rustc-link-lib=framework=OpenGL");
+            println!("cargo:rustc-link-lib=GL");
         }
     }
 }
