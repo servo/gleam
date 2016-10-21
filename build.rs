@@ -1,4 +1,5 @@
 extern crate gl_generator;
+extern crate pkg_config;
 
 use std::env;
 use std::fs::File;
@@ -29,7 +30,9 @@ fn main() {
         } else if target.contains("windows") {
             println!("cargo:rustc-link-lib=opengl32");
         } else {
-            println!("cargo:rustc-link-lib=GL");
+            if let Err(_) = pkg_config::probe_library("gl") {
+                println!("cargo:rustc-link-lib=GL");
+            }
         }
     }
 }
