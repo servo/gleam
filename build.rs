@@ -1,4 +1,5 @@
 extern crate gl_generator;
+extern crate pkg_config;
 
 use std::env;
 use std::fs::File;
@@ -24,12 +25,14 @@ fn main() {
             .write_bindings(gl_generator::GlobalGenerator, &mut file)
             .unwrap();
 
-        if target.contains("linux") {
-            println!("cargo:rustc-link-lib=GL");
+        if target.contains("darwin") {
+            println!("cargo:rustc-link-lib=framework=OpenGL");
         } else if target.contains("windows") {
             println!("cargo:rustc-link-lib=opengl32");
         } else {
-            println!("cargo:rustc-link-lib=framework=OpenGL");
+            if let Err(_) = pkg_config::probe_library("gl") {
+                println!("cargo:rustc-link-lib=GL");
+            }
         }
     }
 }
