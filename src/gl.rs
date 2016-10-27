@@ -457,7 +457,6 @@ pub fn compressed_tex_sub_image_2d(target: GLenum,
 }
 
 // FIXME: Does not verify buffer size -- unsafe!
-#[cfg(not(target_os="android"))]
 pub fn tex_image_3d(target: GLenum,
                     level: GLint,
                     internal_format: GLint,
@@ -527,7 +526,6 @@ pub fn copy_tex_sub_image_2d(target: GLenum,
 }
 
 #[inline]
-#[cfg(not(target_os="android"))]
 pub fn copy_tex_sub_image_3d(target: GLenum,
                              level: GLint,
                              xoffset: GLint,
@@ -564,7 +562,6 @@ pub fn tex_sub_image_2d(target: GLenum,
     }
 }
 
-#[cfg(not(target_os="android"))]
 pub fn tex_sub_image_3d(target: GLenum,
                         level: GLint,
                         xoffset: GLint,
