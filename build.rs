@@ -21,7 +21,7 @@ fn main() {
 
         println!("cargo:rustc-link-lib=GLESv3");
     } else {
-        let extensions = ["GL_EXT_debug_marker"];
+        let extensions = ["GL_ARB_texture_rectangle", "GL_EXT_debug_marker"];
         // OpenGL 3.3 bindings for Linux/Mac/Windows
         Registry::new(Api::Gl, (3, 3), Profile::Core, Fallbacks::All, extensions)
             .write_bindings(gl_generator::GlobalGenerator, &mut file)
