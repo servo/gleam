@@ -67,6 +67,16 @@ pub fn read_buffer(mode: GLenum) {
     }
 }
 
+pub fn read_pixels_into_buffer(x: GLint, y: GLint, width: GLsizei, height: GLsizei,
+                               format: GLenum, pixel_type: GLenum, dst_buffer: *mut c_void) {
+    // Assumes that the user properly allocated the size for dst_buffer.
+    unsafe {
+        // We don't want any alignment padding on pixel rows.
+        ffi::PixelStorei(ffi::PACK_ALIGNMENT, 1);
+        ffi::ReadPixels(x, y, width, height, format, pixel_type, dst_buffer);
+    }
+}
+
 pub fn read_pixels(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: GLenum, pixel_type: GLenum) -> Vec<u8> {
     let colors = match format {
         ffi::RGB => 3,
@@ -91,13 +101,9 @@ pub fn read_pixels(x: GLint, y: GLint, width: GLsizei, height: GLsizei, format: 
     let mut pixels: Vec<u8> = Vec::new();
     pixels.reserve(len as usize);
 
-    unsafe {
-        // We don't want any alignment padding on pixel rows.
-        ffi::PixelStorei(ffi::PACK_ALIGNMENT, 1);
-        ffi::ReadPixels(x, y, width, height, format, pixel_type, pixels.as_mut_ptr() as *mut c_void);
-        pixels.set_len(len as usize);
-    }
+    read_pixels_into_buffer(x, y, width, height, format, pixel_type, pixels.as_mut_ptr() as *mut c_void);
 
+    unsafe { pixels.set_len(len as usize); }
     pixels
 }
 
