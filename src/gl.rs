@@ -709,6 +709,21 @@ pub fn vertex_attrib_pointer(index: GLuint,
 }
 
 #[inline]
+pub fn vertex_attrib_i_pointer(index: GLuint,
+                               size: GLint,
+                               type_: GLenum,
+                               stride: GLsizei,
+                               offset: GLuint) {
+    unsafe {
+        ffi::VertexAttribIPointer(index,
+                                  size,
+                                  type_,
+                                  stride,
+                                  offset as *const GLvoid)
+    }
+}
+
+#[inline]
 pub fn vertex_attrib_divisor(index: GLuint, divisor: GLuint) {
     unsafe {
         ffi::VertexAttribDivisor(index, divisor)
