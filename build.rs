@@ -28,4 +28,18 @@ fn main() {
     let gl_reg = gl_reg + gles_reg;
     gl_reg.write_bindings(gl_generator::StructGenerator, &mut file_gl_and_gles)
           .unwrap();
+
+    // Specify link to GL library here. Dependent crates expects it.
+    let target = env::var("TARGET").unwrap();
+    if target.contains("android") {
+        println!("cargo:rustc-link-lib=GLESv3");
+    } else if target.contains("darwin") {
+        println!("cargo:rustc-link-lib=framework=OpenGL");
+    } else if target.contains("windows") {
+        println!("cargo:rustc-link-lib=opengl32");
+    } else {
+        if let Err(_) = pkg_config::probe_library("gl") {
+            println!("cargo:rustc-link-lib=GL");
+        }
+    }
 }
