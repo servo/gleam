@@ -13,7 +13,7 @@ pub struct GlesFns {
 
 impl GlesFns
 {
-    pub fn load_with<'a, F>(loadfn: F) -> Rc<Gl> where F: FnMut(&str) -> *const c_void {
+    pub unsafe fn load_with<'a, F>(loadfn: F) -> Rc<Gl> where F: FnMut(&str) -> *const c_void {
         let ffi_gl_ = GlesFfi::load_with(loadfn);
         Rc::new(GlesFns {
             ffi_gl_: ffi_gl_,
