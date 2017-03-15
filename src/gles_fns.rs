@@ -28,7 +28,7 @@ extern {
 
 impl Gl for GlesFns {
     fn get_type(&self) -> GlType {
-        GlType::Gl
+        GlType::Gles
     }
 
     fn buffer_data_untyped(&self, target: GLenum, size: GLsizeiptr, data: *const GLvoid, usage: GLenum) {
