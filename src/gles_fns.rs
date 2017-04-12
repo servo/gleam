@@ -1265,13 +1265,6 @@ impl Gl for GlesFns {
         }
     }
 
-    #[allow(unused_variables)]
-    #[cfg(not(target_os="android"))]
-    fn egl_image_target_texture2d_oes(&self, target: GLenum, image: GLeglImageOES) {
-        panic!("not supported")
-    }
-
-    #[cfg(target_os="android")]
     fn egl_image_target_texture2d_oes(&self, target: GLenum, image: GLeglImageOES) {
         unsafe {
             self.ffi_gl_.EGLImageTargetTexture2DOES(target, image);
