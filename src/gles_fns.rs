@@ -1131,6 +1131,21 @@ impl Gl for GlesFns {
         }
     }
 
+    fn get_shader_precision_format(&self,
+                                   shader_type: GLuint,
+                                   precision_type: GLuint)
+                                   -> (GLint, GLint, GLint) {
+        unsafe {
+            let mut range = vec![0 as GLint; 2];
+            let mut precision = 0 as GLint;
+            self.ffi_gl_.GetShaderPrecisionFormat(shader_type,
+                                                  precision_type,
+                                                  range.as_mut_ptr() as *mut GLint,
+                                                  &mut precision);
+            (range[0], range[1], precision)
+        }
+    }
+
     fn compile_shader(&self, shader: GLuint) {
         unsafe {
             self.ffi_gl_.CompileShader(shader);
