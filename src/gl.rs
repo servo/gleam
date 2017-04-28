@@ -72,6 +72,7 @@ pub trait Gl {
                                offset: isize,
                                size: GLsizeiptr,
                                data: *const GLvoid);
+    fn tex_buffer(&self, target: GLenum, internal_format: GLenum, buffer: GLuint);
     fn shader_source(&self, shader: GLuint, strings: &[&[u8]]);
     fn read_buffer(&self, mode: GLenum);
     fn read_pixels_into_buffer(&self,

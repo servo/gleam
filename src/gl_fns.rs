@@ -55,6 +55,12 @@ impl Gl for GlFns {
         drop(pointers);
     }
 
+    fn tex_buffer(&self, target: GLenum, internal_format: GLenum, buffer: GLuint) {
+        unsafe {
+            self.ffi_gl_.TexBuffer(target, internal_format, buffer);
+        }
+    }
+
     fn read_buffer(&self, mode: GLenum) {
         unsafe {
             self.ffi_gl_.ReadBuffer(mode);
