@@ -35,6 +35,10 @@ impl Gl for GlesFns {
         }
     }
 
+    fn tex_buffer(&self, _target: GLenum, _internal_format: GLenum, _buffer: GLuint) {
+        panic!("not supported")
+    }
+
     fn buffer_sub_data_untyped(&self, target: GLenum, offset: isize, size: GLsizeiptr, data: *const GLvoid) {
         unsafe {
             self.ffi_gl_.BufferSubData(target,
