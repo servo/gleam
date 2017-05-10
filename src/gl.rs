@@ -354,6 +354,7 @@ pub trait Gl {
     fn get_program_iv(&self, program: GLuint, pname: GLenum) -> GLint;
     fn get_vertex_attrib_iv(&self, index: GLuint, pname: GLenum) -> GLint;
     fn get_vertex_attrib_fv(&self, index: GLuint, pname: GLenum) -> Vec<GLfloat>;
+    fn get_vertex_attrib_pointer_v(&self, index: GLuint, pname: GLenum) -> GLsizeiptr;
     fn get_buffer_parameter_iv(&self, target: GLuint, pname: GLenum) -> GLint;
     fn get_shader_info_log(&self, shader: GLuint) -> String;
     fn get_string(&self, which: GLenum) -> String;
