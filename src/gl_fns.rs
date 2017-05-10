@@ -1123,6 +1123,14 @@ impl Gl for GlFns {
         }
     }
 
+    fn get_vertex_attrib_pointer(&self, index: GLuint, pname: GLenum) -> GLsizeiptr {
+        let mut result = 0 as *mut GLvoid;
+        unsafe {
+            self.ffi_gl_.GetVertexAttribPointerv(index, pname, &mut result)
+        }
+        result as GLsizeiptr
+    }
+
     fn get_buffer_parameter_iv(&self, target: GLuint, pname: GLenum) -> GLint {
         unsafe {
             let mut result: GLint = 0 as GLint;
