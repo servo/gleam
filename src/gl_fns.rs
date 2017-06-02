@@ -342,7 +342,6 @@ impl Gl for GlFns {
         }
     }
 
-    // FIXME: Does not verify buffer size -- unsafe!
     fn tex_image_2d(&self,
                     target: GLenum,
                     level: GLint,
@@ -353,19 +352,18 @@ impl Gl for GlFns {
                     format: GLenum,
                     ty: GLenum,
                     opt_data: Option<&[u8]>) {
-        match opt_data {
-            Some(data) => {
+        if let Some(data) = opt_data {
+            if !data.is_empty() {
                 unsafe {
                     self.ffi_gl_.TexImage2D(target, level, internal_format, width, height, border, format, ty,
                                             data.as_ptr() as *const GLvoid);
                 }
+                return;
             }
-            None => {
-                unsafe {
-                    self.ffi_gl_.TexImage2D(target, level, internal_format, width, height, border, format, ty,
-                                            ptr::null());
-                }
-            }
+        }
+        unsafe {
+            self.ffi_gl_.TexImage2D(target, level, internal_format, width, height, border, format, ty,
+                                    ptr::null());
         }
     }
 
