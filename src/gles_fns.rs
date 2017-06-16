@@ -486,6 +486,21 @@ impl Gl for GlesFns {
         }
     }
 
+    fn tex_sub_image_2d_pbo(&self,
+                            target: GLenum,
+                            level: GLint,
+                            xoffset: GLint,
+                            yoffset: GLint,
+                            width: GLsizei,
+                            height: GLsizei,
+                            format: GLenum,
+                            ty: GLenum,
+                            offset: usize) {
+        unsafe {
+            self.ffi_gl_.TexSubImage2D(target, level, xoffset, yoffset, width, height, format, ty, offset as *const c_void);
+        }
+    }
+
     fn tex_sub_image_3d(&self,
                         target: GLenum,
                         level: GLint,
