@@ -214,6 +214,16 @@ pub trait Gl {
                         format: GLenum,
                         ty: GLenum,
                         data: &[u8]);
+    fn tex_sub_image_2d_pbo(&self,
+                            target: GLenum,
+                            level: GLint,
+                            xoffset: GLint,
+                            yoffset: GLint,
+                            width: GLsizei,
+                            height: GLsizei,
+                            format: GLenum,
+                            ty: GLenum,
+                            offset: usize);
     fn tex_sub_image_3d(&self,
                         target: GLenum,
                         level: GLint,
