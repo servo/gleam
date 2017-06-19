@@ -331,19 +331,13 @@ impl Gl for GlesFns {
                     format: GLenum,
                     ty: GLenum,
                     opt_data: Option<&[u8]>) {
-        match opt_data {
-            Some(data) => {
-                unsafe {
-                    self.ffi_gl_.TexImage2D(target, level, internal_format, width, height, border, format, ty,
-                                            data.as_ptr() as *const GLvoid);
-                }
-            }
-            None => {
-                unsafe {
-                    self.ffi_gl_.TexImage2D(target, level, internal_format, width, height, border, format, ty,
-                                            ptr::null());
-                }
-            }
+        let ptr = match opt_data {
+            Some(data) if !data.is_empty() => data.as_ptr(),
+            _ => ptr::null(),
+        };
+        unsafe {
+            self.ffi_gl_.TexImage2D(target, level, internal_format, width, height, border, format, ty,
+                                    ptr as *const GLvoid);
         }
     }
 
