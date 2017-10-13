@@ -13,7 +13,11 @@ fn main() {
     let mut file_gles = File::create(&Path::new(&dest).join("gles_bindings.rs")).unwrap();
 
     // OpenGL 3.3 bindings
-    let gl_extensions = ["GL_ARB_texture_rectangle", "GL_EXT_debug_marker"];
+    let gl_extensions = ["GL_ARB_texture_rectangle",
+                         "GL_EXT_debug_marker",
+                         "GL_APPLE_client_storage",
+                         "GL_APPLE_texture_range",
+                         "GL_APPLE_fence"];
     let gl_reg = Registry::new(Api::Gl, (3, 3), Profile::Core, Fallbacks::All, gl_extensions);
     gl_reg.write_bindings(gl_generator::StructGenerator, &mut file_gl)
           .unwrap();
