@@ -1205,6 +1205,17 @@ impl Gl for GlFns {
         }
     }
 
+    fn get_string_i(&self, which: GLenum, index: GLuint) -> String {
+        unsafe {
+            let llstr = self.ffi_gl_.GetStringi(which, index);
+            if !llstr.is_null() {
+                str::from_utf8_unchecked(CStr::from_ptr(llstr as *const c_char).to_bytes()).to_string()
+            } else {
+                "".to_string()
+            }
+        }
+    }
+
     fn get_shader_iv(&self, shader: GLuint, pname: GLenum) -> GLint {
         unsafe {
             let mut result: GLint = 0 as GLint;

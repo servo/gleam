@@ -380,6 +380,7 @@ pub trait Gl {
     fn get_buffer_parameter_iv(&self, target: GLuint, pname: GLenum) -> GLint;
     fn get_shader_info_log(&self, shader: GLuint) -> String;
     fn get_string(&self, which: GLenum) -> String;
+    fn get_string_i(&self, which: GLenum, index: GLuint) -> String;
     fn get_shader_iv(&self, shader: GLuint, pname: GLenum) -> GLint;
     fn get_shader_precision_format(&self,
                                    shader_type: GLuint,
