@@ -30,11 +30,11 @@ pub enum GlType {
 }
 
 impl Default for GlType {
-    #[cfg(target_os="android")]
+    #[cfg(any(target_os="android", target_os="ios"))]
     fn default() -> GlType {
         GlType::Gles
     }
-    #[cfg(not(target_os="android"))]
+    #[cfg(not(any(target_os="android", target_os="ios")))]
     fn default() -> GlType {
         GlType::Gl
     }
