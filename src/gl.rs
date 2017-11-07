@@ -376,6 +376,9 @@ pub trait Gl {
     fn get_uniform_location(&self, program: GLuint, name: &str) -> c_int;
     fn get_program_info_log(&self, program: GLuint) -> String;
     fn get_program_iv(&self, program: GLuint, pname: GLenum) -> GLint;
+    fn get_program_binary(&self, program: GLuint, format: &mut GLenum) -> Vec<u8>;
+    fn program_binary(&self, program: GLuint, format: GLenum, binary: &[u8]);
+    fn program_parameter_i(&self, program: GLuint, pname: GLenum, value: GLint);
     fn get_vertex_attrib_iv(&self, index: GLuint, pname: GLenum) -> GLint;
     fn get_vertex_attrib_fv(&self, index: GLuint, pname: GLenum) -> Vec<GLfloat>;
     fn get_vertex_attrib_pointer_v(&self, index: GLuint, pname: GLenum) -> GLsizeiptr;
