@@ -17,7 +17,8 @@ fn main() {
                          "GL_EXT_debug_marker",
                          "GL_APPLE_client_storage",
                          "GL_APPLE_texture_range",
-                         "GL_APPLE_fence"];
+                         "GL_APPLE_fence",
+                         "GL_ARB_get_program_binary"];
     let gl_reg = Registry::new(Api::Gl, (3, 3), Profile::Core, Fallbacks::All, gl_extensions);
     gl_reg.write_bindings(gl_generator::StructGenerator, &mut file_gl)
           .unwrap();
