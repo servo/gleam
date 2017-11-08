@@ -374,6 +374,10 @@ pub trait Gl {
     fn depth_range(&self, near: f64, far: f64);
     fn get_active_attrib(&self, program: GLuint, index: GLuint) -> (i32, u32, String);
     fn get_active_uniform(&self, program: GLuint, index: GLuint) -> (i32, u32, String);
+    fn get_active_uniforms_iv(&self, program: GLuint, indices: Vec<GLuint>, pname: GLenum) -> Vec<GLint>;
+    fn get_active_uniform_block_i(&self, program: GLuint, index: GLuint, pname: GLenum) -> GLint;
+    fn get_active_uniform_block_iv(&self, program: GLuint, index: GLuint, pname: GLenum) -> Vec<GLint>;
+    fn get_active_uniform_block_name(&self, program: GLuint, index: GLuint) -> String;
     fn get_attrib_location(&self, program: GLuint, name: &str) -> c_int;
     fn get_frag_data_location(&self, program: GLuint, name: &str) -> c_int;
     fn get_uniform_location(&self, program: GLuint, name: &str) -> c_int;
