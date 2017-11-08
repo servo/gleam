@@ -1105,6 +1105,51 @@ impl Gl for GlesFns {
         (size, type_, String::from_utf8(name).unwrap())
     }
 
+    fn get_active_uniforms_iv(&self, program: GLuint, indices: Vec<GLuint>, pname: GLenum) -> Vec<GLint> {
+        let mut result = Vec::with_capacity(indices.len());
+        unsafe {
+            self.ffi_gl_.GetActiveUniformsiv(program,
+                                             indices.len() as GLsizei,
+                                             indices.as_ptr(),
+                                             pname,
+                                             result.as_mut_ptr());
+        }
+        result
+    }
+
+    fn get_active_uniform_block_i(&self, program: GLuint, index: GLuint, pname: GLenum) -> GLint {
+        let mut result = 0;
+        unsafe {
+            self.ffi_gl_.GetActiveUniformBlockiv(program, index, pname, &mut result);
+        }
+        result
+    }
+
+    fn get_active_uniform_block_iv(&self, program: GLuint, index: GLuint, pname: GLenum) -> Vec<GLint> {
+        let count = self.get_active_uniform_block_i(program, index, ffi::UNIFORM_BLOCK_ACTIVE_UNIFORMS);
+        let mut result = Vec::with_capacity(count as usize);
+        unsafe {
+            self.ffi_gl_.GetActiveUniformBlockiv(program, index, pname, result.as_mut_ptr());
+        }
+        result
+    }
+
+    fn get_active_uniform_block_name(&self, program: GLuint, index: GLuint) -> String {
+        let buf_size = self.get_active_uniform_block_i(program, index, ffi::UNIFORM_BLOCK_NAME_LENGTH);
+        let mut name = vec![0 as u8; buf_size as usize];
+        let mut length: GLsizei = 0;
+        unsafe {
+            self.ffi_gl_.GetActiveUniformBlockName(program,
+                                                   index,
+                                                   buf_size,
+                                                   &mut length,
+                                                   name.as_mut_ptr() as *mut GLchar);
+        }
+        name.truncate(if length > 0 { length as usize } else { 0 });
+
+        String::from_utf8(name).unwrap()
+    }
+
     fn get_attrib_location(&self, program: GLuint, name: &str) -> c_int {
         let name = CString::new(name).unwrap();
         unsafe {
