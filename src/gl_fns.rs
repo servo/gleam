@@ -578,9 +578,33 @@ impl Gl for GlFns {
     }
 
     fn get_integer_v(&self, name: GLenum) -> GLint {
-        let mut result: GLint = 0 as GLint;
+        let mut result = 0;
         unsafe {
             self.ffi_gl_.GetIntegerv(name, &mut result);
+        }
+        result
+    }
+
+    fn get_integer_64v(&self, name: GLenum) -> GLint64 {
+        let mut result = 0;
+        unsafe {
+            self.ffi_gl_.GetInteger64v(name, &mut result);
+        }
+        result
+    }
+
+    fn get_integer_iv(&self, name: GLenum, index: GLuint) -> GLint {
+        let mut result = 0;
+        unsafe {
+            self.ffi_gl_.GetIntegeri_v(name, index, &mut result);
+        }
+        result
+    }
+
+    fn get_integer_64iv(&self, name: GLenum, index: GLuint) -> GLint64 {
+        let mut result = 0;
+        unsafe {
+            self.ffi_gl_.GetInteger64i_v(name, index, &mut result);
         }
         result
     }

@@ -251,6 +251,9 @@ pub trait Gl {
                             ty: GLenum,
                             offset: usize);
     fn get_integer_v(&self, name: GLenum) -> GLint;
+    fn get_integer_64v(&self, name: GLenum) -> GLint64;
+    fn get_integer_iv(&self, name: GLenum, index: GLuint) -> GLint;
+    fn get_integer_64iv(&self, name: GLenum, index: GLuint) -> GLint64;
     fn get_boolean_v(&self, name: GLenum) -> GLboolean;
     fn get_float_v(&self, name: GLenum) -> GLfloat;
     fn tex_parameter_i(&self, target: GLenum, pname: GLenum, param: GLint);
