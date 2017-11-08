@@ -1121,6 +1121,44 @@ impl Gl for GlesFns {
         }
     }
 
+    fn get_program_binary(&self, program: GLuint) -> (Vec<u8>, GLenum) {
+        let len = self.get_program_iv(program, ffi::PROGRAM_BINARY_LENGTH);
+        if len <= 0 {
+            return (Vec::new(), NONE);
+        }
+        let mut binary: Vec<u8> = Vec::with_capacity(len as usize);
+        let mut format = NONE;
+        let mut out_len = 0;
+        unsafe {
+            binary.set_len(len as usize);
+            self.ffi_gl_.GetProgramBinary(program,
+                                          len,
+                                          &mut out_len as *mut GLsizei,
+                                          &mut format,
+                                          binary.as_mut_ptr() as *mut c_void);
+        }
+        if len != out_len {
+            return (Vec::new(), NONE);
+        }
+
+        (binary, format)
+    }
+
+    fn program_binary(&self, program: GLuint, format: GLenum, binary: &[u8]) {
+        unsafe {
+            self.ffi_gl_.ProgramBinary(program,
+                                       format,
+                                       binary.as_ptr() as *const c_void,
+                                       binary.len() as GLsizei);
+        }
+    }
+
+    fn program_parameter_i(&self, program: GLuint, pname: GLenum, value: GLint) {
+        unsafe {
+            self.ffi_gl_.ProgramParameteri(program, pname, value);
+        }
+    }
+
     fn get_vertex_attrib_iv(&self, index: GLuint, pname: GLenum) -> GLint {
         unsafe {
             let mut result: GLint = 0 as GLint;
