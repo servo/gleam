@@ -300,6 +300,20 @@ impl Gl for GlFns {
         }
     }
 
+    fn get_uniform_indices(&self,  program: GLuint, names: &[&str]) -> Vec<GLuint> {
+        let c_strings: Vec<CString> = names.iter().map(|n| CString::new(*n).unwrap()).collect();
+        let pointers: Vec<*const GLchar> = c_strings.iter().map(|string| string.as_ptr()).collect();
+        let mut result = Vec::with_capacity(c_strings.len());
+        unsafe {
+            result.set_len(c_strings.len());
+            self.ffi_gl_.GetUniformIndices(program,
+                                           pointers.len() as GLsizei,
+                                           pointers.as_ptr(),
+                                           result.as_mut_ptr());
+        }
+        result
+    }
+
     fn bind_buffer_base(&self, target: GLenum, index: GLuint, buffer: GLuint) {
         unsafe {
             self.ffi_gl_.BindBufferBase(target, index, buffer);
