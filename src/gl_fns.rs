@@ -320,6 +320,12 @@ impl Gl for GlFns {
         }
     }
 
+    fn bind_buffer_range(&self, target: GLenum, index: GLuint, buffer: GLuint, offset: GLintptr, size: GLsizeiptr) {
+        unsafe {
+            self.ffi_gl_.BindBufferRange(target, index, buffer, offset, size);
+        }
+    }
+
     fn uniform_block_binding(&self, program: GLuint, uniform_block_index: GLuint, uniform_block_binding: GLuint) {
         unsafe {
             self.ffi_gl_.UniformBlockBinding(program, uniform_block_index, uniform_block_binding);

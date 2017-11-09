@@ -132,6 +132,7 @@ pub trait Gl {
     fn get_uniform_block_index(&self, program: GLuint, name: &str) -> GLuint;
     fn get_uniform_indices(&self,  program: GLuint, names: &[&str]) -> Vec<GLuint>;
     fn bind_buffer_base(&self, target: GLenum, index: GLuint, buffer: GLuint);
+    fn bind_buffer_range(&self, target: GLenum, index: GLuint, buffer: GLuint, offset: GLintptr, size: GLsizeiptr);
     fn uniform_block_binding(&self,
                              program: GLuint,
                              uniform_block_index: GLuint,
