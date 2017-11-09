@@ -23,7 +23,7 @@ fn main() {
     gl_reg.write_bindings(gl_generator::StructGenerator, &mut file_gl)
           .unwrap();
 
-    // GLES 2.0 bindings
+    // GLES 3.0 bindings
     let gles_extensions = [
         "GL_EXT_texture_format_BGRA8888",
         "GL_OES_EGL_image",
@@ -33,7 +33,7 @@ fn main() {
     gles_reg.write_bindings(gl_generator::StructGenerator, &mut file_gles)
             .unwrap();
 
-    // OpenGL 3.3 + GLES 2.0 bindings. Used to get all enums
+    // OpenGL 3.3 + GLES 3.0 bindings. Used to get all enums
     let gl_reg = gl_reg + gles_reg;
     gl_reg.write_bindings(gl_generator::StructGenerator, &mut file_gl_and_gles)
           .unwrap();
