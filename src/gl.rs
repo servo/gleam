@@ -130,7 +130,9 @@ pub trait Gl {
     fn attach_shader(&self, program: GLuint, shader: GLuint);
     fn bind_attrib_location(&self, program: GLuint, index: GLuint, name: &str);
     fn get_uniform_block_index(&self, program: GLuint, name: &str) -> GLuint;
+    fn get_uniform_indices(&self,  program: GLuint, names: &[&str]) -> Vec<GLuint>;
     fn bind_buffer_base(&self, target: GLenum, index: GLuint, buffer: GLuint);
+    fn bind_buffer_range(&self, target: GLenum, index: GLuint, buffer: GLuint, offset: GLintptr, size: GLsizeiptr);
     fn uniform_block_binding(&self,
                              program: GLuint,
                              uniform_block_index: GLuint,
@@ -251,6 +253,9 @@ pub trait Gl {
                             ty: GLenum,
                             offset: usize);
     fn get_integer_v(&self, name: GLenum) -> GLint;
+    fn get_integer_64v(&self, name: GLenum) -> GLint64;
+    fn get_integer_iv(&self, name: GLenum, index: GLuint) -> GLint;
+    fn get_integer_64iv(&self, name: GLenum, index: GLuint) -> GLint64;
     fn get_boolean_v(&self, name: GLenum) -> GLboolean;
     fn get_float_v(&self, name: GLenum) -> GLfloat;
     fn tex_parameter_i(&self, target: GLenum, pname: GLenum, param: GLint);
@@ -371,6 +376,10 @@ pub trait Gl {
     fn depth_range(&self, near: f64, far: f64);
     fn get_active_attrib(&self, program: GLuint, index: GLuint) -> (i32, u32, String);
     fn get_active_uniform(&self, program: GLuint, index: GLuint) -> (i32, u32, String);
+    fn get_active_uniforms_iv(&self, program: GLuint, indices: Vec<GLuint>, pname: GLenum) -> Vec<GLint>;
+    fn get_active_uniform_block_i(&self, program: GLuint, index: GLuint, pname: GLenum) -> GLint;
+    fn get_active_uniform_block_iv(&self, program: GLuint, index: GLuint, pname: GLenum) -> Vec<GLint>;
+    fn get_active_uniform_block_name(&self, program: GLuint, index: GLuint) -> String;
     fn get_attrib_location(&self, program: GLuint, name: &str) -> c_int;
     fn get_frag_data_location(&self, program: GLuint, name: &str) -> c_int;
     fn get_uniform_location(&self, program: GLuint, name: &str) -> c_int;
