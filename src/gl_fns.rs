@@ -1571,9 +1571,47 @@ impl Gl for GlFns {
         }
     }
 
+    fn texture_range_apple(&self, target: GLenum, data: &[u8]) {
+        unsafe {
+            self.ffi_gl_.TextureRangeAPPLE(target, data.len() as GLsizei, data.as_ptr() as *const c_void);
+        }
+    }
+
     fn delete_sync(&self, sync: GLsync) {
         unsafe {
             self.ffi_gl_.DeleteSync(sync as *const _);
+        }
+    }
+
+    fn gen_fences_apple(&self, n: GLsizei) -> Vec<GLuint> {
+        unsafe {
+            let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
+            self.ffi_gl_.GenFencesAPPLE(n, result.as_mut_ptr());
+            result
+        }
+    }
+
+    fn delete_fences_apple(&self, fences: &[GLuint]) {
+        unsafe {
+            self.ffi_gl_.DeleteFencesAPPLE(fences.len() as GLsizei, fences.as_ptr());
+        }
+    }
+
+    fn set_fence_apple(&self, fence: GLuint) {
+        unsafe {
+            self.ffi_gl_.SetFenceAPPLE(fence);
+        }
+    }
+
+    fn finish_fence_apple(&self, fence: GLuint) {
+        unsafe {
+            self.ffi_gl_.FinishFenceAPPLE(fence);
+        }
+    }
+
+    fn test_fence_apple(&self, fence: GLuint) {
+        unsafe {
+            self.ffi_gl_.TestFenceAPPLE(fence);
         }
     }
 }

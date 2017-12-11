@@ -429,6 +429,12 @@ pub trait Gl {
     fn client_wait_sync(&self, sync: GLsync, flags: GLbitfield, timeout: GLuint64);
     fn wait_sync(&self, sync: GLsync, flags: GLbitfield, timeout: GLuint64);
     fn delete_sync(&self, sync: GLsync);
+    fn texture_range_apple(&self, target: GLenum, data: &[u8]);
+    fn gen_fences_apple(&self, n: GLsizei) -> Vec<GLuint>;
+    fn delete_fences_apple(&self, fences: &[GLuint]);
+    fn set_fence_apple(&self, fence: GLuint);
+    fn finish_fence_apple(&self, fence: GLuint);
+    fn test_fence_apple(&self, fence: GLuint);
 }
 
 #[inline]
