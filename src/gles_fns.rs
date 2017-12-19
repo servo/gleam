@@ -1603,5 +1603,24 @@ impl Gl for GlesFns {
     fn test_fence_apple(&self, _fence: GLuint) {
         panic!("not supported")
     }
+
+    // GL_ARB_blend_func_extended
+    fn bind_frag_data_location_indexed(
+        &self,
+        _program: GLuint,
+        _color_number: GLuint,
+        _index: GLuint,
+        _name: &str,
+    ) {
+        panic!("not supported");
+    }
+
+    fn get_frag_data_index(
+        &self,
+        _program: GLuint,
+        _name: &str,
+    ) -> GLint {
+        panic!("not supported");
+    }
 }
 

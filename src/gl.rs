@@ -435,6 +435,20 @@ pub trait Gl {
     fn set_fence_apple(&self, fence: GLuint);
     fn finish_fence_apple(&self, fence: GLuint);
     fn test_fence_apple(&self, fence: GLuint);
+
+    // GL_ARB_blend_func_extended
+    fn bind_frag_data_location_indexed(
+        &self,
+        program: GLuint,
+        color_number: GLuint,
+        index: GLuint,
+        name: &str,
+    );
+    fn get_frag_data_index(
+        &self,
+        program: GLuint,
+        name: &str,
+    ) -> GLint;
 }
 
 #[inline]

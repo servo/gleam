@@ -1614,5 +1614,48 @@ impl Gl for GlFns {
             self.ffi_gl_.TestFenceAPPLE(fence);
         }
     }
+
+    // GL_ARB_blend_func_extended
+    fn bind_frag_data_location_indexed(
+        &self,
+        program: GLuint,
+        color_number: GLuint,
+        index: GLuint,
+        name: &str,
+    ) {
+        if !self.ffi_gl_.BindFragDataLocationIndexed.is_loaded() {
+            return;
+        }
+
+        let c_string = CString::new(name).unwrap();
+
+        unsafe {
+            self.ffi_gl_.BindFragDataLocationIndexed(
+                program,
+                color_number,
+                index,
+                c_string.as_ptr(),
+            )
+        }
+    }
+
+    fn get_frag_data_index(
+        &self,
+        program: GLuint,
+        name: &str,
+    ) -> GLint {
+        if !self.ffi_gl_.GetFragDataIndex.is_loaded() {
+            return -1;
+        }
+
+        let c_string = CString::new(name).unwrap();
+
+        unsafe {
+            self.ffi_gl_.GetFragDataIndex(
+                program,
+                c_string.as_ptr(),
+            )
+        }
+    }
 }
 
