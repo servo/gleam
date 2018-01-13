@@ -42,6 +42,7 @@ impl Default for GlType {
 
 fn calculate_length(width: GLsizei, height: GLsizei, format: GLenum, pixel_type: GLenum) -> usize {
     let colors = match format {
+        ffi::RED => 1,
         ffi::RGB => 3,
         ffi::BGR => 3,
 
@@ -51,12 +52,12 @@ fn calculate_length(width: GLsizei, height: GLsizei, format: GLenum, pixel_type:
         ffi::ALPHA => 1,
         ffi::LUMINANCE => 1,
         ffi::DEPTH_COMPONENT => 1,
-        _ => panic!("unsupported format for read_pixels"),
+        _ => panic!("unsupported format for read_pixels: {:?}", format),
     };
     let depth = match pixel_type {
         ffi::UNSIGNED_BYTE => 1,
         ffi::FLOAT=> 4,
-        _ => panic!("unsupported pixel_type for read_pixels"),
+        _ => panic!("unsupported pixel_type for read_pixels: {:?}", pixel_type),
     };
 
     return (width * height * colors * depth) as usize;
