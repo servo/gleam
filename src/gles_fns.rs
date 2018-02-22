@@ -680,6 +680,22 @@ impl Gl for GlesFns {
         result
     }
 
+    fn get_tex_parameter_iv(&self, target: GLenum, pname: GLenum) -> GLint {
+        let mut result: GLint = 0;
+        unsafe {
+            self.ffi_gl_.GetTexParameteriv(target, pname, &mut result);
+        }
+        result
+    }
+
+    fn get_tex_parameter_fv(&self, target: GLenum, pname: GLenum) -> GLfloat {
+        let mut result: GLfloat = 0.0;
+        unsafe {
+            self.ffi_gl_.GetTexParameterfv(target, pname, &mut result);
+        }
+        result
+    }
+
     fn tex_parameter_i(&self, target: GLenum, pname: GLenum, param: GLint) {
         unsafe {
             self.ffi_gl_.TexParameteri(target, pname, param);
