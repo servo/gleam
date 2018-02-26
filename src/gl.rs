@@ -265,6 +265,8 @@ pub trait Gl {
     fn get_integer_64iv(&self, name: GLenum, index: GLuint) -> GLint64;
     fn get_boolean_v(&self, name: GLenum) -> GLboolean;
     fn get_float_v(&self, name: GLenum) -> GLfloat;
+    fn get_tex_parameter_iv(&self, target: GLenum, name: GLenum) -> GLint;
+    fn get_tex_parameter_fv(&self, target: GLenum, name: GLenum) -> GLfloat;
     fn tex_parameter_i(&self, target: GLenum, pname: GLenum, param: GLint);
     fn tex_parameter_f(&self, target: GLenum, pname: GLenum, param: GLfloat);
     fn framebuffer_texture_2d(&self,
