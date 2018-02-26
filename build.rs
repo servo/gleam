@@ -1,5 +1,4 @@
 extern crate gl_generator;
-extern crate pkg_config;
 
 use std::env;
 use std::fs::File;
