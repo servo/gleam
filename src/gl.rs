@@ -63,6 +63,30 @@ fn calculate_length(width: GLsizei, height: GLsizei, format: GLenum, pixel_type:
     return (width * height * colors * depth) as usize;
 }
 
+// https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14.10
+fn get_uniform_vector_length(location: &GLint) -> usize {
+    match *location as u32 {
+        ffi::BOOL |
+        ffi::INT |
+        ffi::FLOAT |
+        ffi::SAMPLER_2D |
+        ffi::SAMPLER_CUBE => 1,
+        ffi::INT_VEC2 |
+        ffi::BOOL_VEC2 |
+        ffi::FLOAT_VEC2 => 2,
+        ffi::INT_VEC3 |
+        ffi::BOOL_VEC3 |
+        ffi::FLOAT_VEC3 => 3,
+        ffi::INT_VEC4 |
+        ffi::BOOL_VEC4 |
+        ffi::FLOAT_VEC4 |
+        ffi::FLOAT_MAT2 => 4,
+        ffi::FLOAT_MAT3 => 9,
+        ffi::FLOAT_MAT4 => 16,
+        _ => panic!("This shouldn't happen"),
+    }
+}
+
 pub trait Gl {
     fn get_type(&self) -> GlType;
     fn buffer_data_untyped(&self,
