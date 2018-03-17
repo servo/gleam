@@ -109,43 +109,43 @@ impl Gl for GlFns {
     }
 
     fn gen_buffers(&self, n: GLsizei) -> Vec<GLuint> {
+        let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
         unsafe {
-            let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
             self.ffi_gl_.GenBuffers(n, result.as_mut_ptr());
-            return result;
         }
+        result
     }
 
     fn gen_renderbuffers(&self, n: GLsizei) -> Vec<GLuint> {
+        let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
         unsafe {
-            let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
             self.ffi_gl_.GenRenderbuffers(n, result.as_mut_ptr());
-            return result;
         }
+        result
     }
 
     fn gen_framebuffers(&self, n: GLsizei) -> Vec<GLuint> {
+        let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
         unsafe {
-            let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
             self.ffi_gl_.GenFramebuffers(n, result.as_mut_ptr());
-            return result;
         }
+        result
     }
 
     fn gen_textures(&self, n: GLsizei) -> Vec<GLuint> {
+        let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
         unsafe {
-            let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
             self.ffi_gl_.GenTextures(n, result.as_mut_ptr());
-            return result;
         }
+        result
     }
 
     fn gen_vertex_arrays(&self, n: GLsizei) -> Vec<GLuint> {
+        let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
         unsafe {
-            let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
             self.ffi_gl_.GenVertexArrays(n, result.as_mut_ptr());
-            return result;
         }
+        result
     }
 
     fn gen_queries(&self, n: GLsizei) -> Vec<GLuint> {
@@ -1259,24 +1259,24 @@ impl Gl for GlFns {
     }
 
     fn get_program_info_log(&self, program: GLuint) -> String {
+        let mut result = vec![0u8; 1024];
+        let mut result_len: GLsizei = 0 as GLsizei;
         unsafe {
-            let mut result = vec![0u8; 1024];
-            let mut result_len: GLsizei = 0 as GLsizei;
             self.ffi_gl_.GetProgramInfoLog(program,
                                            1024 as GLsizei,
                                            &mut result_len,
                                            result.as_mut_ptr() as *mut GLchar);
-            result.truncate(if result_len > 0 {result_len as usize} else {0});
-            String::from_utf8(result).unwrap()
         }
+        result.truncate(if result_len > 0 {result_len as usize} else {0});
+        String::from_utf8(result).unwrap()
     }
 
     fn get_program_iv(&self, program: GLuint, pname: GLenum) -> GLint {
+        let mut result: GLint = 0 as GLint;
         unsafe {
-            let mut result: GLint = 0 as GLint;
             self.ffi_gl_.GetProgramiv(program, pname, &mut result);
-            return result;
         }
+        result
     }
 
     fn get_program_binary(&self, program: GLuint) -> (Vec<u8>, GLenum) {
@@ -1327,19 +1327,19 @@ impl Gl for GlFns {
     }
 
     fn get_vertex_attrib_iv(&self, index: GLuint, pname: GLenum) -> GLint {
+        let mut result: GLint = 0 as GLint;
         unsafe {
-            let mut result: GLint = 0 as GLint;
             self.ffi_gl_.GetVertexAttribiv(index, pname, &mut result);
-            return result;
         }
+        result
     }
 
     fn get_vertex_attrib_fv(&self, index: GLuint, pname: GLenum) -> Vec<GLfloat> {
+        let mut result = vec![0 as GLfloat; 4];
         unsafe {
-            let mut result = vec![0 as GLfloat; 4];
             self.ffi_gl_.GetVertexAttribfv(index, pname, result.as_mut_ptr());
-            return result;
         }
+        result
     }
 
     fn get_vertex_attrib_pointer_v(&self, index: GLuint, pname: GLenum) -> GLsizeiptr {
@@ -1351,24 +1351,24 @@ impl Gl for GlFns {
     }
 
     fn get_buffer_parameter_iv(&self, target: GLuint, pname: GLenum) -> GLint {
+        let mut result: GLint = 0 as GLint;
         unsafe {
-            let mut result: GLint = 0 as GLint;
             self.ffi_gl_.GetBufferParameteriv(target, pname, &mut result);
-            return result;
         }
+        result
     }
 
     fn get_shader_info_log(&self, shader: GLuint) -> String {
+        let mut result = vec![0u8; 1024];
+        let mut result_len: GLsizei = 0 as GLsizei;
         unsafe {
-            let mut result = vec![0u8; 1024];
-            let mut result_len: GLsizei = 0 as GLsizei;
             self.ffi_gl_.GetShaderInfoLog(shader,
                                           1024 as GLsizei,
                                           &mut result_len,
                                           result.as_mut_ptr() as *mut GLchar);
-            result.truncate(if result_len > 0 {result_len as usize} else {0});
-            String::from_utf8(result).unwrap()
         }
+        result.truncate(if result_len > 0 {result_len as usize} else {0});
+        String::from_utf8(result).unwrap()
     }
 
     fn get_string(&self, which: GLenum) -> String {
@@ -1394,11 +1394,11 @@ impl Gl for GlFns {
     }
 
     fn get_shader_iv(&self, shader: GLuint, pname: GLenum) -> GLint {
+        let mut result: GLint = 0 as GLint;
         unsafe {
-            let mut result: GLint = 0 as GLint;
             self.ffi_gl_.GetShaderiv(shader, pname, &mut result);
-            return result;
         }
+        result
     }
 
     fn get_shader_precision_format(&self, _shader_type: GLuint, precision_type: GLuint) -> (GLint, GLint, GLint) {
@@ -1623,11 +1623,11 @@ impl Gl for GlFns {
     }
 
     fn gen_fences_apple(&self, n: GLsizei) -> Vec<GLuint> {
+        let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
         unsafe {
-            let mut result: Vec<_> = repeat(0 as GLuint).take(n as usize).collect();
             self.ffi_gl_.GenFencesAPPLE(n, result.as_mut_ptr());
-            result
         }
+        result
     }
 
     fn delete_fences_apple(&self, fences: &[GLuint]) {
