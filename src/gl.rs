@@ -130,6 +130,8 @@ pub trait Gl {
     fn active_texture(&self, texture: GLenum);
     fn attach_shader(&self, program: GLuint, shader: GLuint);
     fn bind_attrib_location(&self, program: GLuint, index: GLuint, name: &str);
+    fn get_uniform_iv(&self, program: GLuint, location: GLint) -> Vec<GLint>;
+    fn get_uniform_fv(&self, program: GLuint, location: GLint) -> Vec<GLfloat>;
     fn get_uniform_block_index(&self, program: GLuint, name: &str) -> GLuint;
     fn get_uniform_indices(&self,  program: GLuint, names: &[&str]) -> Vec<GLuint>;
     fn bind_buffer_base(&self, target: GLenum, index: GLuint, buffer: GLuint);

@@ -293,6 +293,24 @@ impl Gl for GlFns {
         }
     }
 
+    // https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glGetUniform.xml
+    fn get_uniform_iv(&self, program: GLuint, location: GLint) -> Vec<GLint> {
+        let mut result: Vec<GLint> = Vec::new();
+        unsafe {
+            self.ffi_gl_.GetUniformiv(program, location, result.as_mut_ptr());
+        }
+        result
+    }
+
+    // https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glGetUniform.xml
+    fn get_uniform_fv(&self, program: GLuint, location: GLint) -> Vec<GLfloat> {
+        let mut result: Vec<GLfloat> = Vec::new();
+        unsafe {
+            self.ffi_gl_.GetUniformfv(program, location, result.as_mut_ptr());
+        }
+        result
+    }
+
     fn get_uniform_block_index(&self, program: GLuint, name: &str) -> GLuint {
         let c_string = CString::new(name).unwrap();
         unsafe {
