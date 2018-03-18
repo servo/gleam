@@ -143,7 +143,7 @@ pub trait Gl {
     fn bind_renderbuffer(&self, target: GLenum, renderbuffer: GLuint);
     fn bind_framebuffer(&self, target: GLenum, framebuffer: GLuint);
     fn bind_texture(&self, target: GLenum, texture: GLuint);
-    fn draw_buffers(&self, n: GLsizei, bufs: &[GLenum]);
+    fn draw_buffers(&self, bufs: &[GLenum]);
     fn tex_image_2d(&self,
                     target: GLenum,
                     level: GLint,

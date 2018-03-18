@@ -362,9 +362,9 @@ impl Gl for GlFns {
         }
     }
 
-    fn draw_buffers(&self, n: GLsizei, bufs: &[GLenum]) {
+    fn draw_buffers(&self, bufs: &[GLenum]) {
         unsafe {
-            self.ffi_gl_.DrawBuffers(n, bufs.as_ptr() as *const GLenum);
+            self.ffi_gl_.DrawBuffers(bufs.len() as GLsizei, bufs.as_ptr() as *const GLenum);
         }
     }
 
