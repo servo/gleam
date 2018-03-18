@@ -386,6 +386,12 @@ impl Gl for GlesFns {
         }
     }
 
+    fn draw_buffers(&self, n: GLsizei, bufs: &[GLenum]) {
+        unsafe {
+            self.ffi_gl_.DrawBuffers(n, bufs.as_ptr() as *const GLenum);
+        }
+    }
+
     // FIXME: Does not verify buffer size -- unsafe!
     fn tex_image_2d(&self,
                     target: GLenum,
