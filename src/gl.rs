@@ -13,7 +13,6 @@ use std::os::raw::{c_char, c_int, c_void};
 use std::ptr;
 use std::rc::Rc;
 use std::str;
-use std::iter::repeat;
 use std::ffi::{CString, CStr};
 use ffi;
 
