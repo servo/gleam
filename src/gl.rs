@@ -351,6 +351,7 @@ pub trait Gl {
                                offset: GLuint);
     fn vertex_attrib_divisor(&self, index: GLuint, divisor: GLuint);
     fn viewport(&self, x: GLint, y: GLint, width: GLsizei, height: GLsizei);
+    fn get_viewport(&self) -> (GLint, GLint, GLsizei, GLsizei);
     fn scissor(&self, x: GLint, y: GLint, width: GLsizei, height: GLsizei);
     fn line_width(&self, width: GLfloat);
     fn use_program(&self, program: GLuint);
