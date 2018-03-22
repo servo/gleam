@@ -860,6 +860,14 @@ impl Gl for GlesFns {
         }
     }
 
+    fn get_viewport(&self) -> (GLint, GLint, GLsizei, GLsizei) {
+        unsafe {
+            let mut ret = [0; 4];
+            self.ffi_gl_.GetIntegerv(ffi::VIEWPORT, ret.as_mut_ptr());
+            (ret[0], ret[1], ret[2], ret[3])
+        }
+    }
+
     fn scissor(&self, x: GLint, y: GLint, width: GLsizei, height: GLsizei) {
         unsafe {
             self.ffi_gl_.Scissor(x, y, width, height);
