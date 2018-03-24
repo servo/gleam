@@ -1691,5 +1691,13 @@ impl Gl for GlesFns {
     ) -> GLint {
         panic!("not supported");
     }
+
+    fn alias_point_size_range(&self) -> (GLfloat, GLfloat) {
+        unsafe {
+            let mut ret = [0.; 2];
+            self.ffi_gl_.GetFloatv(ffi::ALIASED_LINE_WIDTH_RANGE, ret.as_mut_ptr());
+            (ret[0], ret[1])
+        }
+    }
 }
 
