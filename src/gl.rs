@@ -496,6 +496,8 @@ pub trait Gl {
         program: GLuint,
         name: &str,
     ) -> GLint;
+
+    fn alias_point_size_range(&self) -> (GLfloat, GLfloat);
 }
 
 #[inline]
