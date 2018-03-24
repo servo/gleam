@@ -498,6 +498,7 @@ pub trait Gl {
     ) -> GLint;
 
     fn alias_point_size_range(&self) -> (GLfloat, GLfloat);
+    fn max_viewport_dims(&self) -> (GLint, GLint);
 }
 
 #[inline]
