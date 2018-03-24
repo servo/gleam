@@ -1699,5 +1699,13 @@ impl Gl for GlesFns {
             (ret[0], ret[1])
         }
     }
+
+    fn max_viewport_dims(&self) -> (GLint, GLint) {
+        unsafe {
+            let mut ret = [0; 2];
+            self.ffi_gl_.GetIntegerv(ffi::MAX_VIEWPORT_DIMS, ret.as_mut_ptr());
+            (ret[0], ret[1])
+        }
+    }
 }
 
