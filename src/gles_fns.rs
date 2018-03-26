@@ -19,6 +19,21 @@ impl GlesFns
             ffi_gl_: ffi_gl_,
         }) as Rc<Gl>
     }
+
+    fn get_active_uniform_type(&self, program: GLuint) -> GLuint {
+        let mut size: GLint = 0;
+        let mut uniform_type: GLuint = 0;
+        unsafe {
+            self.ffi_gl_.GetActiveUniform(program,
+                                          0 as GLuint,
+                                          0 as GLsizei,
+                                          ptr::null_mut(),
+                                          &mut size,
+                                          &mut uniform_type,
+                                          ptr::null_mut());
+        }
+        uniform_type
+    }
 }
 
 impl Gl for GlesFns {
@@ -319,7 +334,8 @@ impl Gl for GlesFns {
 
     // https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glGetUniform.xml
     fn get_uniform_iv(&self, program: GLuint, location: GLint) -> Vec<GLint> {
-        let len = get_uniform_iv_vector_length(&location);
+        let uniform_type = self.get_active_uniform_type(program);
+        let len = get_uniform_iv_vector_length(&uniform_type);
         let mut result: [GLint; 4] = [0; 4];
         unsafe {
             self.ffi_gl_.GetUniformiv(program, location, result.as_mut_ptr());
@@ -329,7 +345,8 @@ impl Gl for GlesFns {
 
     // https://www.khronos.org/registry/OpenGL-Refpages/es2.0/xhtml/glGetUniform.xml
     fn get_uniform_fv(&self, program: GLuint, location: GLint) -> Vec<GLfloat> {
-        let len = get_uniform_fv_vector_length(&location);
+        let uniform_type = self.get_active_uniform_type(program);
+        let len = get_uniform_fv_vector_length(&uniform_type);
         let mut result: [GLfloat; 16] = [0.0; 16];
         unsafe {
             self.ffi_gl_.GetUniformfv(program, location, result.as_mut_ptr());
