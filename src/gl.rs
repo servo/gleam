@@ -63,8 +63,8 @@ fn calculate_length(width: GLsizei, height: GLsizei, format: GLenum, pixel_type:
 }
 
 // https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14.10
-fn get_uniform_iv_vector_length(location: &GLint) -> usize {
-    match *location as u32 {
+fn get_uniform_iv_vector_length(uniform_type: &GLuint) -> usize {
+    match *uniform_type {
         ffi::BOOL |
         ffi::INT |
         ffi::SAMPLER_2D |
@@ -80,8 +80,8 @@ fn get_uniform_iv_vector_length(location: &GLint) -> usize {
 }
 
 // https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14.10
-fn get_uniform_fv_vector_length(location: &GLint) -> usize {
-    match *location as u32 {
+fn get_uniform_fv_vector_length(uniform_type: &GLuint) -> usize {
+    match *uniform_type {
         ffi::FLOAT => 1,
         ffi::FLOAT_VEC2 => 2,
         ffi::FLOAT_VEC3 => 3,
