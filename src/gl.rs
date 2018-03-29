@@ -93,6 +93,14 @@ fn get_uniform_fv_vector_length(location: &GLint) -> usize {
     }
 }
 
+pub struct DebugMessage {
+    pub message: String,
+    pub source: GLenum,
+    pub ty: GLenum,
+    pub id: GLenum,
+    pub severity: GLenum,
+}
+
 pub trait Gl {
     fn get_type(&self) -> GlType;
     fn buffer_data_untyped(&self,
@@ -501,6 +509,9 @@ pub trait Gl {
 
     /// Returns the the maximum supported width and height of the viewport.
     fn max_viewport_dims(&self) -> (GLint, GLint);
+
+    // GL_KHR_debug
+    fn get_debug_messages(&self) -> Vec<DebugMessage>;
 }
 
 #[inline]
