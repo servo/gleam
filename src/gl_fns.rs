@@ -1361,10 +1361,10 @@ impl Gl for GlFns {
         }
     }
 
-    fn get_vertex_attrib_iv(&self, index: GLuint, pname: GLenum) -> GLint {
-        let mut result = 0 as GLint;
+    fn get_vertex_attrib_iv(&self, index: GLuint, pname: GLenum) -> Vec<GLint> {
+        let mut result = vec![0 as GLint; 4];
         unsafe {
-            self.ffi_gl_.GetVertexAttribiv(index, pname, &mut result);
+            self.ffi_gl_.GetVertexAttribiv(index, pname, result.as_mut_ptr());
         }
         result
     }

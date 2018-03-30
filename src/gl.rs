@@ -435,7 +435,7 @@ pub trait Gl {
     fn get_program_binary(&self, program: GLuint) -> (Vec<u8>, GLenum);
     fn program_binary(&self, program: GLuint, format: GLenum, binary: &[u8]);
     fn program_parameter_i(&self, program: GLuint, pname: GLenum, value: GLint);
-    fn get_vertex_attrib_iv(&self, index: GLuint, pname: GLenum) -> GLint;
+    fn get_vertex_attrib_iv(&self, index: GLuint, pname: GLenum) -> Vec<GLint>;
     fn get_vertex_attrib_fv(&self, index: GLuint, pname: GLenum) -> Vec<GLfloat>;
     fn get_vertex_attrib_pointer_v(&self, index: GLuint, pname: GLenum) -> GLsizeiptr;
     fn get_buffer_parameter_iv(&self, target: GLuint, pname: GLenum) -> GLint;
