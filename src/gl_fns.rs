@@ -1293,11 +1293,12 @@ impl Gl for GlFns {
     }
 
     fn get_program_info_log(&self, program: GLuint) -> String {
-        let mut result = vec![0u8; 1024];
+        let max_len = self.get_program_iv(program, ffi::INFO_LOG_LENGTH);
+        let mut result = vec![0u8; max_len as usize];
         let mut result_len = 0 as GLsizei;
         unsafe {
             self.ffi_gl_.GetProgramInfoLog(program,
-                                           1024 as GLsizei,
+                                           max_len as GLsizei,
                                            &mut result_len,
                                            result.as_mut_ptr() as *mut GLchar);
         }
