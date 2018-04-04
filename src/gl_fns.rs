@@ -1763,5 +1763,63 @@ impl Gl for GlFns {
             (ret[0], ret[1])
         }
     }
+
+    // GL_KHR_debug
+    fn get_debug_messages(&self) -> Vec<DebugMessage> {
+        if !self.ffi_gl_.GetDebugMessageLog.is_loaded() {
+            return Vec::new();
+        }
+
+        let mut max_message_len = 0;
+        unsafe {
+            self.ffi_gl_.GetIntegerv(
+                ffi::MAX_DEBUG_MESSAGE_LENGTH,
+                &mut max_message_len
+            )
+        }
+
+        let mut output = Vec::new();
+        const CAPACITY: usize = 4;
+
+        let mut msg_data = vec![0u8; CAPACITY * max_message_len as usize];
+        let mut sources = [0 as GLenum; CAPACITY];
+        let mut types = [0 as GLenum; CAPACITY];
+        let mut severities = [0 as GLenum; CAPACITY];
+        let mut ids = [0 as GLuint; CAPACITY];
+        let mut lengths = [0 as GLsizei; CAPACITY];
+
+        loop {
+            let count = unsafe {
+                self.ffi_gl_.GetDebugMessageLog(
+                    CAPACITY as _,
+                    msg_data.len() as _,
+                    sources.as_mut_ptr(),
+                    types.as_mut_ptr(),
+                    ids.as_mut_ptr(),
+                    severities.as_mut_ptr(),
+                    lengths.as_mut_ptr(),
+                    msg_data.as_mut_ptr() as *mut _,
+                )
+            };
+
+            let mut offset = 0;
+            output.extend((0 .. count as usize).map(|i| {
+                let len = lengths[i] as usize;
+                let slice = &msg_data[offset .. offset + len];
+                offset += len;
+                DebugMessage {
+                    message: String::from_utf8_lossy(slice).to_string(),
+                    source: sources[i],
+                    ty: types[i],
+                    id: ids[i],
+                    severity: severities[i],
+                }
+            }));
+
+            if (count as usize) < CAPACITY {
+                return output
+            }
+        }
+    }
 }
 
