@@ -711,6 +711,14 @@ impl Gl for GlFns {
         result
     }
 
+    fn get_renderbuffer_parameter_iv(&self, target: GLenum, pname: GLenum) -> GLint {
+        let mut result: GLint = 0;
+        unsafe {
+            self.ffi_gl_.GetRenderbufferParameteriv(target, pname, &mut result);
+        }
+        result
+    }
+
     fn get_tex_parameter_iv(&self, target: GLenum, pname: GLenum) -> GLint {
         let mut result: GLint = 0;
         unsafe {
