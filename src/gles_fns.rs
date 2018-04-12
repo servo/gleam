@@ -723,6 +723,14 @@ impl Gl for GlesFns {
         result
     }
 
+    fn get_renderbuffer_parameter_iv(&self, target: GLenum, pname: GLenum) -> GLint {
+        let mut result: GLint = 0;
+        unsafe {
+            self.ffi_gl_.GetRenderbufferParameteriv(target, pname, &mut result);
+        }
+        result
+    }
+
     fn get_framebuffer_attachment_parameter_iv(&self, target: GLenum, attachment: GLenum, pname: GLenum) -> GLint {
         let mut result: GLint = 0;
         unsafe {

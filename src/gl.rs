@@ -310,6 +310,9 @@ pub trait Gl {
                                                target: GLenum,
                                                attachment: GLenum,
                                                pname: GLenum) -> GLint;
+    fn get_renderbuffer_parameter_iv(&self,
+                                     target: GLenum,
+                                     pname: GLenum) -> GLint;
     fn get_tex_parameter_iv(&self, target: GLenum, name: GLenum) -> GLint;
     fn get_tex_parameter_fv(&self, target: GLenum, name: GLenum) -> GLfloat;
     fn tex_parameter_i(&self, target: GLenum, pname: GLenum, param: GLint);
