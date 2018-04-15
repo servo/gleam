@@ -509,6 +509,7 @@ pub trait Gl {
     ) -> GLint;
 
     fn alias_point_size_range(&self) -> (GLfloat, GLfloat);
+    fn alias_line_width_range(&self) -> (GLfloat, GLfloat);
 
     /// Returns the the maximum supported width and height of the viewport.
     fn max_viewport_dims(&self) -> (GLint, GLint);
