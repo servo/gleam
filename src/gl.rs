@@ -385,6 +385,7 @@ pub trait Gl {
                                indices_offset: GLuint,
                                primcount: GLsizei);
     fn blend_color(&self, r: f32, g: f32, b: f32, a: f32);
+    fn get_blend_color(&self) -> (GLfloat, GLfloat, GLfloat, GLfloat);
     fn blend_func(&self, sfactor: GLenum, dfactor: GLenum);
     fn blend_func_separate(&self,
                            src_rgb: GLenum,
