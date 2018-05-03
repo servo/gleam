@@ -4,5 +4,9 @@ rust:
   - beta
   - stable
 
+script:
+  - cargo build
+  - cargo build --features assert_on_error
+
 notifications:
   webhooks: http://build.servo.org:54856/travis
