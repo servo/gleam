@@ -15,9 +15,10 @@ impl GlesFns
 {
     pub unsafe fn load_with<'a, F>(loadfn: F) -> Rc<Gl> where F: FnMut(&str) -> *const c_void {
         let ffi_gl_ = GlesFfi::load_with(loadfn);
-        Rc::new(GlesFns {
+        let fns = GlesFns {
             ffi_gl_: ffi_gl_,
-        }) as Rc<Gl>
+        };
+        ErrorCheckingGl::maybe_wrap(fns)
     }
 
     fn get_active_uniform_type(&self, program: GLuint) -> GLuint {
