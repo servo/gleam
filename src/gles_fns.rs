@@ -935,6 +935,14 @@ impl Gl for GlesFns {
         }
     }
 
+    fn get_blend_color(&self) -> (GLfloat, GLfloat, GLfloat, GLfloat) {
+        unsafe {
+            let mut ret = [0.; 4];
+            self.ffi_gl_.GetFloatv(ffi::BLEND_COLOR, ret.as_mut_ptr());
+            (ret[0], ret[1], ret[2], ret[3])
+        }
+    }
+
     fn blend_func(&self, sfactor: GLenum, dfactor: GLenum) {
         unsafe {
             self.ffi_gl_.BlendFunc(sfactor, dfactor);
