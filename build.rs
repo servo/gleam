@@ -20,6 +20,7 @@ fn main() {
         "GL_ARB_get_program_binary",
         "GL_ARB_texture_rectangle",
         "GL_EXT_debug_marker",
+        "GL_EXT_texture_filter_anisotropic",
         "GL_KHR_debug",
     ];
     let gl_reg = Registry::new(Api::Gl, (3, 3), Profile::Core, Fallbacks::All, gl_extensions);
@@ -30,6 +31,8 @@ fn main() {
     let gles_extensions = [
         "GL_EXT_debug_marker",
         "GL_EXT_disjoint_timer_query",
+        "GL_EXT_shader_texture_lod",
+        "GL_EXT_texture_filter_anisotropic",
         "GL_EXT_texture_format_BGRA8888",
         "GL_KHR_debug",
         "GL_OES_EGL_image_external",
