@@ -49,6 +49,7 @@ fn calculate_length(width: GLsizei, height: GLsizei, format: GLenum, pixel_type:
         ffi::BGRA => 4,
 
         ffi::ALPHA => 1,
+        ffi::R16 => 1,
         ffi::LUMINANCE => 1,
         ffi::DEPTH_COMPONENT => 1,
         _ => panic!("unsupported format for read_pixels: {:?}", format),
