@@ -55,7 +55,9 @@ fn calculate_length(width: GLsizei, height: GLsizei, format: GLenum, pixel_type:
     };
     let depth = match pixel_type {
         ffi::UNSIGNED_BYTE => 1,
-        ffi::FLOAT=> 4,
+        ffi::UNSIGNED_SHORT => 2,
+        ffi::SHORT => 2,
+        ffi::FLOAT => 4,
         _ => panic!("unsupported pixel_type for read_pixels: {:?}", pixel_type),
     };
 
