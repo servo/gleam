@@ -25,7 +25,7 @@ fn main() {
         "GL_EXT_texture_filter_anisotropic",
         "GL_KHR_debug",
     ];
-    let gl_reg = Registry::new(Api::Gl, (3, 3), Profile::Core, Fallbacks::All, gl_extensions);
+    let gl_reg = Registry::new(Api::Gl, (3, 3), Profile::Compatibility, Fallbacks::All, gl_extensions);
     gl_reg.write_bindings(gl_generator::StructGenerator, &mut file_gl)
         .unwrap();
 
