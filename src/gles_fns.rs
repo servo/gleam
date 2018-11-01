@@ -1516,14 +1516,30 @@ impl Gl for GlesFns {
                                    shader_type: GLuint,
                                    precision_type: GLuint)
                                    -> (GLint, GLint, GLint) {
-        let mut range = [0 as GLint, 0];
-        let mut precision = 0 as GLint;
+        let (mut range, mut precision) = match precision_type {
+            // These values are for a 32-bit twos-complement integer format.
+            ffi::LOW_INT |
+            ffi::MEDIUM_INT |
+            ffi::HIGH_INT => ([31, 30], 0),
+
+            // These values are for an IEEE single-precision floating-point format.
+            ffi::LOW_FLOAT |
+            ffi::MEDIUM_FLOAT |
+            ffi::HIGH_FLOAT => ([127, 127], 23),
+
+            _ => unreachable!("invalid precision"),
+        };
+        // This function is sometimes defined even though it's really just
+        // a stub, so we need to set range and precision as if it weren't
+        // defined before calling it. Suppress any error that might occur.
         unsafe {
             self.ffi_gl_.GetShaderPrecisionFormat(shader_type,
                                                   precision_type,
                                                   range.as_mut_ptr(),
                                                   &mut precision);
+            let _ = self.ffi_gl_.GetError();
         }
+
         (range[0], range[1], precision)
     }
 
