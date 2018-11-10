@@ -4,7 +4,7 @@ version = "0.6.6"
 license = "Apache-2.0/MIT"
 authors = ["The Servo Project Developers"]
 build = "build.rs"
-documentation = "http://doc.servo.org/gleam/"
+documentation = "https://doc.servo.org/gleam/"
 repository = "https://github.com/servo/gleam"
 description = "Generated OpenGL bindings and wrapper for Servo."
 
