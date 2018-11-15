@@ -40,6 +40,7 @@ fn main() {
         "GL_KHR_debug",
         "GL_OES_EGL_image_external",
         "GL_OES_EGL_image",
+        "GL_OES_texture_half_float",
     ];
     let gles_reg = Registry::new(Api::Gles2, (3, 0), Profile::Core, Fallbacks::All, gles_extensions);
     gles_reg.write_bindings(gl_generator::StructGenerator, &mut file_gles)
