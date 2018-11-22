@@ -17,6 +17,7 @@ fn main() {
         "GL_APPLE_fence",
         "GL_APPLE_texture_range",
         "GL_ARB_blend_func_extended",
+        "GL_ARB_copy_image",
         "GL_ARB_get_program_binary",
         "GL_ARB_invalidate_subdata",
         "GL_ARB_texture_rectangle",
@@ -31,6 +32,7 @@ fn main() {
 
     // GLES 3.0 bindings
     let gles_extensions = [
+        "GL_EXT_copy_image",
         "GL_EXT_debug_marker",
         "GL_EXT_disjoint_timer_query",
         "GL_EXT_shader_texture_lod",
