@@ -102,6 +102,12 @@ declare_gl_apis! {
                                 offset: isize,
                                 size: GLsizeiptr,
                                 data: *const GLvoid);
+    fn map_buffer_range(&self,
+                        target: GLenum,
+                        offset: GLintptr,
+                        length: GLsizeiptr,
+                        access: GLbitfield) -> *mut c_void;
+    fn unmap_buffer(&self, target: GLenum) -> GLboolean;
     fn tex_buffer(&self, target: GLenum, internal_format: GLenum, buffer: GLuint);
     fn shader_source(&self, shader: GLuint, strings: &[&[u8]]);
     fn read_buffer(&self, mode: GLenum);

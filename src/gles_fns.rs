@@ -54,6 +54,22 @@ impl Gl for GlesFns {
         }
     }
 
+    fn map_buffer_range(&self,
+                        target: GLenum,
+                        offset: GLintptr,
+                        length: GLsizeiptr,
+                        access: GLbitfield) -> *mut c_void {
+        unsafe {
+            return self.ffi_gl_.MapBufferRange(target, offset, length, access);
+        }
+    }
+
+    fn unmap_buffer(&self, target: GLenum) -> GLboolean {
+        unsafe {
+            return self.ffi_gl_.UnmapBuffer(target);
+        }
+    }
+
     fn shader_source(&self, shader: GLuint, strings: &[&[u8]]) {
         let pointers: Vec<*const u8> = strings.iter().map(|string| (*string).as_ptr()).collect();
         let lengths: Vec<GLint> = strings.iter().map(|string| string.len() as GLint).collect();
