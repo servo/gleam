@@ -529,6 +529,8 @@ declare_gl_apis! {
     fn set_fence_apple(&self, fence: GLuint);
     fn finish_fence_apple(&self, fence: GLuint);
     fn test_fence_apple(&self, fence: GLuint);
+    fn test_object_apple(&self, object: GLenum, name: GLuint) -> GLboolean;
+    fn finish_object_apple(&self, object: GLenum, name: GLuint);
 
     // GL_ARB_blend_func_extended
     fn bind_frag_data_location_indexed(
