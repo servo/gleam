@@ -1977,6 +1977,16 @@ impl Gl for GlesFns {
         panic!("not supported")
     }
 
+    fn test_object_apple(&self, _object: GLenum, _name: GLuint) -> GLboolean {
+        panic!("not supported")
+    }
+
+    fn finish_object_apple(&self, _object: GLenum, _name: GLuint) {
+        panic!("not supported")
+    }
+
+
+
     // GL_ARB_blend_func_extended
     fn bind_frag_data_location_indexed(
         &self,

@@ -1988,6 +1988,19 @@ impl Gl for GlFns {
         }
     }
 
+    fn test_object_apple(&self, object: GLenum, name: GLuint) -> GLboolean {
+        unsafe {
+            self.ffi_gl_.TestObjectAPPLE(object, name)
+        }
+    }
+
+    fn finish_object_apple(&self, object: GLenum, name: GLuint) {
+        unsafe {
+            // the spec has a typo for name as GLint instead of GLuint
+            self.ffi_gl_.FinishObjectAPPLE(object, name as GLint);
+        }
+    }
+
     // GL_ARB_blend_func_extended
     fn bind_frag_data_location_indexed(
         &self,
