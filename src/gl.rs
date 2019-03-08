@@ -13,7 +13,6 @@ use std::mem;
 use std::mem::size_of;
 use std::os::raw::{c_char, c_int, c_void};
 use std::ptr;
-use std::rc::Rc;
 use std::str;
 
 pub use ffi::types::*;
@@ -80,7 +79,10 @@ macro_rules! declare_gl_apis {
             $($(unsafe $($garbo)*)* fn $name(&self $(, $arg:$t)*) $(-> $retty)* ;)+
         }
 
-        impl Gl for ErrorCheckingGl {
+        impl<T> Gl for ErrorCheckingGl<T>
+        where
+            T: Gl,
+        {
             $($(unsafe $($garbo)*)* fn $name(&self $(, $arg:$t)*) $(-> $retty)* {
                 let rv = self.gl.$name($($arg,)*);
                 assert_eq!(self.gl.get_error(), 0);
@@ -88,12 +90,16 @@ macro_rules! declare_gl_apis {
             })+
         }
 
-        impl<F: Fn(&Gl, &str, GLenum)> Gl for ErrorReactingGl<F> {
+        impl<T, F> Gl for ErrorReactingGl<T, F>
+        where
+            T: Gl,
+            F: Fn(&Gl, &str, GLenum),
+        {
             $($(unsafe $($garbo)*)* fn $name(&self $(, $arg:$t)*) $(-> $retty)* {
                 let rv = self.gl.$name($($arg,)*);
                 let error = self.gl.get_error();
                 if error != 0 {
-                    (self.callback)(&*self.gl, stringify!($name), error);
+                    (self.callback)(&self.gl, stringify!($name), error);
                 }
                 rv
             })+
@@ -561,26 +567,34 @@ declare_gl_apis! {
     fn get_debug_messages(&self) -> Vec<DebugMessage>;
 }
 
-//#[deprecated(since = "0.6.11", note = "use ErrorReactingGl instead")]
-pub struct ErrorCheckingGl {
-    gl: Rc<Gl>,
+pub struct ErrorCheckingGl<T> {
+    gl: T,
 }
 
-impl ErrorCheckingGl {
-    pub fn wrap(fns: Rc<Gl>) -> Rc<Gl> {
-        Rc::new(ErrorCheckingGl { gl: fns }) as Rc<Gl>
+impl<T> ErrorCheckingGl<T>
+where
+    T: Gl,
+{
+    #[inline]
+    pub fn wrap(gl: T) -> Self {
+        Self { gl }
     }
 }
 
 /// A wrapper around GL context that calls a specified callback on each GL error.
-pub struct ErrorReactingGl<F> {
-    gl: Rc<Gl>,
+pub struct ErrorReactingGl<T, F> {
+    gl: T,
     callback: F,
 }
 
-impl<F: 'static + Fn(&Gl, &str, GLenum)> ErrorReactingGl<F> {
-    pub fn wrap(fns: Rc<Gl>, callback: F) -> Rc<Gl> {
-        Rc::new(ErrorReactingGl { gl: fns, callback }) as Rc<Gl>
+impl<T, F> ErrorReactingGl<T, F>
+where
+    T: Gl,
+    F: 'static + Fn(&Gl, &str, GLenum),
+{
+    #[inline]
+    pub fn wrap(gl: T, callback: F) -> Self {
+        ErrorReactingGl { gl, callback }
     }
 }
 
