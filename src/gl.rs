@@ -126,6 +126,9 @@ declare_gl_apis! {
                                 offset: isize,
                                 size: GLsizeiptr,
                                 data: *const GLvoid);
+    fn map_buffer(&self,
+                  target: GLenum,
+                  access: GLbitfield) -> *mut c_void;
     fn map_buffer_range(&self,
                         target: GLenum,
                         offset: GLintptr,
