@@ -153,6 +153,16 @@ impl Gl for GlesFns {
         pixels
     }
 
+    unsafe fn read_pixels_into_pbo(&self,
+                                   x: GLint,
+                                   y: GLint,
+                                   width: GLsizei,
+                                   height: GLsizei,
+                                   format: GLenum,
+                                   pixel_type: GLenum) {
+        self.ffi_gl_.ReadPixels(x, y, width, height, format, pixel_type, ptr::null_mut());
+    }
+
     fn sample_coverage(&self, value: GLclampf, invert: bool) {
         unsafe {
             self.ffi_gl_.SampleCoverage(value, invert as GLboolean);

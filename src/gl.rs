@@ -154,6 +154,13 @@ declare_gl_apis! {
                     format: GLenum,
                     pixel_type: GLenum)
                     -> Vec<u8>;
+    unsafe fn read_pixels_into_pbo(&self,
+                                   x: GLint,
+                                   y: GLint,
+                                   width: GLsizei,
+                                   height: GLsizei,
+                                   format: GLenum,
+                                   pixel_type: GLenum);
     fn sample_coverage(&self, value: GLclampf, invert: bool);
     fn polygon_offset(&self, factor: GLfloat, units: GLfloat);
     fn pixel_store_i(&self, name: GLenum, param: GLint);
