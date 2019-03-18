@@ -54,6 +54,12 @@ impl Gl for GlesFns {
         }
     }
 
+    fn map_buffer(&self,
+                  _target: GLenum,
+                  _access: GLbitfield) -> *mut c_void {
+        panic!("not supported")
+    }
+
     fn map_buffer_range(&self,
                         target: GLenum,
                         offset: GLintptr,

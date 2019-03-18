@@ -50,6 +50,14 @@ impl Gl for GlFns {
         }
     }
 
+    fn map_buffer(&self,
+                  target: GLenum,
+                  access: GLbitfield) -> *mut c_void {
+        unsafe {
+            return self.ffi_gl_.MapBuffer(target, access);
+        }
+    }
+
     fn map_buffer_range(&self,
                         target: GLenum,
                         offset: GLintptr,
