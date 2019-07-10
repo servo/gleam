@@ -23,7 +23,7 @@ pub use ffi::*;
 pub use ffi_gl::Gl as GlFfi;
 pub use ffi_gles::Gles2 as GlesFfi;
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub enum GlType {
     Gl,
     Gles,
