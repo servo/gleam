@@ -12,12 +12,12 @@ pub struct GlFns {
 }
 
 impl GlFns {
-    pub unsafe fn load_with<'a, F>(loadfn: F) -> Rc<Gl>
+    pub unsafe fn load_with<'a, F>(loadfn: F) -> Rc<dyn Gl>
     where
         F: FnMut(&str) -> *const c_void,
     {
         let ffi_gl_ = GlFfi::load_with(loadfn);
-        Rc::new(GlFns { ffi_gl_: ffi_gl_ }) as Rc<Gl>
+        Rc::new(GlFns { ffi_gl_: ffi_gl_ }) as Rc<dyn Gl>
     }
 }
 
