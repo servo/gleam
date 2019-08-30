@@ -89,7 +89,7 @@ macro_rules! declare_gl_apis {
             })+
         }
 
-        impl<F: Fn(&Gl, &str, GLenum)> Gl for ErrorReactingGl<F> {
+        impl<F: Fn(&dyn Gl, &str, GLenum)> Gl for ErrorReactingGl<F> {
             $($(unsafe $($garbo)*)* fn $name(&self $(, $arg:$t)*) $(-> $retty)* {
                 let rv = self.gl.$name($($arg,)*);
                 let error = self.gl.get_error();
@@ -169,6 +169,7 @@ declare_gl_apis! {
     fn gen_framebuffers(&self, n: GLsizei) -> Vec<GLuint>;
     fn gen_textures(&self, n: GLsizei) -> Vec<GLuint>;
     fn gen_vertex_arrays(&self, n: GLsizei) -> Vec<GLuint>;
+    fn gen_vertex_arrays_apple(&self, n: GLsizei) -> Vec<GLuint>;
     fn gen_queries(&self, n: GLsizei) -> Vec<GLuint>;
     fn begin_query(&self, target: GLenum, id: GLuint);
     fn end_query(&self, target: GLenum);
@@ -179,6 +180,7 @@ declare_gl_apis! {
     fn get_query_object_ui64v(&self, id: GLuint, pname: GLenum) -> u64;
     fn delete_queries(&self, queries: &[GLuint]);
     fn delete_vertex_arrays(&self, vertex_arrays: &[GLuint]);
+    fn delete_vertex_arrays_apple(&self, vertex_arrays: &[GLuint]);
     fn delete_buffers(&self, buffers: &[GLuint]);
     fn delete_renderbuffers(&self, renderbuffers: &[GLuint]);
     fn delete_framebuffers(&self, framebuffers: &[GLuint]);
@@ -209,6 +211,7 @@ declare_gl_apis! {
                                 uniform_block_binding: GLuint);
     fn bind_buffer(&self, target: GLenum, buffer: GLuint);
     fn bind_vertex_array(&self, vao: GLuint);
+    fn bind_vertex_array_apple(&self, vao: GLuint);
     fn bind_renderbuffer(&self, target: GLenum, renderbuffer: GLuint);
     fn bind_framebuffer(&self, target: GLenum, framebuffer: GLuint);
     fn bind_texture(&self, target: GLenum, texture: GLuint);
@@ -594,43 +597,43 @@ declare_gl_apis! {
 
 //#[deprecated(since = "0.6.11", note = "use ErrorReactingGl instead")]
 pub struct ErrorCheckingGl {
-    gl: Rc<Gl>,
+    gl: Rc<dyn Gl>,
 }
 
 impl ErrorCheckingGl {
-    pub fn wrap(fns: Rc<Gl>) -> Rc<Gl> {
-        Rc::new(ErrorCheckingGl { gl: fns }) as Rc<Gl>
+    pub fn wrap(fns: Rc<dyn Gl>) -> Rc<dyn Gl> {
+        Rc::new(ErrorCheckingGl { gl: fns }) as Rc<dyn Gl>
     }
 }
 
 /// A wrapper around GL context that calls a specified callback on each GL error.
 pub struct ErrorReactingGl<F> {
-    gl: Rc<Gl>,
+    gl: Rc<dyn Gl>,
     callback: F,
 }
 
-impl<F: 'static + Fn(&Gl, &str, GLenum)> ErrorReactingGl<F> {
-    pub fn wrap(fns: Rc<Gl>, callback: F) -> Rc<Gl> {
-        Rc::new(ErrorReactingGl { gl: fns, callback }) as Rc<Gl>
+impl<F: 'static + Fn(&dyn Gl, &str, GLenum)> ErrorReactingGl<F> {
+    pub fn wrap(fns: Rc<dyn Gl>, callback: F) -> Rc<dyn Gl> {
+        Rc::new(ErrorReactingGl { gl: fns, callback }) as Rc<dyn Gl>
     }
 }
 
 /// A wrapper around GL context that times each call and invokes the callback
 /// if the call takes longer than the threshold.
 pub struct ProfilingGl<F> {
-    gl: Rc<Gl>,
+    gl: Rc<dyn Gl>,
     threshold: Duration,
     callback: F,
 }
 
 impl<F: 'static + Fn(&str, Duration)> ProfilingGl<F> {
-    pub fn wrap(fns: Rc<Gl>, threshold: Duration, callback: F) -> Rc<Gl> {
-        Rc::new(ProfilingGl { gl: fns, threshold, callback }) as Rc<Gl>
+    pub fn wrap(fns: Rc<dyn Gl>, threshold: Duration, callback: F) -> Rc<dyn Gl> {
+        Rc::new(ProfilingGl { gl: fns, threshold, callback }) as Rc<dyn Gl>
     }
 }
 
 #[inline]
-pub fn buffer_data<T>(gl_: &Gl, target: GLenum, data: &[T], usage: GLenum) {
+pub fn buffer_data<T>(gl_: &dyn Gl, target: GLenum, data: &[T], usage: GLenum) {
     gl_.buffer_data_untyped(
         target,
         (data.len() * size_of::<T>()) as GLsizeiptr,
@@ -640,7 +643,7 @@ pub fn buffer_data<T>(gl_: &Gl, target: GLenum, data: &[T], usage: GLenum) {
 }
 
 #[inline]
-pub fn buffer_data_raw<T>(gl_: &Gl, target: GLenum, data: &T, usage: GLenum) {
+pub fn buffer_data_raw<T>(gl_: &dyn Gl, target: GLenum, data: &T, usage: GLenum) {
     gl_.buffer_data_untyped(
         target,
         size_of::<T>() as GLsizeiptr,
@@ -650,7 +653,7 @@ pub fn buffer_data_raw<T>(gl_: &Gl, target: GLenum, data: &T, usage: GLenum) {
 }
 
 #[inline]
-pub fn buffer_sub_data<T>(gl_: &Gl, target: GLenum, offset: isize, data: &[T]) {
+pub fn buffer_sub_data<T>(gl_: &dyn Gl, target: GLenum, offset: isize, data: &[T]) {
     gl_.buffer_sub_data_untyped(
         target,
         offset,

@@ -12,12 +12,12 @@ pub struct GlesFns {
 }
 
 impl GlesFns {
-    pub unsafe fn load_with<'a, F>(loadfn: F) -> Rc<Gl>
+    pub unsafe fn load_with<'a, F>(loadfn: F) -> Rc<dyn Gl>
     where
         F: FnMut(&str) -> *const c_void,
     {
         let ffi_gl_ = GlesFfi::load_with(loadfn);
-        Rc::new(GlesFns { ffi_gl_: ffi_gl_ }) as Rc<Gl>
+        Rc::new(GlesFns { ffi_gl_: ffi_gl_ }) as Rc<dyn Gl>
     }
 }
 
@@ -221,6 +221,10 @@ impl Gl for GlesFns {
         result
     }
 
+    fn gen_vertex_arrays_apple(&self, _n: GLsizei) -> Vec<GLuint> {
+        panic!("not supported")
+    }
+
     fn gen_queries(&self, n: GLsizei) -> Vec<GLuint> {
         if !self.ffi_gl_.GenQueriesEXT.is_loaded() {
             return Vec::new();
@@ -318,6 +322,10 @@ impl Gl for GlesFns {
             self.ffi_gl_
                 .DeleteVertexArrays(vertex_arrays.len() as GLsizei, vertex_arrays.as_ptr());
         }
+    }
+
+    fn delete_vertex_arrays_apple(&self, _vertex_arrays: &[GLuint]) {
+        panic!("not supported")
     }
 
     fn delete_buffers(&self, buffers: &[GLuint]) {
@@ -484,6 +492,10 @@ impl Gl for GlesFns {
         unsafe {
             self.ffi_gl_.BindVertexArray(vao);
         }
+    }
+
+    fn bind_vertex_array_apple(&self, _vao: GLuint) {
+        panic!("not supported")
     }
 
     fn bind_renderbuffer(&self, target: GLenum, renderbuffer: GLuint) {
