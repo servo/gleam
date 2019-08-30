@@ -221,7 +221,15 @@ impl Gl for GlFns {
     fn gen_vertex_arrays(&self, n: GLsizei) -> Vec<GLuint> {
         let mut result = vec![0 as GLuint; n as usize];
         unsafe {
-            self.ffi_gl_.GenVertexArrays(n, result.as_mut_ptr());
+            self.ffi_gl_.GenVertexArrays(n, result.as_mut_ptr())
+        }
+        result
+    }
+
+    fn gen_vertex_arrays_apple(&self, n: GLsizei) -> Vec<GLuint> {
+        let mut result = vec![0 as GLuint; n as usize];
+        unsafe {
+            self.ffi_gl_.GenVertexArraysAPPLE(n, result.as_mut_ptr())
         }
         result
     }
@@ -295,6 +303,13 @@ impl Gl for GlFns {
         unsafe {
             self.ffi_gl_
                 .DeleteVertexArrays(vertex_arrays.len() as GLsizei, vertex_arrays.as_ptr());
+        }
+    }
+
+    fn delete_vertex_arrays_apple(&self, vertex_arrays: &[GLuint]) {
+        unsafe {
+            self.ffi_gl_
+                .DeleteVertexArraysAPPLE(vertex_arrays.len() as GLsizei, vertex_arrays.as_ptr());
         }
     }
 
@@ -461,6 +476,12 @@ impl Gl for GlFns {
     fn bind_vertex_array(&self, vao: GLuint) {
         unsafe {
             self.ffi_gl_.BindVertexArray(vao);
+        }
+    }
+
+    fn bind_vertex_array_apple(&self, vao: GLuint) {
+        unsafe {
+            self.ffi_gl_.BindVertexArrayAPPLE(vao)
         }
     }
 

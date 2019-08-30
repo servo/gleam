@@ -17,6 +17,7 @@ fn main() {
         "GL_APPLE_client_storage",
         "GL_APPLE_fence",
         "GL_APPLE_texture_range",
+        "GL_APPLE_vertex_array_object",
         "GL_ARB_blend_func_extended",
         "GL_ARB_copy_image",
         "GL_ARB_get_program_binary",

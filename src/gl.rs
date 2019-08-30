@@ -169,6 +169,7 @@ declare_gl_apis! {
     fn gen_framebuffers(&self, n: GLsizei) -> Vec<GLuint>;
     fn gen_textures(&self, n: GLsizei) -> Vec<GLuint>;
     fn gen_vertex_arrays(&self, n: GLsizei) -> Vec<GLuint>;
+    fn gen_vertex_arrays_apple(&self, n: GLsizei) -> Vec<GLuint>;
     fn gen_queries(&self, n: GLsizei) -> Vec<GLuint>;
     fn begin_query(&self, target: GLenum, id: GLuint);
     fn end_query(&self, target: GLenum);
@@ -179,6 +180,7 @@ declare_gl_apis! {
     fn get_query_object_ui64v(&self, id: GLuint, pname: GLenum) -> u64;
     fn delete_queries(&self, queries: &[GLuint]);
     fn delete_vertex_arrays(&self, vertex_arrays: &[GLuint]);
+    fn delete_vertex_arrays_apple(&self, vertex_arrays: &[GLuint]);
     fn delete_buffers(&self, buffers: &[GLuint]);
     fn delete_renderbuffers(&self, renderbuffers: &[GLuint]);
     fn delete_framebuffers(&self, framebuffers: &[GLuint]);
@@ -209,6 +211,7 @@ declare_gl_apis! {
                                 uniform_block_binding: GLuint);
     fn bind_buffer(&self, target: GLenum, buffer: GLuint);
     fn bind_vertex_array(&self, vao: GLuint);
+    fn bind_vertex_array_apple(&self, vao: GLuint);
     fn bind_renderbuffer(&self, target: GLenum, renderbuffer: GLuint);
     fn bind_framebuffer(&self, target: GLenum, framebuffer: GLuint);
     fn bind_texture(&self, target: GLenum, texture: GLuint);
