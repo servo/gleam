@@ -474,6 +474,7 @@ declare_gl_apis! {
     fn hint(&self, param_name: GLenum, param_val: GLenum);
     fn is_enabled(&self, cap: GLenum) -> GLboolean;
     fn is_shader(&self, shader: GLuint) -> GLboolean;
+    fn is_sync(&self, sync: GLsync) -> GLboolean;
     fn is_texture(&self, texture: GLenum) -> GLboolean;
     fn is_framebuffer(&self, framebuffer: GLenum) -> GLboolean;
     fn is_renderbuffer(&self, renderbuffer: GLenum) -> GLboolean;
@@ -560,8 +561,9 @@ declare_gl_apis! {
     fn push_debug_group_khr(&self, source: GLenum, id: GLuint, message: &str);
     fn pop_debug_group_khr(&self);
     fn fence_sync(&self, condition: GLenum, flags: GLbitfield) -> GLsync;
-    fn client_wait_sync(&self, sync: GLsync, flags: GLbitfield, timeout: GLuint64);
+    fn client_wait_sync(&self, sync: GLsync, flags: GLbitfield, timeout: GLuint64) -> GLenum;
     fn wait_sync(&self, sync: GLsync, flags: GLbitfield, timeout: GLuint64);
+    fn get_sync_iv(&self, sync: GLsync, pname: GLenum, buf_size: GLsizei, length: &mut GLsizei, values: &mut [GLint]);
     fn delete_sync(&self, sync: GLsync);
     fn texture_range_apple(&self, target: GLenum, data: &[u8]);
     fn gen_fences_apple(&self, n: GLsizei) -> Vec<GLuint>;

@@ -1296,6 +1296,10 @@ impl Gl for GlFns {
         unsafe { self.ffi_gl_.IsShader(shader) }
     }
 
+    fn is_sync(&self, sync: GLsync) -> GLboolean {
+        unsafe { self.ffi_gl_.IsSync(sync as *const _) }
+    }
+
     fn is_texture(&self, texture: GLenum) -> GLboolean {
         unsafe { self.ffi_gl_.IsTexture(texture) }
     }
@@ -1997,10 +2001,10 @@ impl Gl for GlFns {
         unsafe { self.ffi_gl_.FenceSync(condition, flags) as *const _ }
     }
 
-    fn client_wait_sync(&self, sync: GLsync, flags: GLbitfield, timeout: GLuint64) {
+    fn client_wait_sync(&self, sync: GLsync, flags: GLbitfield, timeout: GLuint64) -> GLenum {
         unsafe {
             self.ffi_gl_
-                .ClientWaitSync(sync as *const _, flags, timeout);
+                .ClientWaitSync(sync as *const _, flags, timeout)
         }
     }
 
@@ -2008,6 +2012,10 @@ impl Gl for GlFns {
         unsafe {
             self.ffi_gl_.WaitSync(sync as *const _, flags, timeout);
         }
+    }
+
+    fn get_sync_iv(&self, sync: GLsync, pname: GLenum, buf_size: GLsizei, length: &mut GLsizei, values: &mut [GLint]) {
+        unsafe { self.ffi_gl_.GetSynciv(sync as *const _, pname, buf_size, length, values.as_mut_ptr()) }
     }
 
     fn texture_range_apple(&self, target: GLenum, data: &[u8]) {
