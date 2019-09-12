@@ -473,6 +473,7 @@ declare_gl_apis! {
     fn disable(&self, cap: GLenum);
     fn hint(&self, param_name: GLenum, param_val: GLenum);
     fn is_enabled(&self, cap: GLenum) -> GLboolean;
+    fn is_query(&self, shader: GLuint) -> GLboolean;
     fn is_shader(&self, shader: GLuint) -> GLboolean;
     fn is_texture(&self, texture: GLenum) -> GLboolean;
     fn is_framebuffer(&self, framebuffer: GLenum) -> GLboolean;

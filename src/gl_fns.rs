@@ -1292,6 +1292,10 @@ impl Gl for GlFns {
         unsafe { self.ffi_gl_.IsEnabled(cap) }
     }
 
+    fn is_query(&self, query: GLuint) -> GLboolean {
+        unsafe { self.ffi_gl_.IsQuery(query) }
+    }
+
     fn is_shader(&self, shader: GLuint) -> GLboolean {
         unsafe { self.ffi_gl_.IsShader(shader) }
     }
