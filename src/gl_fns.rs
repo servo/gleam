@@ -299,6 +299,49 @@ impl Gl for GlFns {
         }
     }
 
+    fn gen_samplers(&self, n: GLsizei) -> Vec<GLuint> {
+        let mut result = vec![0 as GLuint; n as usize];
+        unsafe {
+            self.ffi_gl_.GenSamplers(n, result.as_mut_ptr());
+        }
+        result
+    }
+
+    fn sampler_parameter_i(&self, sampler: GLuint, pname: GLenum, param: GLint) {
+        unsafe {
+            self.ffi_gl_.SamplerParameteri(sampler, pname, param);
+        }
+    }
+
+    fn sampler_parameter_f(&self, sampler: GLuint, pname: GLenum, param: GLfloat) {
+        unsafe {
+            self.ffi_gl_.SamplerParameterf(sampler, pname, param);
+        }
+    }
+
+    fn sampler_parameter_iv(&self, sampler: GLuint, pname: GLenum, params: &[GLint]) {
+        assert!(!params.is_empty());
+        unsafe {
+            self.ffi_gl_
+                .SamplerParameteriv(sampler, pname, params.as_ptr());
+        }
+    }
+
+    fn sampler_parameter_fv(&self, sampler: GLuint, pname: GLenum, params: &[GLfloat]) {
+        assert!(!params.is_empty());
+        unsafe {
+            self.ffi_gl_
+                .SamplerParameterfv(sampler, pname, params.as_ptr());
+        }
+    }
+
+    fn delete_samplers(&self, samplers: &[GLuint]) {
+        unsafe {
+            self.ffi_gl_
+                .DeleteSamplers(samplers.len() as GLsizei, samplers.as_ptr());
+        }
+    }
+
     fn delete_vertex_arrays(&self, vertex_arrays: &[GLuint]) {
         unsafe {
             self.ffi_gl_
@@ -500,6 +543,12 @@ impl Gl for GlFns {
     fn bind_texture(&self, target: GLenum, texture: GLuint) {
         unsafe {
             self.ffi_gl_.BindTexture(target, texture);
+        }
+    }
+
+    fn bind_sampler(&self, target: GLenum, sampler: GLuint) {
+        unsafe {
+            self.ffi_gl_.BindSampler(target, sampler);
         }
     }
 
@@ -1290,6 +1339,10 @@ impl Gl for GlFns {
 
     fn is_enabled(&self, cap: GLenum) -> GLboolean {
         unsafe { self.ffi_gl_.IsEnabled(cap) }
+    }
+
+    fn is_sampler(&self, sampler: GLuint) -> GLboolean {
+        unsafe { self.ffi_gl_.IsSampler(sampler) }
     }
 
     fn is_shader(&self, shader: GLuint) -> GLboolean {

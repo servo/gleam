@@ -171,6 +171,7 @@ declare_gl_apis! {
     fn gen_vertex_arrays(&self, n: GLsizei) -> Vec<GLuint>;
     fn gen_vertex_arrays_apple(&self, n: GLsizei) -> Vec<GLuint>;
     fn gen_queries(&self, n: GLsizei) -> Vec<GLuint>;
+    fn gen_samplers(&self, n: GLsizei) -> Vec<GLuint>;
     fn begin_query(&self, target: GLenum, id: GLuint);
     fn end_query(&self, target: GLenum);
     fn query_counter(&self, id: GLuint, target: GLenum);
@@ -179,6 +180,11 @@ declare_gl_apis! {
     fn get_query_object_i64v(&self, id: GLuint, pname: GLenum) -> i64;
     fn get_query_object_ui64v(&self, id: GLuint, pname: GLenum) -> u64;
     fn delete_queries(&self, queries: &[GLuint]);
+    fn delete_samplers(&self, samplers: &[GLuint]);
+    fn sampler_parameter_i(&self, sampler: GLenum, pname: GLenum, param: GLint);
+    fn sampler_parameter_f(&self, sampler: GLenum, pname: GLenum, param: GLfloat);
+    fn sampler_parameter_iv(&self, sampler: GLuint, pname: GLenum, params: &[GLint]);
+    fn sampler_parameter_fv(&self, sampler: GLuint, pname: GLenum, params: &[GLfloat]);
     fn delete_vertex_arrays(&self, vertex_arrays: &[GLuint]);
     fn delete_vertex_arrays_apple(&self, vertex_arrays: &[GLuint]);
     fn delete_buffers(&self, buffers: &[GLuint]);
@@ -215,6 +221,7 @@ declare_gl_apis! {
     fn bind_renderbuffer(&self, target: GLenum, renderbuffer: GLuint);
     fn bind_framebuffer(&self, target: GLenum, framebuffer: GLuint);
     fn bind_texture(&self, target: GLenum, texture: GLuint);
+    fn bind_sampler(&self, target: GLenum, sampler: GLuint);
     fn draw_buffers(&self, bufs: &[GLenum]);
     fn tex_image_2d(&self,
                     target: GLenum,
@@ -473,6 +480,7 @@ declare_gl_apis! {
     fn disable(&self, cap: GLenum);
     fn hint(&self, param_name: GLenum, param_val: GLenum);
     fn is_enabled(&self, cap: GLenum) -> GLboolean;
+    fn is_sampler(&self, shader: GLuint) -> GLboolean;
     fn is_shader(&self, shader: GLuint) -> GLboolean;
     fn is_texture(&self, texture: GLenum) -> GLboolean;
     fn is_framebuffer(&self, framebuffer: GLenum) -> GLboolean;
