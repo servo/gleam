@@ -591,8 +591,20 @@ declare_gl_apis! {
     // GL_KHR_debug
     fn get_debug_messages(&self) -> Vec<DebugMessage>;
 
-    // GL_ANGLE_provoking_vertex.
+    // GL_ANGLE_provoking_vertex
     fn provoking_vertex_angle(&self, mode: GLenum);
+
+    // GL_CHROMIUM_copy_texture
+    fn copy_texture_chromium(&self,
+        source_id: GLuint, source_level: GLint,
+        dest_target: GLenum, dest_id: GLuint, dest_level: GLint,
+        internal_format: GLint, dest_type: GLenum,
+        unpack_flip_y: GLboolean, unpack_premultiply_alpha: GLboolean, unpack_unmultiply_alpha: GLboolean);
+    fn copy_sub_texture_chromium(&self,
+        source_id: GLuint, source_level: GLint,
+        dest_target: GLenum, dest_id: GLuint, dest_level: GLint,
+        x_offset: GLint, y_offset: GLint, x: GLint, y: GLint, width: GLsizei, height: GLsizei,
+        unpack_flip_y: GLboolean, unpack_premultiply_alpha: GLboolean, unpack_unmultiply_alpha: GLboolean);
 }
 
 //#[deprecated(since = "0.6.11", note = "use ErrorReactingGl instead")]

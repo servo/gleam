@@ -2174,4 +2174,22 @@ impl Gl for GlFns {
             }
         }
     }
+
+    // GL_CHROMIUM_copy_texture
+    fn copy_texture_chromium(&self,
+        _source_id: GLuint, _source_level: GLint,
+        _dest_target: GLenum, _dest_id: GLuint, _dest_level: GLint,
+        _internal_format: GLint, _dest_type: GLenum,
+        _unpack_flip_y: GLboolean, _unpack_premultiply_alpha: GLboolean, _unpack_unmultiply_alpha: GLboolean)
+    {
+        unimplemented!("This extension is GLES only");
+    }
+    fn copy_sub_texture_chromium(&self,
+        _source_id: GLuint, _source_level: GLint,
+        _dest_target: GLenum, _dest_id: GLuint, _dest_level: GLint,
+        _x_offset: GLint, _y_offset: GLint, _x: GLint, _y: GLint, _width: GLsizei, _height: GLsizei,
+        _unpack_flip_y: GLboolean, _unpack_premultiply_alpha: GLboolean, _unpack_unmultiply_alpha: GLboolean)
+    {
+        unimplemented!("This extension is GLES only");
+    }
 }
