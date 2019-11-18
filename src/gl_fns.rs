@@ -1938,6 +1938,11 @@ impl Gl for GlFns {
         panic!("not supported")
     }
 
+    #[allow(unused_variables)]
+    fn egl_image_target_renderbuffer_storage_oes(&self, target: GLenum, image: GLeglImageOES) {
+        panic!("not supported")
+    }
+
     fn generate_mipmap(&self, target: GLenum) {
         unsafe { self.ffi_gl_.GenerateMipmap(target) }
     }

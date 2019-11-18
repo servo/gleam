@@ -563,6 +563,7 @@ declare_gl_apis! {
     fn stencil_op(&self, sfail: GLenum, dpfail: GLenum, dppass: GLenum);
     fn stencil_op_separate(&self, face: GLenum, sfail: GLenum, dpfail: GLenum, dppass: GLenum);
     fn egl_image_target_texture2d_oes(&self, target: GLenum, image: GLeglImageOES);
+    fn egl_image_target_renderbuffer_storage_oes(&self, target: GLenum, image: GLeglImageOES);
     fn generate_mipmap(&self, target: GLenum);
     fn insert_event_marker_ext(&self, message: &str);
     fn push_group_marker_ext(&self, message: &str);
