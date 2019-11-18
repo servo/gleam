@@ -1935,6 +1935,12 @@ impl Gl for GlesFns {
         }
     }
 
+    fn egl_image_target_renderbuffer_storage_oes(&self, target: GLenum, image: GLeglImageOES) {
+        unsafe {
+            self.ffi_gl_.EGLImageTargetRenderbufferStorageOES(target, image);
+        }
+    }
+
     fn generate_mipmap(&self, target: GLenum) {
         unsafe { self.ffi_gl_.GenerateMipmap(target) }
     }
