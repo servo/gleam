@@ -55,6 +55,7 @@ fn main() {
         "GL_OES_texture_half_float",
         "GL_EXT_shader_pixel_local_storage",
         "GL_ANGLE_provoking_vertex",
+        "GL_ANGLE_texture_usage",
         "GL_CHROMIUM_copy_texture",
         "GL_KHR_debug",
         "GL_KHR_blend_equation_advanced",
