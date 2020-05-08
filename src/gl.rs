@@ -446,6 +446,20 @@ declare_gl_apis! {
                             first: GLint,
                             count: GLsizei,
                             primcount: GLsizei);
+    // GL_ARB_base_instance
+    fn draw_arrays_instanced_base_instance(&self,
+                                        mode: GLenum,
+                                        first: GLint,
+                                        count: GLsizei,
+                                        instance_count: GLsizei,
+                                        base_instance: GLuint);
+    // GL_ANGLE_base_vertex_base_instance
+    fn draw_arrays_instanced_base_instance_angle(&self,
+                                                mode: GLenum,
+                                                first: GLint,
+                                                count: GLsizei,
+                                                instance_count: GLsizei,
+                                                base_instance: GLuint);
     fn draw_elements(&self,
                     mode: GLenum,
                     count: GLsizei,
@@ -457,6 +471,24 @@ declare_gl_apis! {
                             element_type: GLenum,
                             indices_offset: GLuint,
                             primcount: GLsizei);
+    // GL_ARB_base_instance
+    fn draw_elements_instanced_base_instance(&self,
+                                            mode: GLenum,
+                                            count: GLsizei,
+                                            element_type: GLenum,
+                                            indices_offset: GLuint,
+                                            instance_count: GLsizei,
+                                            base_instance: GLuint);
+    // GL_ANGLE_base_vertex_base_instance
+    fn draw_elements_instanced_base_vertex_base_instance_angle(&self,
+                                                            mode: GLenum,
+                                                            count: GLsizei,
+                                                            element_type: GLenum,
+                                                            indices_offset: GLuint,
+                                                            instance_count: GLsizei,
+                                                            base_vertex: GLsizei,
+                                                            base_instance: GLuint);
+
     fn blend_color(&self, r: f32, g: f32, b: f32, a: f32);
     fn blend_func(&self, sfactor: GLenum, dfactor: GLenum);
     fn blend_func_separate(&self,
