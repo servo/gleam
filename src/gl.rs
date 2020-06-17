@@ -40,7 +40,7 @@ impl Default for GlType {
     }
 }
 
-fn calculate_length(width: GLsizei, height: GLsizei, format: GLenum, pixel_type: GLenum) -> usize {
+fn bpp(format: GLenum, pixel_type: GLenum) -> GLsizei {
     let colors = match format {
         ffi::RED => 1,
         ffi::RGB => 3,
@@ -62,8 +62,12 @@ fn calculate_length(width: GLsizei, height: GLsizei, format: GLenum, pixel_type:
         ffi::FLOAT => 4,
         _ => panic!("unsupported pixel_type for read_pixels: {:?}", pixel_type),
     };
+    colors * depth
+}
 
-    return (width * height * colors * depth) as usize;
+
+fn calculate_length(width: GLsizei, height: GLsizei, format: GLenum, pixel_type: GLenum) -> usize {
+    (width * height * bpp(format, pixel_type)) as usize
 }
 
 pub struct DebugMessage {
@@ -146,6 +150,15 @@ declare_gl_apis! {
                                 format: GLenum,
                                 pixel_type: GLenum,
                                 dst_buffer: &mut [u8]);
+    fn read_pixels_into_buffer_with_stride(&self,
+                                           x: GLint,
+                                           y: GLint,
+                                           width: GLsizei,
+                                           height: GLsizei,
+                                           stride: GLsizei,
+                                           format: GLenum,
+                                           pixel_type: GLenum,
+                                           dst_buffer: &mut [u8]);
     fn read_pixels(&self,
                     x: GLint,
                     y: GLint,
