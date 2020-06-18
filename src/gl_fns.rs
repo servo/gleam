@@ -129,6 +129,47 @@ impl Gl for GlFns {
         }
     }
 
+    fn read_pixels_into_buffer_with_stride(
+        &self,
+        x: GLint,
+        y: GLint,
+        width: GLsizei,
+        height: GLsizei,
+        byte_stride: GLsizei,
+        format: GLenum,
+        pixel_type: GLenum,
+        dst_buffer: &mut [u8],
+    ) {
+        let bpp = bpp(format, pixel_type);
+        assert!(byte_stride % bpp == 0);
+        let pixel_stride = byte_stride / bpp;
+        assert!(pixel_stride > width);
+        // Assumes that the user properly allocated the size for dst_buffer.
+        assert!(calculate_length(pixel_stride, height, format, pixel_type) == dst_buffer.len());
+
+        unsafe {
+            // We don't want any alignment padding on pixel rows.
+            self.ffi_gl_.PixelStorei(ffi::PACK_ALIGNMENT, 1);
+
+            // we want to restore PACK_ROW_LENGTH because other functions don't set it
+            let mut old_row_length = 0;
+            self.ffi_gl_.GetIntegerv(ffi::PACK_ROW_LENGTH, &mut old_row_length as _);
+            self.ffi_gl_.PixelStorei(ffi::PACK_ROW_LENGTH, pixel_stride);
+
+            self.ffi_gl_.ReadPixels(
+                x,
+                y,
+                width,
+                height,
+                format,
+                pixel_type,
+                dst_buffer.as_mut_ptr() as *mut c_void,
+            );
+
+            self.ffi_gl_.PixelStorei(ffi::PACK_ROW_LENGTH, old_row_length);
+        }
+    }
+
     fn read_pixels(
         &self,
         x: GLint,
