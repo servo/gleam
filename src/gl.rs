@@ -150,15 +150,6 @@ declare_gl_apis! {
                                 format: GLenum,
                                 pixel_type: GLenum,
                                 dst_buffer: &mut [u8]);
-    fn read_pixels_into_buffer_with_stride(&self,
-                                           x: GLint,
-                                           y: GLint,
-                                           width: GLsizei,
-                                           height: GLsizei,
-                                           stride: GLsizei,
-                                           format: GLenum,
-                                           pixel_type: GLenum,
-                                           dst_buffer: &mut [u8]);
     fn read_pixels(&self,
                     x: GLint,
                     y: GLint,
