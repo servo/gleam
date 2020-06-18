@@ -1197,7 +1197,7 @@ impl Gl for GlFns {
 
     fn draw_arrays(&self, mode: GLenum, first: GLint, count: GLsizei) {
         unsafe {
-            return self.ffi_gl_.DrawArrays(mode, first, count);
+            self.ffi_gl_.DrawArrays(mode, first, count);
         }
     }
 
@@ -1209,10 +1209,34 @@ impl Gl for GlFns {
         primcount: GLsizei,
     ) {
         unsafe {
-            return self
-                .ffi_gl_
+            self.ffi_gl_
                 .DrawArraysInstanced(mode, first, count, primcount);
         }
+    }
+
+    fn draw_arrays_instanced_base_instance(
+        &self,
+        mode: GLenum,
+        first: GLint,
+        count: GLsizei,
+        instance_count: GLsizei,
+        base_instance: GLuint,
+    ) {
+        unsafe {
+            self.ffi_gl_
+                .DrawArraysInstancedBaseInstance(mode, first, count, instance_count, base_instance);
+        }
+    }
+
+    fn draw_arrays_instanced_base_instance_angle(
+        &self,
+        _: GLenum,
+        _: GLint,
+        _: GLsizei,
+        _: GLsizei,
+        _: GLuint,
+    ) {
+        unimplemented!()
     }
 
     fn draw_elements(
@@ -1223,7 +1247,7 @@ impl Gl for GlFns {
         indices_offset: GLuint,
     ) {
         unsafe {
-            return self.ffi_gl_.DrawElements(
+            self.ffi_gl_.DrawElements(
                 mode,
                 count,
                 element_type,
@@ -1241,7 +1265,7 @@ impl Gl for GlFns {
         primcount: GLsizei,
     ) {
         unsafe {
-            return self.ffi_gl_.DrawElementsInstanced(
+            self.ffi_gl_.DrawElementsInstanced(
                 mode,
                 count,
                 element_type,
@@ -1249,6 +1273,40 @@ impl Gl for GlFns {
                 primcount,
             );
         }
+    }
+
+    fn draw_elements_instanced_base_instance(
+        &self,
+        mode: GLenum,
+        count: GLsizei,
+        element_type: GLenum,
+        indices_offset: GLuint,
+        instance_count: GLsizei,
+        base_instance: GLuint,
+    ) {
+        unsafe {
+            self.ffi_gl_.DrawElementsInstancedBaseInstance(
+                mode,
+                count,
+                element_type,
+                indices_offset as *const c_void,
+                instance_count,
+                base_instance,
+            );
+        }
+    }
+
+    fn draw_elements_instanced_base_vertex_base_instance_angle(
+        &self,
+        _: GLenum,
+        _: GLsizei,
+        _: GLenum,
+        _: GLuint,
+        _: GLsizei,
+        _: GLsizei,
+        _: GLuint,
+    ) {
+        unimplemented!()
     }
 
     fn blend_color(&self, r: f32, g: f32, b: f32, a: f32) {
