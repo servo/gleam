@@ -345,6 +345,15 @@ impl Gl for GlFns {
 
     fn delete_textures(&self, textures: &[GLuint]) {
         unsafe {
+            #[cfg(target_os = "macos")]
+            {
+                // On the Mac the call to delete_textures() triggers a flush.
+                // But it happens at the wrong time, which can lead to crashes.
+                // To work around this we call flush() explicitly ourselves,
+                // before the call to delete_textures(). This helps fix
+                // https://bugzilla.mozilla.org/show_bug.cgi?id=1666293.
+                self.ffi_gl_.Flush();
+            }
             self.ffi_gl_
                 .DeleteTextures(textures.len() as GLsizei, textures.as_ptr());
         }
