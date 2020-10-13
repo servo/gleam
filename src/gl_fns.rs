@@ -2246,4 +2246,16 @@ impl Gl for GlFns {
     ) {
         unimplemented!("This extension is ANGLE only");
     }
+
+    fn buffer_storage(
+        &self,
+        target: GLenum,
+        size: GLsizeiptr,
+        data: *const GLvoid,
+        flags: GLbitfield,
+    ) {
+        unsafe {
+            self.ffi_gl_.BufferStorage(target, size, data, flags);
+        }
+    }
 }

@@ -746,6 +746,14 @@ declare_gl_apis! {
         unpack_premultiply_alpha: GLboolean,
         unpack_unmultiply_alpha: GLboolean,
     );
+
+    fn buffer_storage(
+        &self,
+        target: GLenum,
+        size: GLsizeiptr,
+        data: *const GLvoid,
+        flags: GLbitfield,
+    );
 }
 
 //#[deprecated(since = "0.6.11", note = "use ErrorReactingGl instead")]

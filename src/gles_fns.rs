@@ -2248,4 +2248,16 @@ impl Gl for GlesFns {
             );
         }
     }
+
+    fn buffer_storage(
+        &self,
+        target: GLenum,
+        size: GLsizeiptr,
+        data: *const GLvoid,
+        flags: GLbitfield,
+    ) {
+        unsafe {
+            self.ffi_gl_.BufferStorageEXT(target, size, data, flags);
+        }
+    }
 }
