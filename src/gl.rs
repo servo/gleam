@@ -649,7 +649,7 @@ declare_gl_apis! {
     fn push_debug_group_khr(&self, source: GLenum, id: GLuint, message: &str);
     fn pop_debug_group_khr(&self);
     fn fence_sync(&self, condition: GLenum, flags: GLbitfield) -> GLsync;
-    fn client_wait_sync(&self, sync: GLsync, flags: GLbitfield, timeout: GLuint64);
+    fn client_wait_sync(&self, sync: GLsync, flags: GLbitfield, timeout: GLuint64) -> GLenum;
     fn wait_sync(&self, sync: GLsync, flags: GLbitfield, timeout: GLuint64);
     fn delete_sync(&self, sync: GLsync);
     fn texture_range_apple(&self, target: GLenum, data: &[u8]);
