@@ -2258,4 +2258,10 @@ impl Gl for GlFns {
             self.ffi_gl_.BufferStorage(target, size, data, flags);
         }
     }
+
+    fn flush_mapped_buffer_range(&self, target: GLenum, offset: GLintptr, length: GLsizeiptr) {
+        unsafe {
+            self.ffi_gl_.FlushMappedBufferRange(target, offset, length);
+        }
+    }
 }

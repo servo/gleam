@@ -754,6 +754,8 @@ declare_gl_apis! {
         data: *const GLvoid,
         flags: GLbitfield,
     );
+
+    fn flush_mapped_buffer_range(&self, target: GLenum, offset: GLintptr, length: GLsizeiptr);
 }
 
 //#[deprecated(since = "0.6.11", note = "use ErrorReactingGl instead")]
