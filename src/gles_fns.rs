@@ -7,6 +7,8 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+use alloc::string::ToString;
+
 pub struct GlesFns {
     ffi_gl_: GlesFfi,
 }
@@ -414,7 +416,7 @@ impl Gl for GlesFns {
     }
 
     fn bind_attrib_location(&self, program: GLuint, index: GLuint, name: &str) {
-        let c_string = CString::new(name).unwrap();
+        let c_string = cstring_from_str(name);
         unsafe {
             self.ffi_gl_
                 .BindAttribLocation(program, index, c_string.as_ptr())
@@ -436,7 +438,7 @@ impl Gl for GlesFns {
     }
 
     fn get_uniform_block_index(&self, program: GLuint, name: &str) -> GLuint {
-        let c_string = CString::new(name).unwrap();
+        let c_string = cstring_from_str(name);
         unsafe {
             self.ffi_gl_
                 .GetUniformBlockIndex(program, c_string.as_ptr())
@@ -444,7 +446,7 @@ impl Gl for GlesFns {
     }
 
     fn get_uniform_indices(&self, program: GLuint, names: &[&str]) -> Vec<GLuint> {
-        let c_strings: Vec<CString> = names.iter().map(|n| CString::new(*n).unwrap()).collect();
+        let c_strings: Vec<CString> = names.iter().map(|n| cstring_from_str(*n)).collect();
         let pointers: Vec<*const GLchar> = c_strings.iter().map(|string| string.as_ptr()).collect();
         let mut result = Vec::with_capacity(c_strings.len());
         unsafe {
@@ -1622,7 +1624,7 @@ impl Gl for GlesFns {
     }
 
     fn get_attrib_location(&self, program: GLuint, name: &str) -> c_int {
-        let name = CString::new(name).unwrap();
+        let name = cstring_from_str(name);
         unsafe { self.ffi_gl_.GetAttribLocation(program, name.as_ptr()) }
     }
 
@@ -1632,7 +1634,7 @@ impl Gl for GlesFns {
     }
 
     fn get_uniform_location(&self, program: GLuint, name: &str) -> c_int {
-        let name = CString::new(name).unwrap();
+        let name = cstring_from_str(name);
         unsafe { self.ffi_gl_.GetUniformLocation(program, name.as_ptr()) }
     }
 

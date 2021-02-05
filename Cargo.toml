@@ -9,4 +9,8 @@ repository = "https://github.com/servo/gleam"
 description = "Generated OpenGL bindings and wrapper for Servo."
 
 [build-dependencies]
-gl_generator = "0.14"
+gl_generator = { version = "0.14.1", path = "../gl-rs/gl_generator", default-features = false }
+
+[features]
+default = ["std"]
+std = []
