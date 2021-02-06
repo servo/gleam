@@ -7,14 +7,19 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+extern crate core;
+extern crate alloc;
+
 use ffi;
-use std::ffi::{CStr, CString};
-use std::mem;
-use std::mem::size_of;
-use std::os::raw::{c_char, c_int, c_void};
-use std::ptr;
-use std::rc::Rc;
-use std::str;
+use core::mem;
+use core::mem::size_of;
+use ffi::__gl_imports::{c_void, c_int};
+use core::ptr;
+use alloc::rc::Rc;
+use alloc::vec::Vec;
+use alloc::string::String;
+use core::str;
+#[cfg(feature = "std")]
 use std::time::{Duration, Instant};
 
 pub use ffi::types::*;
@@ -104,6 +109,7 @@ macro_rules! declare_gl_apis {
             })+
         }
 
+        #[cfg(feature = "std")]
         impl<F: Fn(&str, Duration)> Gl for ProfilingGl<F> {
             $($(unsafe $($garbo)*)* fn $name(&self $(, $arg:$t)*) $(-> $retty)* {
                 let start = Instant::now();
@@ -783,12 +789,14 @@ impl<F: 'static + Fn(&dyn Gl, &str, GLenum)> ErrorReactingGl<F> {
 
 /// A wrapper around GL context that times each call and invokes the callback
 /// if the call takes longer than the threshold.
+#[cfg(feature = "std")]
 pub struct ProfilingGl<F> {
     gl: Rc<dyn Gl>,
     threshold: Duration,
     callback: F,
 }
 
+#[cfg(feature = "std")]
 impl<F: 'static + Fn(&str, Duration)> ProfilingGl<F> {
     pub fn wrap(fns: Rc<dyn Gl>, threshold: Duration, callback: F) -> Rc<dyn Gl> {
         Rc::new(ProfilingGl {

@@ -1,6 +1,6 @@
 [package]
 name = "gleam"
-version = "0.13.1"
+version = "0.15.0"
 license = "Apache-2.0/MIT"
 authors = ["The Servo Project Developers"]
 build = "build.rs"
@@ -9,4 +9,8 @@ repository = "https://github.com/servo/gleam"
 description = "Generated OpenGL bindings and wrapper for Servo."
 
 [build-dependencies]
-gl_generator = "0.14"
+gl_generator = { version = "0.15", git = "https://github.com/fschutt/gl-rs", branch = "no_std", default-features = false }
+
+[features]
+default = ["std"]
+std = []

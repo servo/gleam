@@ -3,3 +3,7 @@ rust:
   - nightly
   - beta
   - stable
+
+script:
+  - cargo check --verbose --no-default-features
+  - cargo check --verbose --no-default-features --features="std"
