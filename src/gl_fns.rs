@@ -1788,10 +1788,9 @@ impl Gl for GlFns {
         unsafe {
             let llstr = self.ffi_gl_.GetString(which);
             if !llstr.is_null() {
-                return str::from_utf8_unchecked(CStr::from_ptr(llstr as *const c_char).to_bytes())
-                    .to_string();
+                cstr_from_ptr(llstr).to_string()
             } else {
-                return "".to_string();
+                String::new()
             }
         }
     }
@@ -1800,10 +1799,9 @@ impl Gl for GlFns {
         unsafe {
             let llstr = self.ffi_gl_.GetStringi(which, index);
             if !llstr.is_null() {
-                str::from_utf8_unchecked(CStr::from_ptr(llstr as *const c_char).to_bytes())
-                    .to_string()
+                cstr_from_ptr(llstr).to_string()
             } else {
-                "".to_string()
+                String::new()
             }
         }
     }

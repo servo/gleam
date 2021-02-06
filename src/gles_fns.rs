@@ -8,6 +8,7 @@
 // except according to those terms.
 
 use alloc::string::ToString;
+use utils::cstr_from_ptr;
 
 pub struct GlesFns {
     ffi_gl_: GlesFfi,
@@ -446,7 +447,7 @@ impl Gl for GlesFns {
     }
 
     fn get_uniform_indices(&self, program: GLuint, names: &[&str]) -> Vec<GLuint> {
-        let c_strings: Vec<CString> = names.iter().map(|n| cstring_from_str(*n)).collect();
+        let c_strings: Vec<Vec<u8>> = names.iter().map(|n| cstring_from_str(*n)).collect();
         let pointers: Vec<*const GLchar> = c_strings.iter().map(|string| string.as_ptr()).collect();
         let mut result = Vec::with_capacity(c_strings.len());
         unsafe {
@@ -1778,10 +1779,9 @@ impl Gl for GlesFns {
         unsafe {
             let llstr = self.ffi_gl_.GetString(which);
             if !llstr.is_null() {
-                return str::from_utf8_unchecked(CStr::from_ptr(llstr as *const c_char).to_bytes())
-                    .to_string();
+                cstr_from_ptr(llstr).to_string()
             } else {
-                return "".to_string();
+                String::new()
             }
         }
     }
@@ -1790,10 +1790,9 @@ impl Gl for GlesFns {
         unsafe {
             let llstr = self.ffi_gl_.GetStringi(which, index);
             if !llstr.is_null() {
-                str::from_utf8_unchecked(CStr::from_ptr(llstr as *const c_char).to_bytes())
-                    .to_string()
+                cstr_from_ptr(llstr).to_string()
             } else {
-                "".to_string()
+                String::new()
             }
         }
     }
