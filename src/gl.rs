@@ -7,6 +7,9 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+extern crate core;
+extern crate alloc;
+
 use ffi;
 use core::mem;
 use core::mem::size_of;
