@@ -525,6 +525,10 @@ impl Gl for GlesFns {
         }
     }
 
+    fn bind_vertex_buffer(&self, binding_index: GLuint, buffer: GLuint, offset: GLintptr, stride: GLint) {
+        unsafe { self.ffi_gl_.BindVertexBuffer(binding_index, buffer, offset, stride) }
+    }
+
     fn draw_buffers(&self, bufs: &[GLenum]) {
         unsafe {
             self.ffi_gl_
@@ -1077,6 +1081,10 @@ impl Gl for GlesFns {
         unsafe { self.ffi_gl_.VertexAttrib4f(index, x, y, z, w) }
     }
 
+    fn vertex_attrib_binding(&self, attrib_index: GLuint, binding_index: GLuint) {
+        unsafe { self.ffi_gl_.VertexAttribBinding(attrib_index, binding_index) }
+    }
+
     fn vertex_attrib_pointer_f32(
         &self,
         index: GLuint,
@@ -1134,6 +1142,18 @@ impl Gl for GlesFns {
 
     fn vertex_attrib_divisor(&self, index: GLuint, divisor: GLuint) {
         unsafe { self.ffi_gl_.VertexAttribDivisor(index, divisor) }
+    }
+
+    fn vertex_attrib_format(&self, attrib_index: GLuint, size: GLint, type_: GLenum, normalized: bool, relative_offset: GLuint) {
+        unsafe { self.ffi_gl_.VertexAttribFormat(attrib_index, size, type_, normalized as GLboolean, relative_offset) }
+    }
+
+    fn vertex_attrib_i_format(&self, attrib_index: GLuint, size: GLint, type_: GLenum, relative_offset: GLuint) {
+        unsafe { self.ffi_gl_.VertexAttribIFormat(attrib_index, size, type_, relative_offset) }
+    }
+
+    fn vertex_binding_divisor(&self, binding_index: GLuint, divisor: GLuint) {
+        unsafe { self.ffi_gl_.VertexBindingDivisor(binding_index, divisor) }
     }
 
     fn viewport(&self, x: GLint, y: GLint, width: GLsizei, height: GLsizei) {
