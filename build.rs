@@ -25,6 +25,7 @@ fn main() {
         "GL_ARB_invalidate_subdata",
         "GL_ARB_texture_rectangle",
         "GL_ARB_texture_storage",
+        "GL_ARB_vertex_attrib_binding",
         "GL_EXT_debug_marker",
         "GL_EXT_texture_filter_anisotropic",
         "GL_KHR_debug",
