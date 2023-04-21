@@ -761,6 +761,9 @@ declare_gl_apis! {
     );
 
     fn flush_mapped_buffer_range(&self, target: GLenum, offset: GLintptr, length: GLsizeiptr);
+
+    fn start_tiling_qcom(&self, x: GLuint, y: GLuint, width: GLuint, height: GLuint, preserve_mask: GLbitfield);
+    fn end_tiling_qcom(&self, preserve_mask: GLbitfield);
 }
 
 //#[deprecated(since = "0.6.11", note = "use ErrorReactingGl instead")]

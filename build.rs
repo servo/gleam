@@ -66,6 +66,7 @@ fn main() {
         "GL_KHR_blend_equation_advanced",
         "GL_KHR_blend_equation_advanced_coherent",
         "GL_ANGLE_copy_texture_3d",
+        "GL_QCOM_tiled_rendering",
     ];
     let gles_reg = Registry::new(
         Api::Gles2,
