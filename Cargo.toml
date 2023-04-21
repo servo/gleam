@@ -1,7 +1,7 @@
 [package]
 name = "gleam"
 version = "0.15.0"
-license = "Apache-2.0/MIT"
+license = "MIT OR Apache-2.0"
 authors = ["The Servo Project Developers"]
 build = "build.rs"
 documentation = "https://doc.servo.org/gleam/"
