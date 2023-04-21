@@ -2284,4 +2284,10 @@ impl Gl for GlFns {
             self.ffi_gl_.FlushMappedBufferRange(target, offset, length);
         }
     }
+
+    fn start_tiling_qcom(&self, _x: GLuint, _y: GLuint, _width: GLuint, _height: GLuint, _preserve_mask: GLbitfield) {
+    }
+
+    fn end_tiling_qcom(&self, _preserve_mask: GLbitfield) {
+    }
 }
