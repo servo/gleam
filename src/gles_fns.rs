@@ -643,11 +643,11 @@ impl Gl for GlesFns {
         ty: GLenum,
         opt_data: Option<&[u8]>,
     ) {
+        let pdata = match opt_data {
+            Some(data) => unsafe { mem::transmute(data.as_ptr()) },
+            None => ptr::null(),
+        };
         unsafe {
-            let pdata = match opt_data {
-                Some(data) => mem::transmute(data.as_ptr()),
-                None => ptr::null(),
-            };
             self.ffi_gl_.TexImage3D(
                 target,
                 level,
