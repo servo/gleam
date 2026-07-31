@@ -1,6 +1,6 @@
 [package]
 name = "gleam"
-version = "0.15.1"
+version = "0.16.0"
 authors = ["The Servo Project Developers"]
 description = "Generated OpenGL bindings and wrapper for Servo."
 documentation = "https://docs.rs/gleam"
